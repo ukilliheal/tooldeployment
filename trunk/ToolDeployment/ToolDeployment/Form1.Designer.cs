@@ -107,16 +107,19 @@ namespace ToolDeployment
             this.scanServerBETAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.sRebootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mRebootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.resetHitmanTrialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.mD5SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.md5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.checkSMARTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clipboardTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.deployToolsToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemDriveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.applicationFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkSMARTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.googleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CF6Notes = new System.Windows.Forms.ToolStripTextBox();
@@ -265,8 +268,6 @@ namespace ToolDeployment
             this.classiccancelbtn = new System.Windows.Forms.Button();
             this.classicchkbx = new System.Windows.Forms.CheckBox();
             this.classicbtn = new System.Windows.Forms.Button();
-            this.clipboardTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -977,7 +978,7 @@ namespace ToolDeployment
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(470, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(470, 27);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -1003,6 +1004,7 @@ namespace ToolDeployment
             this.scanServerBETAToolStripMenuItem,
             this.toolStripSeparator4,
             this.sRebootToolStripMenuItem,
+            this.mRebootToolStripMenuItem,
             this.toolStripSeparator7,
             this.resetHitmanTrialToolStripMenuItem,
             this.toolStripSeparator8,
@@ -1015,7 +1017,7 @@ namespace ToolDeployment
             this.deployToolsToToolStripMenuItem});
             this.toolsToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(37, 23);
             this.toolsToolStripMenuItem.Text = "File";
             this.toolsToolStripMenuItem.DoubleClick += new System.EventHandler(this.toolsToolStripMenuItem_DoubleClick);
             // 
@@ -1128,6 +1130,13 @@ namespace ToolDeployment
             this.sRebootToolStripMenuItem.Text = "30s Reboot";
             this.sRebootToolStripMenuItem.Click += new System.EventHandler(this.sRebootToolStripMenuItem_Click);
             // 
+            // mRebootToolStripMenuItem
+            // 
+            this.mRebootToolStripMenuItem.Name = "mRebootToolStripMenuItem";
+            this.mRebootToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.mRebootToolStripMenuItem.Text = "5m Reboot";
+            this.mRebootToolStripMenuItem.Click += new System.EventHandler(this.mRebootToolStripMenuItem_Click);
+            // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
@@ -1165,6 +1174,28 @@ namespace ToolDeployment
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(200, 6);
             // 
+            // checkSMARTToolStripMenuItem
+            // 
+            this.checkSMARTToolStripMenuItem.Name = "checkSMARTToolStripMenuItem";
+            this.checkSMARTToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.checkSMARTToolStripMenuItem.Text = "Check S.M.A.R.T";
+            this.checkSMARTToolStripMenuItem.ToolTipText = "Uses WMI to try and pull SMART data. Will fail on Raids and SSDs. Will also fail " +
+    "if not ran as ADMIN";
+            this.checkSMARTToolStripMenuItem.Click += new System.EventHandler(this.checkSMARTToolStripMenuItem_Click);
+            // 
+            // clipboardTestToolStripMenuItem
+            // 
+            this.clipboardTestToolStripMenuItem.Name = "clipboardTestToolStripMenuItem";
+            this.clipboardTestToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.clipboardTestToolStripMenuItem.Text = "Mbam Total";
+            this.clipboardTestToolStripMenuItem.ToolTipText = "Adds up MBAM scan total. Remember to click \"Copy to Clipboard\" in Mbam first!";
+            this.clipboardTestToolStripMenuItem.Click += new System.EventHandler(this.clipboardTestToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(200, 6);
+            // 
             // deployToolsToToolStripMenuItem
             // 
             this.deployToolsToToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1190,29 +1221,20 @@ namespace ToolDeployment
             this.applicationFolderToolStripMenuItem.Text = "Application Folder";
             this.applicationFolderToolStripMenuItem.Click += new System.EventHandler(this.applicationFolderToolStripMenuItem_Click);
             // 
-            // checkSMARTToolStripMenuItem
-            // 
-            this.checkSMARTToolStripMenuItem.Name = "checkSMARTToolStripMenuItem";
-            this.checkSMARTToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.checkSMARTToolStripMenuItem.Text = "Check S.M.A.R.T";
-            this.checkSMARTToolStripMenuItem.ToolTipText = "Uses WMI to try and pull SMART data. Will fail on Raids and SSDs. Will also fail " +
-    "if not ran as ADMIN";
-            this.checkSMARTToolStripMenuItem.Click += new System.EventHandler(this.checkSMARTToolStripMenuItem_Click);
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.googleToolStripMenuItem});
             this.helpToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.DoubleClick += new System.EventHandler(this.helpToolStripMenuItem_DoubleClick);
             // 
             // googleToolStripMenuItem
             // 
             this.googleToolStripMenuItem.Name = "googleToolStripMenuItem";
-            this.googleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.googleToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.googleToolStripMenuItem.Text = "Google";
             this.googleToolStripMenuItem.Click += new System.EventHandler(this.googleToolStripMenuItem_Click);
             // 
@@ -2920,19 +2942,6 @@ namespace ToolDeployment
             this.classicbtn.UseVisualStyleBackColor = true;
             this.classicbtn.Click += new System.EventHandler(this.classicbtn_Click);
             // 
-            // clipboardTestToolStripMenuItem
-            // 
-            this.clipboardTestToolStripMenuItem.Name = "clipboardTestToolStripMenuItem";
-            this.clipboardTestToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.clipboardTestToolStripMenuItem.Text = "Mbam Total";
-            this.clipboardTestToolStripMenuItem.ToolTipText = "Adds up MBAM scan total. Remember to click \"Copy to Clipboard\" in Mbam first!";
-            this.clipboardTestToolStripMenuItem.Click += new System.EventHandler(this.clipboardTestToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(200, 6);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3278,6 +3287,7 @@ namespace ToolDeployment
         private ToolStripMenuItem checkSMARTToolStripMenuItem;
         private ToolStripMenuItem clipboardTestToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator9;
+        private ToolStripMenuItem mRebootToolStripMenuItem;
     }
 }
 
