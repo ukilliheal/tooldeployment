@@ -23,8 +23,8 @@ namespace ToolDeployment
     {
 
         #region Vars being defined //Edit to add new Tools (Buttons, Progress bars, etc)
-
         #region Edit to add new Tools (Buttons, Progress bars, etc)
+        //This is where I list each tool, and define the file name. 
         string ccleanervar = "CCleaner.exe";
         string jrtvar = "JRT.exe";
         string adwvar = "AdwCleaner.exe";
@@ -61,15 +61,17 @@ namespace ToolDeployment
         string classicsrtvar = "ClassicStartInstaller.exe";
         string readervar = "ReaderInstaller.exe";
         string libraofficevar = "LibreOfficeInstaller.exe";
+        string ahkvar = "AutoHotkey.exe"; //not being used right now. 
 
-        string ahkvar = "AutoHotkey.exe";
+        //I use the cf6 notes to help me keep track of the computer repair. 
+        string CF6NotesDefaultText = "";
 
-        string CF6NotesDefaultText = "MS:?|Apz:?|TMP:?|REG:?|JRT:?|ADW:?|MB:?|SFC:?|CD:?|HM:? || APB:?|Unchk:?|Mbae:?|AVG:?|WU:?|NN:?";
         #endregion
+
         string applicationpath = Application.StartupPath;
         string localremotetools = "";
         string baseurl = "http://www.example.com/"; //If your file was located at www.example.com/file.exe then you want this: http://www.example.com/
-        string secondurl = ""; //not being used right now. 
+        string secondurl = ""; //not being used right now. TODO: make function to check if server is up, switch to new server if down. 
 
         string savetoo = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "_RemoteTools_";
         string oldsaveto = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "_RemoteTools_";
@@ -79,6 +81,8 @@ namespace ToolDeployment
         private const uint WM_COMMAND = 0x0111;
         private const int BN_CLICKED = 245;
         private const int IDOK = 1;
+
+        //I like lists. They are fun. 
         List<string> filesavablibleonline = new List<string> { };
         List<string> filestoobedeleted = new List<string> { };
         List<string> activedownloads = new List<string> { };
@@ -118,89 +122,107 @@ namespace ToolDeployment
         public Form1()
         {
 
+            //This is to see if the base URL was changed from default, if not remind user. 
+            if (baseurl.Contains("http://www.example.com"))
+            {
+                MessageBox.Show("Looks like the base URL is set to:\n" + baseurl + "\nIt is recommended that this be changed.");
+            }
 
-            Shown += Form1_Shown;
-            this.FormClosing += Form1_FormClosing;
-
-            InitializeComponent();
+            //Continue on. 
+            Shown += Form1_Shown; //adds shown event listener
+            this.FormClosing += Form1_FormClosing; //adds closing event listener
+            InitializeComponent(); //does stuff
 
 
         }
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            int index = random.Next(names.Count);
-            var name = names[index];
-            this.Text = name;
+            int index = random.Next(names.Count);//choses a 'random' title for the application.
+            var name = names[index]; //gets chosen title 
+            this.Text = name; //sets the chosen title
         }
         private void updatelog(string x)
         {
+            //I like to show the user that something is happening. 
+            //I figured the easiest way to do this would be with a text window giving updates
             try
             {
-                logwindow.Text += x + Environment.NewLine;
-                logwindow.SelectionStart = logwindow.Text.Length;
-                logwindow.ScrollToCaret();
+                logwindow.Text += x + Environment.NewLine; //adds a new line
+                logwindow.SelectionStart = logwindow.Text.Length; //sets the selection to the start
+                logwindow.ScrollToCaret(); //scrolls to the start. This makes the newest updates visible to the user
             }
             catch (Exception crash)
             {
+                //just in case something can't write to the log window. Doesn't matter if it fails anyways.
+                MessageBox.Show("Unable to write to log window;\n" + crash.Message);
             }
         }
         private void checkifshitisonline() //TODO check backup URLS if baseurl fails.
         {
+            //Goes through each tool, and tries to get an HTTP resopnce.
             foreach (string w in toolnames)
             {
-                string url = baseurl + w;
-                Boolean isonline = true;
-                HttpWebRequest request = WebRequest.Create(url.Trim()) as HttpWebRequest;
-                request.Method = "HEAD";
+                string url = baseurl + w; //sets url
+                Boolean isonline = true; //assumes is online unless otherwise
+                HttpWebRequest request = WebRequest.Create(url.Trim()) as HttpWebRequest; //does the http request
+                request.Method = "HEAD"; //sets request method.
                 HttpWebResponse response = null;
                 try
                 {
-                    response = request.GetResponse() as HttpWebResponse;
+                    response = request.GetResponse() as HttpWebResponse; //gets http responce
                 }
                 catch (WebException ex)
                 {
-                    isonline = false;
+                    isonline = false; //if there is an error, responce failed, file missing. 
                 }
                 finally
                 {
                     if (response != null)
                     {
-                        response.Close();
+                        response.Close(); //closes http connection
                     }
                 }
 
                 if (isonline && !reporteddone.Contains(w))
                 {
-                    filesavablibleonline.Add(w);
+                    filesavablibleonline.Add(w); //adds the file to list of files avalible online.
                 }
-                Application.DoEvents();
+                Application.DoEvents(); //Allows GUI to catch up. Much better user experince 
             }
             foreach (string y in filesavablibleonline)
             {
                 if (!reporteddone.Contains(y))
                 {
+                    //after the loop above finishes, this goes through the list of files online, 
+                    //filtering out already completed, then changes the buttons around. 
                     changebutton(y, null, "Avalible Online!", "Red", "true", "true", null, null, null, null);
                 }
             }
         }
         private void stopdownloadingshit()
         {
-            updatelog("Stopping all downloads. Please wait...");
+            updatelog("Stopping all active downloads. Please wait...");
             foreach (string p in activedownloads)
             {
-                wascancled.Add(p);
-                filesavablibleonline.Add(p);
+                //for each file actively being downloaded:
+                wascancled.Add(p); //adds to list of files that were canceled
+                if (!filesavablibleonline.Contains(p))
+                {
+                    filesavablibleonline.Add(p);  //since we know its avalible online, lets add it to the list
+                }
             }
             new Thread(new ThreadStart(deleteit)).Start();
             string g = "Cleaning up downloads, Please wait...";
             while (filesavablibleonline.Count > 0)
             {
                 updatelog(g);
-                g = g + ".";
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(1000);
+                g = g + "."; //shows the user that something is happening. 
+                Application.DoEvents(); //Allows application to catch up
+                System.Threading.Thread.Sleep(1000); //no need to chew on CPU that much
             }
+
+            //Resets the stage. 
             hidealllaunchbuttons();
             scanandreportdone();
             checkforsaveddata();
@@ -211,17 +233,17 @@ namespace ToolDeployment
             {
                 // retrieve list of drives on computer (this will return both HDD's and CDROM's and Virtual CDROM's)                    
                 var dicDrives = new Dictionary<int, HDD>();
-
                 var wdSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
 
                 // extract model and interface information
                 int iDriveIndex = 0;
                 foreach (ManagementObject drive in wdSearcher.Get())
                 {
+                    //Creates new object, and sets some varibles.
                     var hdd = new HDD();
                     hdd.Model = drive["Model"].ToString().Trim();
                     hdd.Type = drive["InterfaceType"].ToString().Trim();
-                    dicDrives.Add(iDriveIndex, hdd);
+                    dicDrives.Add(iDriveIndex, hdd); //Adds 
                     iDriveIndex++;
                 }
 
@@ -355,21 +377,23 @@ namespace ToolDeployment
             updatelog("Copying to all files to system drive");
             if (!Directory.Exists(oldsaveto))
             {
+                //If the folder doesn't exist, lets make it. 
                 System.IO.Directory.CreateDirectory(oldsaveto);
             }
-            if (localremotetools != oldsaveto)
+            if (localremotetools != oldsaveto) //Just make sure the application is not running from system drive
             {
                 foreach (string x in toolnames)
                 {
+                    //For each file in the toolnames list, copy to system drive
                     System.Threading.Thread.Sleep(5000);
                     if (File.Exists(localremotetools + "\\" + x) && !File.Exists(oldsaveto + "\\" + x))
                     {
                         File.Copy(localremotetools + "\\" + x, oldsaveto + "\\" + x);
                     }
                 }
-                savetoo = oldsaveto;
-                checkifshitexists();
-                scanandreportdone();
+                savetoo = oldsaveto; //sets working folder to system drive
+                checkifshitexists(); //Scans for which files are avalible inworing folder.
+                scanandreportdone(); //sets stuff avalible for launching
             }
         }
         private void checkifshitexists()
@@ -377,14 +401,16 @@ namespace ToolDeployment
             updatelog("Checking if folders already exist");
             if (Directory.Exists(@localremotetools))
             {
-                oldsaveto = savetoo.Trim();
-                savetoo = localremotetools;
-                applicationFolderToolStripMenuItem.Checked = true;
-                systemDriveToolStripMenuItem.Checked = false;
+                //If a folder exists in the same folder as this application
+                //then lets assume its being ran on a flash drive, or something. 
+                oldsaveto = savetoo.Trim(); //backups current savetoo
+                savetoo = localremotetools; //sets working folder to application folder
+                applicationFolderToolStripMenuItem.Checked = true; //Checks application thingy so the user can check which is being used
+                systemDriveToolStripMenuItem.Checked = false; // unchecked the unused checkbox
             }
-            updatelog("Using: " + savetoo);
+            updatelog("Using: " + savetoo);  //Lets tell the user whats going on
         }
-        private void scanandreportdone()
+        private void scanandreportdone() //This scans the working folder for each tool, if exits then reports it as done
         {
             foreach (string x in toolnames)
             {
@@ -395,7 +421,7 @@ namespace ToolDeployment
                 }
             }
         }
-        private Boolean checkifcancled(string x)
+        private Boolean checkifcancled(string x) //This takes a string, and checks if that is in a list. Not too srue why I put it in a method.
         {
             if (wascancled.Contains(x))
             {
@@ -406,9 +432,10 @@ namespace ToolDeployment
                 return false;
             }
         }
-        private Boolean isalldownloadsdone()
+        private Boolean isalldownloadsdone()//This checks the activedownloads list aginst the reporteddone list, and reports its finding. 
         {
             Boolean isalldone = true;
+
             foreach (string x in activedownloads)
             {
                 if (!reporteddone.Contains(x))
@@ -431,13 +458,15 @@ namespace ToolDeployment
             {
                 foreach (string p in toolnames)
                 {
-                    if (changebutton(p, "true", null, null, null, null, null, null, null, null))
+                    //For each item in toolnames list:
+                    if (changebutton(p, "true", null, null, null, null, null, null, null, null)) //Check if the checkbox is checked
                     {
+                        //If it is then add to a list
                         ischecked.Add(p);
                     }
                 }
                 System.Threading.Thread.Sleep(1000);
-                foreach (string x in ischecked)
+                foreach (string x in ischecked) //Checks list of checked aginst list of reported done, then runs each application in turn
                 {
                     if (reporteddone.Contains(x))
                     {
@@ -450,7 +479,7 @@ namespace ToolDeployment
             {
                 //TODO: figure out how to update the below while in a thread
                 //updatelog(crash.Message);
-                //MessageBox.Show("Chrased");
+                //MessageBox.Show("Chrashed");
             }
         }
         private void deletethisshit()
@@ -458,21 +487,25 @@ namespace ToolDeployment
             updatelog("Deleting files...");
             try
             {
-                System.IO.Directory.Delete(savetoo, true);
-                System.Threading.Thread.Sleep(1000);
+                System.IO.Directory.Delete(savetoo, true); //tries to delete the working folder, and all files inside.
+                System.Threading.Thread.Sleep(1000); //Give it a second to take effect
                 if (Directory.Exists(savetoo))
                 {
+                    //If folder is still there, then tell the user
                     updatelog("Unable to Delete: \n" + savetoo);
                 }
                 else
                 {
+                    //If folder is not there, tell the user
                     updatelog("Successfully Deleted:\n" + savetoo);
+                    //hides everthing, and makes the GUI look like you just opened application
                     hidealllaunchbuttons();
                 }
             }
             catch (Exception crash)
             {
-                updatelog(crash.Message);
+                //Someting above crashed, tell user and then reset stage.
+                updatelog("Crashed while deleting files:\n-" + crash.Message);
                 hidealllaunchbuttons();
                 scanandreportdone();
                 checkforsaveddata();
@@ -482,24 +515,34 @@ namespace ToolDeployment
         {
             if (Directory.Exists(savetoo))
             {
-                if (File.Exists(savetoo + "\\" + x))
+                if (File.Exists(savetoo + "\\" + x)) //Checks if file already exists
                 {
                     if (!reporteddone.Contains(x) && !activedownloads.Contains(x))
                     {
+                        //This checks if file was not reported as done, and is not in the list of active downloads.
+                        //If so, then reports it as done. 
+                        updatelog("Tried to download " + x + " but it already exists");
                         reportdone(x);
                     }
                 }
                 else
                 {
-                    cancleallbtn.Enabled = true;
-                    activedownloads.Add(x);
-                    updatelog("Downloading " + x);
+                    //File not reported done and not active download
+                    cancleallbtn.Enabled = true; //enables cancle all button
+                    activedownloads.Add(x); //adds file to list of active downloads
+                    updatelog("Downloading " + x); //tells user stuff is going on
+
+                    //creats new form. This is left over from when this application spawned multiple windows for each download
                     listdownloads f2 = new listdownloads();
+
+                    //This calls a function in the new form
+                    //Passes the file name, where to save it to
+                    //and where to download it from
                     f2.downloadwimfile(x, savetoo + "\\", baseurl, true);
                 }
             }
         }
-        private void enabmemsiinstaller()
+        private void enabmemsiinstaller() //This pushes some commands to CMD to enable the MSI installer in safemode w/networking. 
         {
             updatelog("Enabling MSI Installer");
             try
@@ -509,7 +552,7 @@ namespace ToolDeployment
             }
             catch (Exception crash)
             {
-                updatelog(crash.Message);
+                updatelog("Error: " + crash.Message);
             }
         }
         private void opentools(string run)
@@ -518,6 +561,8 @@ namespace ToolDeployment
             changebutton(x, null, null, null, null, null, "false", null, null, null);
             if (filesavablibleonline.Contains(x))
             {
+                //This checks if the file is in the list of files avalible from server
+                //and if it is, then it re-marks the controls and then starts the download for this. 
                 changebutton(x, null, "Avalible Online!", "Red", null, null, "true", null, null, null);
                 filesavablibleonline.Remove(x);
                 deploy();
@@ -527,15 +572,22 @@ namespace ToolDeployment
             {
                 try
                 {
+                    //Updates user on whats going on
                     updatelog("Running " + x);
 
                     if (!waslaunched.Contains(x))
                     {
+                        //Keeps track of what files were opened.
                         waslaunched.Add(x);
                     }
+                    //Saves data about which files were opened to the HDD
+                    //Also saves CF6 notes
                     writesaveddata();
-                    ///
+
                     string switches = "";
+
+                    //This checks if the file being opened has any switches or command line arguments
+                    //if so, then it sets the string above to that switch
                     foreach (string i in automationlist)
                     {
                         if (i.Contains(x))
@@ -544,6 +596,7 @@ namespace ToolDeployment
                         }
                     }
 
+                    //Exicutes file
                     System.Diagnostics.Process.Start(run, switches);
                 }
                 catch (Exception crash)
@@ -555,11 +608,18 @@ namespace ToolDeployment
         }
         public void checkforsaveddata()
         {
+            //Sets file path to config file. I should change it to an INI.
             string x = savetoo + "\\tdconfig.txt";
+
             if (File.Exists(x))
             {
+                //If the file exists, tell the user
                 updatelog("Saved congifuration detected. Loading settings...");
+
+                //then read all the lines in to a list
                 string[] lines = File.ReadAllLines(savetoo + "\\tdconfig.txt");
+
+                //Go through that list and add it to another list
                 foreach (string l in lines)
                 {
                     if (!waslaunched.Contains(l))
@@ -567,122 +627,153 @@ namespace ToolDeployment
                         waslaunched.Add(l);
                     }
                 }
+
+                //Saved data processing method
                 processsaveddata();
             }
         }
         public void processsaveddata()
         {
             string y = "";
+
+            //This goes through each item in the waslaunched list
             foreach (string x in waslaunched)
             {
+                //Looks for the line that defines the CF6 text field
                 if (x.Contains("CF6NOTES"))
                 {
-
+                    //Saves it for later
                     y = x;
                 }
                 else
                 {
+                    //Changes button so user knows which files they already opened. Or tried to anyways.
                     updatelog("Updating " + x + "'s button");
                     changebutton(x, null, "Launch", "Green", null, null, null, null, null, null);
                 }
             }
+
+            //Restores CF6 field's text. 
             updatelog("Loading CF6 notes");
             CF6Notes.Text = y.Replace("CF6NOTES==", "");
         }
         public void writesaveddata()
         {
             string u = "";
+            
+            //Goes through each item in the list 'waslaunched'
             foreach (string k in waslaunched)
             {
                 if (k.Contains("CF6NOTES=="))
                 {
+                    //If this item is the CF6 notes, then lets save it for later
                     u = k;
                 }
             }
+
+            //Removes item from list
             waslaunched.Remove(u);
+
+            //Replaces it with most up-to-date CF6 text
             waslaunched.Add("CF6NOTES==" + CF6Notes.Text);
+
+
             if (!Directory.Exists(savetoo))
             {
+                //If the working folder doesn't exist, then create it
                 System.IO.Directory.CreateDirectory(savetoo);
             }
             else if (File.Exists(savetoo + "\\tdconfig.txt"))
             {
+                //If there already is a config file, lets assume its already loaded so we can delete this one
                 File.Delete(savetoo + "\\tdconfig.txt");
             }
             if (!File.Exists(savetoo + "\\tdconfig.txt"))
             {
+                //Creates new config file, if old one is missing
                 updatelog("Saving congifuration file");
                 System.IO.File.WriteAllLines(@savetoo + "\\tdconfig.txt", waslaunched.Cast<string>().ToArray());
             }
         }
         private void deleteit()
         {
-            List<string> TEMPfilestoobedeleted = new List<string> { };
+            List<string> TEMPfilestoobedeleted = new List<string> { }; //creates a list. 
             foreach (string j in filesavablibleonline)
             {
-                TEMPfilestoobedeleted.Add(j);
+                TEMPfilestoobedeleted.Add(j); //this basiclly copies one list to another. 
             }
-            foreach (string p in TEMPfilestoobedeleted)
+            foreach (string p in TEMPfilestoobedeleted) //Using list created above, which is a copy of a nother list we are modifying. 
             {
-                string deletefile = savetoo + "\\" + p;
-                while (File.Exists(deletefile))
+                string deletefile = savetoo + "\\" + p; //makes file path as string. I like strings. 
+                while (File.Exists(deletefile)) //creates loop that only breaks if file is deleted. 
                 {
-                    System.Threading.Thread.Sleep(1000);
+                    System.Threading.Thread.Sleep(750); //Lets not chew on the CPU too much. 
                     try
                     {
+                        //Tell user we are deleting a file
                         updatelog("Deleting " + p);
+
+                        //Lets not lie to the user 
                         File.Delete(deletefile);
                     }
                     catch
                     {
+                        //ignore any errors. its in a loop and will simply tryagain. At some point this file can be deleted.... unless it cant....err...
+                        //TODO: Add counter and break when gets too large
                     }
                 }
-                filesavablibleonline.Remove(p);
+                //file deleted, removed from files avalible online.
+                filesavablibleonline.Remove(p); 
             }
         }
-        public void checkforupdates()
+        public void checkforupdates() //Unused method. I am still trying to figure out how to make this work
         {
-            System.Net.ServicePointManager.DefaultConnectionLimit = 40;
+            System.Net.ServicePointManager.DefaultConnectionLimit = 99; //sets a high connection limite. Lets take all the bandwidths! 
             int checkcount = 20;
             string d = applicationpath + "\\AutoUpdater.NET.dll";
             string filenameaun = "AutoUpdater.NET.dll";
 
             if (!File.Exists(d))
             {
+                //If needed DLL doesn't exist, lets download it. 
                 updatelog("Downloading updater");
-                WebClient webClient = new WebClient();
-                webClient.DownloadFileAsync(new Uri(baseurl.Replace("_RemoteTools_/", "") + filenameaun), applicationpath + "\\");
+                WebClient webClient = new WebClient(); //creates webclient
+                webClient.DownloadFileAsync(new Uri(baseurl.Replace("_RemoteTools_/", "") + filenameaun), applicationpath + "\\"); //starts the download
 
             }
             while (activedownloads.Contains(filenameaun) && checkcount > 0)
             {
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(500);
-                checkcount--;
+                //Lets wait for the file to finish downloads
+                Application.DoEvents(); //Lets GUI catch up
+                System.Threading.Thread.Sleep(500); //Pauses for 500ms 
+                checkcount--; //one off counter
             }
             if (File.Exists(d))
             {
+                //TODO Figure out how to dynamicly load and use a dll without crashing the application
                 updatelog("Checking for updates");
             }
             else
             {
+                //file missing, unable to check for updates
                 updatelog("Unable to check for updates");
             }
 
         }
-        private void md5scan()
+        private void md5scan() // 
         {
-            md5hash.Clear();
+            md5hash.Clear(); //clears list
             foreach (string x in toolnames)
             {
-                using (var md5 = MD5.Create())
+                //For each item in the toolname list:
+                using (var md5 = MD5.Create()) //Makes MD5 thingy
                 {
-                    if (File.Exists(savetoo + "\\" + x))
+                    if (File.Exists(savetoo + "\\" + x)) //checks if file exists 
                     {
-                        using (var stream = File.OpenRead(savetoo + "\\" + x))
+                        using (var stream = File.OpenRead(savetoo + "\\" + x))//opens the file, and allows md5 function to do its thing
                         {
                             string f = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
-                            md5hash.Add(x + "==" + f);
+                            md5hash.Add(x + "==" + f);//adds file==md5hash to list.
                         }
                     }
                 }
@@ -693,10 +784,12 @@ namespace ToolDeployment
             string x = savetoo + "\\md5.txt";
             if (!File.Exists(x))
             {
+                //If the md5.txt file doesn't exist in the working folder, then download it
                 downloadshit("md5.txt");
             }
             while (activedownloads.Contains("md5.txt"))
             {
+                //Waits for download to finish, meanwhile allowing GUI to update
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(500);
             }
@@ -704,22 +797,33 @@ namespace ToolDeployment
             {
                 List<string> md5hashtemp = new List<string> { };
                 List<string> founderror = new List<string> { };
+
+                //Reads all lines in the text file in to a list
                 string[] lines = File.ReadAllLines(savetoo + "\\md5.txt");
+
+                //Goes through that list, one item at a time
                 foreach (string l in lines)
                 {
                     if (!md5hashtemp.Contains(l))
                     {
+                        //Makes a copy of the list
                         md5hashtemp.Add(l);
                     }
                 }
+
+                //Goes through every file that has reported in
                 foreach (string xa in reporteddone)
                 {
                     string temp = "";
                     string temp2 = "";
+
+                    //Compairs each value of the 'md5hashtemp' list
+                    //to the current item in reporteddone list
                     foreach (string l in md5hashtemp)
                     {
                         if (l.Contains(xa))
                         {
+                            //Found a match, lets add this to yet another list. Yay lists!
                             temp = l.Replace(xa + "==", "").Trim();
                         }
                     }
@@ -727,27 +831,36 @@ namespace ToolDeployment
                     {
                         if (l.Contains(xa))
                         {
+                            //If the currently selected item in the list reporteddone
+                            //is in the md5hash list, then add it to another list
                             temp2 = l.Replace(xa + "==", "").Trim();
                         }
                     }
+
+                    //This basiclly takes the md5 of the file, and compairs it aginst the md5 in the downloaded txt file. 
                     if (temp != temp2)
                     {
+                        //If wrong, add it to the list
                         founderror.Add("Error: " + xa + "\n-Scanned File: " + temp + "\n-Original File: " + temp2);
                     }
                     else
                     {
-                        updatelog(xa + " md5 checked");
+                        //if correct, tell user its fine
+                        updatelog(xa + " md5 checked. Its fine. ");
                     }
                 }
                 if (founderror.Count > 0)
                 {
                     foreach (string l in founderror)
                     {
+                        //For each error found, tell the user
+                        //this puts it at the end of the log window
                         updatelog(l);
                     }
                 }
                 else
                 {
+                    //Tells user we done
                     updatelog("All files check out");
                 }
             }
@@ -756,21 +869,32 @@ namespace ToolDeployment
         {
             if (File.Exists(savetoo + "\\md5.txt"))
             {
+                //If the txt file exits, then delete it
                 File.Delete(savetoo + "\\md5.txt");
             }
             if (!File.Exists(savetoo + "\\md5.txt"))
             {
+                //If the file doesn't exist, then tell use we are saving it
                 updatelog("Saving md5s");
+
+                //saves the txt file of
                 System.IO.File.WriteAllLines(@savetoo + "\\md5.txt", md5hash.Cast<string>().ToArray());
                 updatelog("Saved...");
             }
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //Change title to let user know we are closeing
             this.Text = "Closing, please wait...";
             updatelog("Closing. Please wait...");
+
+            //Hides this window, instead of closing it
             this.Hide();
+
+            //Stops any active downloads, which also cleans up any partial downloads
             stopdownloadingshit();
+
+            //Now the form will close
         }
         private void Form1_Shown(object sender, EventArgs e) //Edit this if you want to add new files to be downloaded
         {
@@ -779,6 +903,9 @@ namespace ToolDeployment
                 is64bit = true;
                 //updatelog("Is 64bit OS");
             }
+
+            //Below I define which programs accept switchs, and what switches I want to use. 
+            //This is automaticlly included when opening a file
             automationlist.Add(hitmanx32var + "/scan /noinstall");
             automationlist.Add(hitmanx64var + "/scan /noinstall");
             automationlist.Add(autorunsvar + "-e");
@@ -792,6 +919,9 @@ namespace ToolDeployment
             //automationlist.Add(superaintivar + "/silent");
             //automationlist.Add(tweakingtoolsvar + "/silent");
 
+            //Tells user we are doing stuff
+            //And then adds each and every tool to a list
+            //TODO: Figure out how to eleminating needing to manully adding tools
             updatelog("Initializing Components");
             toolnames.Add(ccleanervar);
             toolnames.Add(jrtvar);
@@ -805,27 +935,28 @@ namespace ToolDeployment
             toolnames.Add(abpievar);
             toolnames.Add(AVG2014var);
             toolnames.Add(callingcardvar);
-            toolnames.Add(killemallvar); 
+            toolnames.Add(killemallvar);
             toolnames.Add(rkillvar);
-            toolnames.Add(autorunsvar); 
+            toolnames.Add(autorunsvar);
             toolnames.Add(hjtvar);
             toolnames.Add(teamvar);
             foreach (string g in toolnames)
             {
+                //Adds all of the above to a the "standardtools" list
                 standardtools.Add(g);
             }
             toolnames.Add(tdssvar);
             toolnames.Add(superaintivar);
             toolnames.Add(tweakingtoolsvar);
-            toolnames.Add(avgremovalvar); 
+            toolnames.Add(avgremovalvar);
             toolnames.Add(sfcvar);
-            toolnames.Add(revelationsvar); 
+            toolnames.Add(revelationsvar);
             toolnames.Add(nortonremovalvar);
-            toolnames.Add(mcafferemovalvar); 
-            toolnames.Add(roguekiller64var); 
-            toolnames.Add(roguekiller32var); 
-            toolnames.Add(Esetvar); 
-            toolnames.Add(produkeyvar); 
+            toolnames.Add(mcafferemovalvar);
+            toolnames.Add(roguekiller64var);
+            toolnames.Add(roguekiller32var);
+            toolnames.Add(Esetvar);
+            toolnames.Add(produkeyvar);
             toolnames.Add(pcdecrapvar);
             toolnames.Add(revovar);
             toolnames.Add(chromevar);
@@ -837,26 +968,94 @@ namespace ToolDeployment
             {
                 if (!standardtools.Contains(g))
                 {
+                    //Adds all of the above, minus the "standardtools" list, to the adcancedtools list
                     advancedtools.Add(g);
                 }
             }
+
+            //Saves application path for later, appending a folder that we might need
             localremotetools = applicationpath + "\\_RemoteTools_";
+
+            //Sets the tool tip text to the string defined above, 
+            //allows user to see where the files are being safed
             applicationFolderToolStripMenuItem.ToolTipText = localremotetools;
             systemDriveToolStripMenuItem.ToolTipText = oldsaveto;
+
+            //Checks working folder for tools
             checkifshitexists();
+
+            //Goes through folder and reports any found as done
             scanandreportdone();
+
+            //Checks and loads config file
             checkforsaveddata();
+
+            //uses info found in config file
             parsembamresults();
+
+            //Checks SMART status of all drives in the computer
             checkSMART();
-            updatelog("Written by Ukilliheal on 9/11/2014. \nhttp://code.google.com/u/117050513231464874742/ \nhttp://www.youtube.com/user/ukilliheal");
+            updatelog("");
+
+            //Hey look! I did a thing!
+            updatelog("Written by Ukilliheal on 9/11/2014. \nhttps://code.google.com/p/tooldeployment/");
             updatelog("Application loaded and ready for use");
         }
-        public void reportdone(string y)
+        private void cleanupfaileddownload(string y)
         {
+
+            //Tells user the download failed
+            updatelog("Failed: Unable to download" + y + " Please try again");
+            //Adds to cancled list 
+            wascancled.Add(y);
+            //Change button back to default
+            changebutton(y, null, null, null, null, null, "false", null, "false", "false");
+
+            //Makes a loop that only breaks when the file is missing
+            while (File.Exists(@savetoo + "\\" + y))
+            {
+                try
+                {
+                    System.Threading.Thread.Sleep(10);
+                    //This deletes the file that was being downloaded
+                    File.Delete(@savetoo + "\\" + y);
+                    Application.DoEvents();
+                }
+                catch (Exception crash)
+                {
+                    //aww... it crashed... and no one cares because its in a loop and will simply try again
+                }
+            }
+            if (activedownloads.Count == 0)
+            {
+                //TODO: Reset stage after its all done. But I think that happens anyways. 
+                // hidealllaunchbuttons();
+                //scanandreportdone();
+                //checkforsaveddata();
+            }
+
+        }
+
+        //When a file is done, or already on HDD, then this function is called, and passed the file name
+        public void reportdone(string y) 
+        {
+            //Gets info about the file
+            FileInfo fInfo = new FileInfo(@savetoo + "\\" + y);
+            //Gets size in bytes
+            long size = fInfo.Length;
+            if (size < 1)
+            {
+                //If the file is 0 bytes, then lets delete it. Most likely failed download. 
+                cleanupfaileddownload(y);
+                return;
+            }
+
             try
             {
                 string o = "Launch";
-                List<string> tempremovefromactivedownloads = new List<string> { };
+                List<string> tempremovefromactivedownloads = new List<string> { }; //Yay a list!
+
+                //For each file that is being downloaded, add it to the temp list above
                 foreach (string p in activedownloads)
                 {
                     if (p == y)
@@ -864,59 +1063,76 @@ namespace ToolDeployment
                         tempremovefromactivedownloads.Add(y);
                     }
                 }
+
+                //for each file in the new temp list remove the same item from the list of active downloads
                 foreach (string z in tempremovefromactivedownloads)
                 {
                     activedownloads.Remove(y);
                 }
+                //Report the file as being finished
                 reporteddone.Add(y);
+                //tell user
                 updatelog(y + " Reported done! Activating buttons");
+                //Change the contols around to match a file being ready for launch
                 changebutton(y, null, o, "Black", "true", "true", null, null, "false", "false");
+
+                //If the file that we just finished downloading was KillEmAll.exe, then lets make a whitelist for it
                 if (y == killemallvar)
                 {
                     string killemallconfigdir = savetoo;
                     try
                     {
-                        List<string> lines = new List<string> { "ToolDeployment.exe", "teamviewer.exe", "lmi_rescue.exe", "LMI_RE~2.exe", "CallingCard.exe", "CallingCard_srv.exe" };
+                        //Defines the white list
+                        List<string> white = new List<string> { "ToolDeployment.exe", "teamviewer.exe", "lmi_rescue.exe", "LMI_RE~2.exe", "CallingCard.exe", "CallingCard_srv.exe" };
                         foreach (string h in toolnames)
                         {
-                            lines.Add(h);
+                            //Adds every tool to the white list
+                            white.Add(h);
                         }
                         if (!Directory.Exists(killemallconfigdir))
                         {
+                            //Makes a folder I think it needs. 
                             System.IO.Directory.CreateDirectory(killemallconfigdir);
                         }
                         if (File.Exists(killemallconfigdir + "\\KEA_Whitelist.txt"))
                         {
+                            //If the white list already exists, then delete it
                             File.Delete(killemallconfigdir + "\\KEA_Whitelist.txt");
-                            System.IO.File.WriteAllLines(killemallconfigdir + "\\KEA_Whitelist.txt", lines.Cast<string>().ToArray());
+
+                            //Writes white list to HDD
+                            System.IO.File.WriteAllLines(killemallconfigdir + "\\KEA_Whitelist.txt", white.Cast<string>().ToArray());
                         }
                         if (!File.Exists(killemallconfigdir + "\\KEA_Whitelist.txt"))
                         {
-                            System.IO.File.WriteAllLines(@killemallconfigdir + "\\KEA_Whitelist.txt", lines.Cast<string>().ToArray());
+                            //If white list doesn't already exist, then write it to HDD
+                            System.IO.File.WriteAllLines(@killemallconfigdir + "\\KEA_Whitelist.txt", white.Cast<string>().ToArray());
                         }
                     }
                     catch (Exception crash)
                     {
+                        //Chrashed, try again
                         updatelog(crash.Message);
                     }
                 }
+
+                //Checks if all files have finished downloading
                 if (isalldownloadsdone())
                 {
+                    //disables the cancel all button
                     cancleallbtn.Enabled = false;
                     if (runAllAfterDownloadToolStripMenuItem.Checked == true)
                     {
+                        //if user selected the option to run after download, then this runs the files. all that were checked
                         new Thread(new ThreadStart(runafterdownload)).Start();
                     }
                 }
-                #region original reportdone blocks of if/then statements
-                #endregion
             }
             catch (Exception crash)
             {
-                updatelog(crash.Message);
+                updatelog("reporteddone(); crashed:\n-" + crash.Message);
             }
         }
-        private void checkregulartools()
+        private void checkregulartools() //Checks every tool in the standardtools list
         {
             updatelog("Checking all standard tools");
             foreach (string g in standardtools)
@@ -924,7 +1140,7 @@ namespace ToolDeployment
                 changebutton(g, null, null, null, null, null, "true", null, null, null);
             }
         }
-        private void checkalladvanced()
+        private void checkalladvanced()//Checks every tool in the advancedtools list
         {
             updatelog("Checking all advanced tools");
             foreach (string g in advancedtools)
@@ -932,7 +1148,7 @@ namespace ToolDeployment
                 changebutton(g, null, null, null, null, null, "true", null, null, null);
             }
         }
-        private void uncheckall()
+        private void uncheckall() //Unchecks all tools in "toolname" list
         {
             updatelog("Unchecking all tools");
             foreach (string s in toolnames)
@@ -940,7 +1156,7 @@ namespace ToolDeployment
                 changebutton(s, null, null, null, null, null, "false", null, null, null);
             }
         }
-        private void hidealllaunchbuttons()
+        private void hidealllaunchbuttons() //resets stage, as if nothing happened
         {
             updatelog("Resetting stage...");
 
@@ -948,20 +1164,34 @@ namespace ToolDeployment
             {
                 changebutton(x, null, "Launch", "Black", "false", null, null, null, "false", "false");
             }
+            //Clears a list
             reporteddone.Clear();
+            //unchecks all checkboxes
             uncheckall();
+            //Clears a list
             activedownloads.Clear();
+            //Clears a list
             wascancled.Clear();
+            //Clears a list
             filesavablibleonline.Clear();
+            //Clears a list
             waslaunched.Clear();
         }
-        private void parsembamresults()
+        private void parsembamresults() //Pulls MBAM log from clipbaord, and outputs the good buts to the user
         {
+            //Gets text out of clipboard
             string x = Clipboard.GetText();
+
+            //Checks if the clipbaord contained mbam logs
             if (x.Contains("Malwarebytes Anti-Malware"))
             {
                 List<string> adduplater = new List<string> { };
+
+                //Splits clipboard in to an array
                 string[] result = x.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                //Goes through array, and checks each item if it congains the string we are looking for
+                //if it does, then it adds it to a list without anything else. 
                 foreach (string y in result)
                 {
                     if (y.Contains("Processes:"))
@@ -1001,6 +1231,8 @@ namespace ToolDeployment
                     }
                 }
                 int total = 0;
+
+                //Adds up each number in the adduplater list, then tells user the total
                 foreach (string ma in adduplater)
                 {
                     int tempx = 0;
@@ -1022,7 +1254,11 @@ namespace ToolDeployment
             }
         }
         private void deploy() //Edit this if you want to add new files to be downloaded
-        {
+        { //This goes through each group of controls, checks the following:
+            //1) if the checkbox is checked
+            //2) if the checkbox is enabled
+            //3) checks if the file was already reported done
+            //If all of the above pass, then the file download is started. and some controls are changed
             updatelog("Starting Deployment...");
             if (!Directory.Exists(savetoo))
             {
@@ -1264,6 +1500,9 @@ namespace ToolDeployment
         }
         public Boolean updateprgsbr(int x, string y) //Edit this if you want to add new files to be downloaded
         {
+            //This takes the string, and finds the correct progress bar for it
+            //Once found, it sets that bar's value to the number passed
+            //This is mostly called from form2, when the file is being downloaded
             if (y == ccleanervar)
             {
                 CCprgsbr.Value = x;
@@ -1403,6 +1642,7 @@ namespace ToolDeployment
             }
             return false;
         }
+#region So much fail
         /* // This is just my attempt at using Windows API... still trying to figure that one out.
         private void testautomation()
         {
@@ -1447,6 +1687,7 @@ namespace ToolDeployment
             }
         }
         */
+#endregion
         private Boolean changebutton(
             string fileexename,
             string returnischecked,
@@ -1467,6 +1708,7 @@ namespace ToolDeployment
             Boolean prgsbrVisableHidden = true;
             Color btncolor = Color.Black;
 
+            #region I needed some way to pass either a 'true' 'false' or a 'null' to leave unchanged. Thats where this came in.
             if (BTNcolorNull == "Black")
             {
                 btncolor = Color.Black;
@@ -1528,6 +1770,12 @@ namespace ToolDeployment
             {
                 prgsbrVisableHidden = false;
             }
+            #endregion
+
+            //Below is my evergrowing IF/THEN block. 
+            //What this does is allow me to control groups of controls by a string, normally the file name. 
+            //I do this as it makes it a little easier to add new tools. 
+            //After you understand one group of 9 if/then statements, like ccleaner, then you pretty much understand rest of them
             if (fileexename == ccleanervar)
             {
                 if (BTNcolorNull != null) { ccbtn.ForeColor = btncolor; }
@@ -1537,7 +1785,6 @@ namespace ToolDeployment
                 if (CHKBXCheckUncheckNullNull != null) { CcleanerChkBX.Checked = checkedvar; }
                 if (CHKBXEnabledDisabledNull != null) { CcleanerChkBX.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (CcleanerChkBX.Checked) { return true; } }
-
                 if (CancelBTNVisableHiddenNull != null) { cclcanclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisableHiddenNull != null) { CCprgsbr.Visible = prgsbrVisableHidden; }
 
@@ -2730,6 +2977,11 @@ namespace ToolDeployment
         private void clipboardTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
             parsembamresults();
+        }
+
+        private void mRebootToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("shutdown", "/r /f /t 300");
         }
 
 

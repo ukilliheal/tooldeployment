@@ -98,6 +98,7 @@ namespace ToolDeployment
         #region Download complete/Check for Cancel
         private void Completed2(object sender, AsyncCompletedEventArgs e)
         {
+            
             //Download was cancled/completed/errord out, so this starts cleaning stuff up and closing stuff out. 
             sw.Stop();
             if (cancledl == true)
