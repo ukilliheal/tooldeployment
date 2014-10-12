@@ -135,14 +135,14 @@ namespace ToolDeployment
 
 
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e) //This runs before the form is loaded
         {
 
             int index = random.Next(names.Count);//choses a 'random' title for the application.
             var name = names[index]; //gets chosen title 
             this.Text = name; //sets the chosen title
-        }
-        private void updatelog(string x)
+        } 
+        private void updatelog(string x)//This adds a new line to the main log window, adds the text from string x, then scrolls to bottom
         {
             //I like to show the user that something is happening. 
             //I figured the easiest way to do this would be with a text window giving updates
@@ -200,7 +200,7 @@ namespace ToolDeployment
                 }
             }
         }
-        private void stopdownloadingshit()
+        private void stopdownloadingshit()//Stops all downloads, and cleans up partial downloads
         {
             updatelog("Stopping all active downloads. Please wait...");
             foreach (string p in activedownloads)
@@ -227,7 +227,7 @@ namespace ToolDeployment
             scanandreportdone();
             checkforsaveddata();
         }
-        private void checkSMART()
+        private void checkSMART()//Pulls smart data from all attached drives. TODO: Filter out CDs and Flash drives
         {
             try
             {
@@ -372,7 +372,7 @@ namespace ToolDeployment
             }
         }
 
-        private void copytosystemdrive()
+        private void copytosystemdrive()//Unused function - Copies all tools from application folder to C drive
         {
             updatelog("Copying to all files to system drive");
             if (!Directory.Exists(oldsaveto))
@@ -396,7 +396,7 @@ namespace ToolDeployment
                 scanandreportdone(); //sets stuff avalible for launching
             }
         }
-        private void checkifshitexists()
+        private void checkifshitexists()//Looks for folder in application folder, and if so then set savetoo path to it 
         {
             updatelog("Checking if folders already exist");
             if (Directory.Exists(@localremotetools))
@@ -452,7 +452,7 @@ namespace ToolDeployment
                 return false;
             }
         }
-        private void runafterdownload()
+        private void runafterdownload()//Goes through the list of checked tools, and runs then
         {
             try
             {
@@ -482,7 +482,7 @@ namespace ToolDeployment
                 //MessageBox.Show("Chrashed");
             }
         }
-        private void deletethisshit()
+        private void deletethisshit()//Deletes the tools
         {
             updatelog("Deleting files...");
             try
@@ -511,7 +511,7 @@ namespace ToolDeployment
                 checkforsaveddata();
             }
         }
-        private void downloadshit(string x)
+        private void downloadshit(string x)//Enables cancelall button, then starts the download thread 
         {
             if (Directory.Exists(savetoo))
             {
@@ -555,7 +555,7 @@ namespace ToolDeployment
                 updatelog("Error: " + crash.Message);
             }
         }
-        private void opentools(string run)
+        private void opentools(string run)//Opens the file name in string run
         {
             string x = run.Replace(savetoo + "\\", "").Trim();
             changebutton(x, null, null, null, null, null, "false", null, null, null);
@@ -606,7 +606,7 @@ namespace ToolDeployment
                 return;
             }
         }
-        public void checkforsaveddata()
+        public void checkforsaveddata()//if config file exists, loads and processes it
         {
             //Sets file path to config file. I should change it to an INI.
             string x = savetoo + "\\tdconfig.txt";
@@ -632,7 +632,7 @@ namespace ToolDeployment
                 processsaveddata();
             }
         }
-        public void processsaveddata()
+        public void processsaveddata()//Changes buttons colors, and loads CF6 notes
         {
             string y = "";
 
@@ -657,7 +657,7 @@ namespace ToolDeployment
             updatelog("Loading CF6 notes");
             CF6Notes.Text = y.Replace("CF6NOTES==", "");
         }
-        public void writesaveddata()
+        public void writesaveddata()//Writes which files were opened, and CF6 notes. TODO: Add appliction location on screen
         {
             string u = "";
             
@@ -695,7 +695,7 @@ namespace ToolDeployment
                 System.IO.File.WriteAllLines(@savetoo + "\\tdconfig.txt", waslaunched.Cast<string>().ToArray());
             }
         }
-        private void deleteit()
+        private void deleteit()//Deletes all files still in the list 'filesavalibleonline'
         {
             List<string> TEMPfilestoobedeleted = new List<string> { }; //creates a list. 
             foreach (string j in filesavablibleonline)
@@ -760,7 +760,7 @@ namespace ToolDeployment
             }
 
         }
-        private void md5scan() // 
+        private void md5scan() // Creats a md5 for each file in the list "toolnames"
         {
             md5hash.Clear(); //clears list
             foreach (string x in toolnames)
@@ -779,7 +779,7 @@ namespace ToolDeployment
                 }
             }
         }
-        private void md5compair()
+        private void md5compair()//Compairs the md5 of the tools currently on the computer to a txt file downloaded
         {
             string x = savetoo + "\\md5.txt";
             if (!File.Exists(x))
@@ -865,7 +865,7 @@ namespace ToolDeployment
                 }
             }
         }
-        private void md5write()
+        private void md5write()//Writes the md5s gathered from md5scan() to a text file. I use this to update server
         {
             if (File.Exists(savetoo + "\\md5.txt"))
             {
@@ -882,7 +882,7 @@ namespace ToolDeployment
                 updatelog("Saved...");
             }
         }
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)//Runs a little bit of code when the form closes
         {
             //Change title to let user know we are closeing
             this.Text = "Closing, please wait...";
@@ -1001,7 +1001,7 @@ namespace ToolDeployment
             updatelog("Written by Ukilliheal on 9/11/2014. \nhttps://code.google.com/p/tooldeployment/");
             updatelog("Application loaded and ready for use");
         }
-        private void cleanupfaileddownload(string y)
+        private void cleanupfaileddownload(string y)//Basicly this deletes a file that was reported as done. useful to add Delete tool option 
         {
 
             //Tells user the download failed
@@ -1036,8 +1036,7 @@ namespace ToolDeployment
 
         }
 
-        //When a file is done, or already on HDD, then this function is called, and passed the file name
-        public void reportdone(string y) 
+        public void reportdone(string y)//When a file is done, or already on HDD, then this function is called, and passed the file name 
         {
             //Gets info about the file
             FileInfo fInfo = new FileInfo(@savetoo + "\\" + y);
@@ -1203,35 +1202,29 @@ namespace ToolDeployment
                     {
                         updatelog(y);
                         adduplater.Add(y.Replace("Modules: ", "").Trim());
-
                     }
                     if (y.Contains("Registry "))
                     {
                         updatelog(y);
                         adduplater.Add(y.Replace("Registry ", "").Replace("Keys: ", "").Replace("Values: ", "").Replace("Data: ", "").Trim());
-
                     }
                     if (y.Contains("Folders:"))
                     {
                         updatelog(y);
                         adduplater.Add(y.Replace("Folders: ", "").Trim());
-
                     }
                     if (y.Contains("Files:"))
                     {
                         updatelog(y);
                         adduplater.Add(y.Replace("Files: ", "").Trim());
-
                     }
                     if (y.Contains("Physical "))
                     {
                         updatelog(y);
                         adduplater.Add(y.Replace("Physical Sectors: ", "").Trim());
-
                     }
                 }
                 int total = 0;
-
                 //Adds up each number in the adduplater list, then tells user the total
                 foreach (string ma in adduplater)
                 {
@@ -1642,52 +1635,7 @@ namespace ToolDeployment
             }
             return false;
         }
-#region So much fail
-        /* // This is just my attempt at using Windows API... still trying to figure that one out.
-        private void testautomation()
-        {
-            int hwnd = 0;
-            IntPtr hwndChild = IntPtr.Zero;
 
-            //Get a handle for the Calculator Application main window
-            hwnd = FindWindow(null, "Calculator").ToInt32();
-            if (hwnd == 0)
-            {
-                if (MessageBox.Show("Couldn't find the calculator" +
-                                   " application. Do you want to start it?",
-                                   "TestWinAPI",
-                                   MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    System.Diagnostics.Process.Start("Calc");
-                }
-            }
-            else
-            {
-
-                //Get a handle for the "1" button
-                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "1");
-
-                //send BN_CLICKED message
-                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
-                //Get a handle for the "+" button
-                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "+");
-
-                //send BN_CLICKED message
-                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
-                //Get a handle for the "2" button
-                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "2");
-
-                //send BN_CLICKED message
-                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
-                //Get a handle for the "=" button
-                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "=");
-
-                //send BN_CLICKED message
-                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
-            }
-        }
-        */
-#endregion
         private Boolean changebutton(
             string fileexename,
             string returnischecked,
@@ -1771,11 +1719,20 @@ namespace ToolDeployment
                 prgsbrVisableHidden = false;
             }
             #endregion
+            /*
+             * This is where I can change groups of controls with a single method call. Very useful for loops.
+             * Each group below does the following: 
+             * 
+             * 1) Checks if btncolornull is null, if not then changes the launch button's color to that of btncolor
+             * 2) Checks if btntextnull is null, if not then changes the launch button's text to that of btnntextnull
+             * 3) Checks if btnenabledisablednull is null, if not then enables or disables the button accordently
+             * 4) Checks if btnvisiblehiddennull is null, if not then sets the visibility accordenly
+             * 5) Checks if chkbcenableddisablednull is null, then sets the checkbox = to that of chkbxenableddisabled
+             * 6) Checks if returnischecked is null, if not then it checks if the corresponding checkbox is checked, and returns true or false
+             * 7) Checks if cancelbtnvisablehiddennull is null, if not then sets visibility to the value of showcancelbtn
+             * 8) Checks if prgsbrvisablehiddennull is null, if not then sets the corresponding visibility to that of prgsbrVisableHidden
+             * */
 
-            //Below is my evergrowing IF/THEN block. 
-            //What this does is allow me to control groups of controls by a string, normally the file name. 
-            //I do this as it makes it a little easier to add new tools. 
-            //After you understand one group of 9 if/then statements, like ccleaner, then you pretty much understand rest of them
             if (fileexename == ccleanervar)
             {
                 if (BTNcolorNull != null) { ccbtn.ForeColor = btncolor; }
@@ -2210,126 +2167,19 @@ namespace ToolDeployment
             return false;
 
         }
-
-        #region Buttons and shit
-        private void DeployAllBTN_Click(object sender, EventArgs e)
-        {
-            checkregulartools();
-            deploy();
-        }
-
-        private void DeployBTN_Click(object sender, EventArgs e)
-        {
-            deploy();
-        }
-
-        private void Hitmanbtn_Click(object sender, EventArgs e)
-        {
-            Hitmanbtn.ForeColor = Color.Green;
-            if (is64bit == true)
-            {
-                string run = savetoo + "\\" + hitmanx64var;
-                opentools(run);
-            }
-            else
-            {
-                string run = savetoo + "\\" + hitmanx32var;
-                opentools(run);
-
-            }
-        }
-        private void googleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://google.com");
-        }
-
-        private void sRebootToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("shutdown", "/r /f /t 30");
-        }
-
-
-
-        private void systemDriveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!systemDriveToolStripMenuItem.Checked == true && applicationFolderToolStripMenuItem.Checked == true)
-            {
-                if (activedownloads.Count > 0)
-                {
-                    updatelog("Unable to switch tool folder while there are active downloads");
-                }
-                else
-                {
-                    systemDriveToolStripMenuItem.Checked = true;
-                    applicationFolderToolStripMenuItem.Checked = false;
-                    applicationFolderToolStripMenuItem.Checked = false;
-                    updatelog("Switching to System Drive");
-                    savetoo = oldsaveto;
-                    hidealllaunchbuttons();
-                    updatelog("Scanning new folder");
-                    scanandreportdone();
-                    checkforsaveddata();
-                    updatelog("Switch to System Drive completed");
-                }
-            }
-        }
-        private void applicationFolderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!applicationFolderToolStripMenuItem.Checked == true && systemDriveToolStripMenuItem.Checked == true)
-            {
-                if (activedownloads.Count > 0)
-                {
-                    updatelog("Unable to switch tool folder while there are active downloads");
-                    applicationFolderToolStripMenuItem.Checked = false;
-                }
-                else
-                {
-                    applicationFolderToolStripMenuItem.Checked = true;
-                    systemDriveToolStripMenuItem.Checked = false;
-                    updatelog("Switching to Application folder");
-                    savetoo = localremotetools;
-                    hidealllaunchbuttons();
-                    updatelog("Scanning new folder");
-                    scanandreportdone();
-                    checkforsaveddata();
-                    updatelog("Switch to Application folder completed");
-                }
-            }
-        }
-        private void runafterdownloadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new Thread(new ThreadStart(runafterdownload)).Start();
-        }
-
-        private void uncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            uncheckall();
-        }
-
-        private void checkAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            checkregulartools();
-            checkalladvanced();
-        }
-
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-        private void button2_Click(object sender, EventArgs e)
-        {
-            checkregulartools();
-            checkalladvanced();
-            deploy();
-        }
-
-        private void button1_Click_2(object sender, EventArgs e)
-        {
-            checkalladvanced();
-            deploy();
-        }
-        #region Cancle buttons
+        #region Cancel buttons
+        /*
+         * Here you will find all cancel buttons.
+         * Each one does the following in order:
+         * 1) Adds the file name to the wascancled list (yes, mispelled, who cares)
+         * 2) Hides the Cancel button
+         * 3) Hides the corresponding progress bar
+         * 4) Unchecks the corresponding checkbox
+         * 
+         * Thats it. It does this for each tool 30+ of them. 
+         * TODO: figure out how to get the name of the control sender, 
+         * and assign the correct tool associated with the button.  
+         * */
         private void button1_Click_1(object sender, EventArgs e)
         {
             wascancled.Add(callingcardvar);
@@ -2582,7 +2432,34 @@ namespace ToolDeployment
             teamprgsbr.Visible = false;
         }
         #endregion
-        #region Launch buttons n crap
+        #region Launch buttons
+
+        /*
+         * This is where all the "Launch"/"Avalible Online" buttons events are.
+         * The buttons do the following, in order:
+         * 
+         * 1) checks if the button's text is "Avalible Online", if not then turns button green
+         * 2) Combines the savetoo file path with a slash, and the file's name
+         * 3) Runs the method "opentools" and sends the combined text from step 2
+         * 
+         * TODO: See if there is a way to get the file's name from ((Control)sender)'s varible name
+         * ~maybe something like this: string buttonName = ((Control)sender).Name.Replace("btn","");
+         * ~then maybe a: foreach (string x in toolnames){if (x.contains(buttonname)){//then do stuff;}}
+         * */
+        private void Hitmanbtn_Click(object sender, EventArgs e)
+        {
+            if (((Control)sender).Text != "Avalible Online!") { ((Control)sender).ForeColor = Color.Green; }; if (is64bit == true)
+            {
+                string run = savetoo + "\\" + hitmanx64var;
+                opentools(run);
+            }
+            else
+            {
+                string run = savetoo + "\\" + hitmanx32var;
+                opentools(run);
+
+            }
+        }
         private void ccbtn_Click(object sender, EventArgs e)
         {
             if (((Control)sender).Text != "Avalible Online!") { ((Control)sender).ForeColor = Color.Green; };
@@ -2811,22 +2688,64 @@ namespace ToolDeployment
         }
 
         #endregion
-        private void cancleallbtn_Click(object sender, EventArgs e)
-        {
-            stopdownloadingshit();
-        }
-
-        private void msiinstallerbtn_Click(object sender, EventArgs e)
-        {
-            new Thread(new ThreadStart(enabmemsiinstaller)).Start();
-        }
-
+        #region Main stage buttons, excluding launch buttons
+        /*
+         * Here is were the main stage buttons are. 
+         * Deploy all checked
+         * Deploy All standard tools
+         * Deploy All advanced tools
+         * Deploy All tools
+         * Cancel button
+         * and Enabled MSI installer
+         * */
         private void nuke_Click(object sender, EventArgs e)
         {
             stopdownloadingshit();
             deletethisshit();
         }
+        private void DeployAllBTN_Click(object sender, EventArgs e)
+        {
+            checkregulartools();
+            deploy();
+        }
 
+        private void DeployBTN_Click(object sender, EventArgs e)
+        {
+            deploy();
+        }
+        private void msiinstallerbtn_Click(object sender, EventArgs e)
+        {
+            new Thread(new ThreadStart(enabmemsiinstaller)).Start();
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            checkregulartools();
+            checkalladvanced();
+            deploy();
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            checkalladvanced();
+            deploy();
+        }
+        private void cancleallbtn_Click(object sender, EventArgs e)
+        {
+            stopdownloadingshit();
+        }
+        #endregion
+        #region Tool Strip menu item events
+        /*
+         * Here are all the random buttons I created in the "File" menu
+         * */
+        private void CF6Notes_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                this.ActiveControl = logwindow;
+                writesaveddata();
+            }
+        }
         private void resetStageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (activedownloads.Count > 0)
@@ -2876,16 +2795,6 @@ namespace ToolDeployment
                 writesaveddata();
             }
         }
-
-        private void CF6Notes_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)13)
-            {
-                this.ActiveControl = logwindow;
-                writesaveddata();
-            }
-        }
-
         private void toolsToolStripMenuItem_DoubleClick(object sender, EventArgs e)
         {
 
@@ -2920,10 +2829,6 @@ namespace ToolDeployment
         private void resetCF6ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CF6Notes.Text = CF6NotesDefaultText;
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
         }
 
         private void resetHitmanTrialToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2983,15 +2888,126 @@ namespace ToolDeployment
         {
             System.Diagnostics.Process.Start("shutdown", "/r /f /t 300");
         }
+        private void googleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://google.com");
+        }
+
+        private void sRebootToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("shutdown", "/r /f /t 30");
+        }
 
 
 
+        private void systemDriveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!systemDriveToolStripMenuItem.Checked == true && applicationFolderToolStripMenuItem.Checked == true)
+            {
+                if (activedownloads.Count > 0)
+                {
+                    updatelog("Unable to switch tool folder while there are active downloads");
+                }
+                else
+                {
+                    systemDriveToolStripMenuItem.Checked = true;
+                    applicationFolderToolStripMenuItem.Checked = false;
+                    applicationFolderToolStripMenuItem.Checked = false;
+                    updatelog("Switching to System Drive");
+                    savetoo = oldsaveto;
+                    hidealllaunchbuttons();
+                    updatelog("Scanning new folder");
+                    scanandreportdone();
+                    checkforsaveddata();
+                    updatelog("Switch to System Drive completed");
+                }
+            }
+        }
+        private void applicationFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!applicationFolderToolStripMenuItem.Checked == true && systemDriveToolStripMenuItem.Checked == true)
+            {
+                if (activedownloads.Count > 0)
+                {
+                    updatelog("Unable to switch tool folder while there are active downloads");
+                    applicationFolderToolStripMenuItem.Checked = false;
+                }
+                else
+                {
+                    applicationFolderToolStripMenuItem.Checked = true;
+                    systemDriveToolStripMenuItem.Checked = false;
+                    updatelog("Switching to Application folder");
+                    savetoo = localremotetools;
+                    hidealllaunchbuttons();
+                    updatelog("Scanning new folder");
+                    scanandreportdone();
+                    checkforsaveddata();
+                    updatelog("Switch to Application folder completed");
+                }
+            }
+        }
+        private void runafterdownloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Thread(new ThreadStart(runafterdownload)).Start();
+        }
 
+        private void uncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            uncheckall();
+        }
 
-
-
-    }
+        private void checkAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkregulartools();
+            checkalladvanced();
+        }
 
         #endregion
+        #region So much fail
+        /* // This is just my attempt at using Windows API... still trying to figure that one out.
+        private void testautomation()
+        {
+            int hwnd = 0;
+            IntPtr hwndChild = IntPtr.Zero;
 
+            //Get a handle for the Calculator Application main window
+            hwnd = FindWindow(null, "Calculator").ToInt32();
+            if (hwnd == 0)
+            {
+                if (MessageBox.Show("Couldn't find the calculator" +
+                                   " application. Do you want to start it?",
+                                   "TestWinAPI",
+                                   MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    System.Diagnostics.Process.Start("Calc");
+                }
+            }
+            else
+            {
+
+                //Get a handle for the "1" button
+                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "1");
+
+                //send BN_CLICKED message
+                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
+                //Get a handle for the "+" button
+                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "+");
+
+                //send BN_CLICKED message
+                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
+                //Get a handle for the "2" button
+                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "2");
+
+                //send BN_CLICKED message
+                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
+                //Get a handle for the "=" button
+                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "=");
+
+                //send BN_CLICKED message
+                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
+            }
+        }
+        */
+        #endregion
+    }
 }

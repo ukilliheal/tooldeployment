@@ -981,7 +981,6 @@ namespace ToolDeployment
             this.menuStrip1.Size = new System.Drawing.Size(470, 27);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             this.menuStrip1.DoubleClick += new System.EventHandler(this.showCF6NotesToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
