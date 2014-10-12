@@ -16,6 +16,7 @@ using System.Management;
 /*
  * Its a mess, yes. I am still in the process of learning C sharp . 
  * I am working on adding more comments to better explain the code. Bare with me here.
+ * More comments on the way!
  * */
 namespace ToolDeployment
 {
