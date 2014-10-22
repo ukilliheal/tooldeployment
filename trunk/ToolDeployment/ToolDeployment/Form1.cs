@@ -24,8 +24,8 @@ namespace ToolDeployment
     {
 
         #region Vars being defined //Edit to add new Tools (Buttons, Progress bars, etc)
-        #region Edit to add new Tools (Buttons, Progress bars, etc)
         //This is where I list each tool, and define the file name. 
+        string password = "cake";
         string ccleanervar = "CCleaner.exe";
         string jrtvar = "JRT.exe";
         string adwvar = "AdwCleaner.exe";
@@ -55,7 +55,6 @@ namespace ToolDeployment
         string produkeyvar = "ProduKey.exe";
         string hjtvar = "HijackThis.exe";
         string pcdecrapvar = "PDdecrapifier.exe";
-
         string teamvar = "TeamViewerQS.exe";
         string revovar = "RevoUninstaller.exe";
         string chromevar = "ChromeInstaller.exe";
@@ -63,11 +62,8 @@ namespace ToolDeployment
         string readervar = "ReaderInstaller.exe";
         string libraofficevar = "LibreOfficeInstaller.exe";
         string ahkvar = "AutoHotkey.exe"; //not being used right now. 
-
         //I use the cf6 notes to help me keep track of the computer repair. 
-        string CF6NotesDefaultText = "";
-
-        #endregion
+        string CF6NotesDefaultText = "Msconfig:? | Appwiz:? | Ccleaner:? ";
 
         string applicationpath = Application.StartupPath;
         string localremotetools = "";
@@ -78,6 +74,7 @@ namespace ToolDeployment
         string oldsaveto = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "_RemoteTools_";
         string systemrootdrive = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System));
         Boolean is64bit = false;
+        Boolean bypasslogin = false;
         Random random = new Random();
         private const uint WM_COMMAND = 0x0111;
         private const int BN_CLICKED = 245;
@@ -120,9 +117,15 @@ namespace ToolDeployment
      };
         #endregion
 
-        public Form1()
+        public Form1(string[] args)
         {
-
+            if (args.Length > 0)
+            {
+                if (args[0] == password)
+                {
+                    bypasslogin = true;
+                }
+            }
             //This is to see if the base URL was changed from default, if not remind user. 
             if (baseurl.Contains("http://www.example.com"))
             {
@@ -142,7 +145,7 @@ namespace ToolDeployment
             int index = random.Next(names.Count);//choses a 'random' title for the application.
             var name = names[index]; //gets chosen title 
             this.Text = name; //sets the chosen title
-        } 
+        }
         private void updatelog(string x)//This adds a new line to the main log window, adds the text from string x, then scrolls to bottom
         {
             //I like to show the user that something is happening. 
@@ -156,7 +159,9 @@ namespace ToolDeployment
             catch (Exception crash)
             {
                 //just in case something can't write to the log window. Doesn't matter if it fails anyways.
-                MessageBox.Show("Unable to write to log window;\n" + crash.Message);
+                //Disabled because it could keep showing up over and over again
+
+                //MessageBox.Show("Error while trying to update log;\n" + crash.Message);
             }
         }
         private void checkifshitisonline() //TODO check backup URLS if baseurl fails.
@@ -220,7 +225,7 @@ namespace ToolDeployment
                 updatelog(g);
                 g = g + "."; //shows the user that something is happening. 
                 Application.DoEvents(); //Allows application to catch up
-                System.Threading.Thread.Sleep(1000); //no need to chew on CPU that much
+                System.Threading.Thread.Sleep(150); //no need to chew on CPU that much
             }
 
             //Resets the stage. 
@@ -340,10 +345,10 @@ namespace ToolDeployment
 
                     updatelog("-----------------------------------------------------");
                     updatelog(" DRIVE " + ((drive.Value.IsOK) ? "OK" : "BAD") + ": " + drive.Value.Serial + " - " + drive.Value.Model + " - " + drive.Value.Type);
-                    updatelog("- - - -");
                     if (!drive.Value.IsOK)
                     {
-                        MessageBox.Show("S.M.A.R.T Error");
+                        //Disabled because it kept showing up when USB flash drives were detected
+                        //MessageBox.Show("S.M.A.R.T Error");
                     }
 
                     updatelog("Current\tWorst\tThreshold\tData\tStatus\tID");
@@ -355,7 +360,6 @@ namespace ToolDeployment
                             Application.DoEvents();
                         }
                     }
-                    updatelog("- - - -");
                     updatelog("DRIVE " + ((drive.Value.IsOK) ? "OK " : "BAD ") + drive.Value.Model);
                     updatelog("-----------------------------------------------------");
                 }
@@ -420,6 +424,19 @@ namespace ToolDeployment
                     updatelog(x + " already exists. Reporting as done. ");
                     reportdone(x);
                 }
+                if (!File.Exists(savetoo + "\\" + x) && reporteddone.Contains(x))
+                {
+                    reporteddone.Remove(x);
+                    changebutton(x, null, null, null, "false", "true", "false", null, "false", "false");
+                }
+                if (File.Exists(savetoo + "\\" + x) && reporteddone.Contains(x))
+                {
+                    //Do nothing.
+                }
+                if (!File.Exists(savetoo + "\\" + x) && !reporteddone.Contains(x))
+                {
+                    //Do nothing.
+                }
             }
         }
         private Boolean checkifcancled(string x) //This takes a string, and checks if that is in a list. Not too srue why I put it in a method.
@@ -483,7 +500,7 @@ namespace ToolDeployment
                 //MessageBox.Show("Chrashed");
             }
         }
-        private void deletethisshit()//Deletes the tools
+        private void deletethisshit()//Deletes all tools
         {
             updatelog("Deleting files...");
             try
@@ -597,7 +614,7 @@ namespace ToolDeployment
                         }
                     }
 
-                    //Exicutes file
+                    //Executes file
                     System.Diagnostics.Process.Start(run, switches);
                 }
                 catch (Exception crash)
@@ -661,7 +678,7 @@ namespace ToolDeployment
         public void writesaveddata()//Writes which files were opened, and CF6 notes. TODO: Add appliction location on screen
         {
             string u = "";
-            
+
             //Goes through each item in the list 'waslaunched'
             foreach (string k in waslaunched)
             {
@@ -708,7 +725,7 @@ namespace ToolDeployment
                 string deletefile = savetoo + "\\" + p; //makes file path as string. I like strings. 
                 while (File.Exists(deletefile)) //creates loop that only breaks if file is deleted. 
                 {
-                    System.Threading.Thread.Sleep(750); //Lets not chew on the CPU too much. 
+                    System.Threading.Thread.Sleep(500); //Lets not chew on the CPU too much. 
                     try
                     {
                         //Tell user we are deleting a file
@@ -724,7 +741,7 @@ namespace ToolDeployment
                     }
                 }
                 //file deleted, removed from files avalible online.
-                filesavablibleonline.Remove(p); 
+                filesavablibleonline.Remove(p);
             }
         }
         public void checkforupdates() //Unused method. I am still trying to figure out how to make this work
@@ -897,7 +914,7 @@ namespace ToolDeployment
 
             //Now the form will close
         }
-        private void Form1_Shown(object sender, EventArgs e) //Edit this if you want to add new files to be downloaded
+        private void loadeverything() //Called after correct password is entered
         {
             if (IntPtr.Size == 8)
             {
@@ -995,46 +1012,94 @@ namespace ToolDeployment
             parsembamresults();
 
             //Checks SMART status of all drives in the computer
-            checkSMART();
-            updatelog("");
+            //Disabled to speed up load time
+            //checkSMART();
+            //updatelog("");
 
             //Hey look! I did a thing!
             updatelog("Written by Ukilliheal on 9/11/2014. \nhttps://code.google.com/p/tooldeployment/");
             updatelog("Application loaded and ready for use");
         }
-        private void cleanupfaileddownload(string y)//Basicly this deletes a file that was reported as done. useful to add Delete tool option 
+        private void unlockstuff()
         {
-
-            //Tells user the download failed
-            updatelog("Failed: Unable to download" + y + " Please try again");
-            //Adds to cancled list 
-            wascancled.Add(y);
-            //Change button back to default
-            changebutton(y, null, null, null, null, null, "false", null, "false", "false");
-
-            //Makes a loop that only breaks when the file is missing
-            while (File.Exists(@savetoo + "\\" + y))
+            toolsToolStripMenuItem.Visible = true;
+            helpToolStripMenuItem.Visible = true;
+            DeployBTN.Visible = true;
+            cancleallbtn.Visible = true;
+            DeployAllBTN.Visible = true;
+            nuke.Visible = true;
+            button1.Visible = true;
+            button2.Visible = true;
+            msiinstallerbtn.Visible = true;
+            groupBox1.Visible = true;
+            groupBox4.Visible = true;
+            groupBox2.Visible = true;
+            groupBox3.Visible = true;
+            Extras.Visible = true;
+            logwindow.Visible = true;
+            groupBox5.Visible = false;
+            //this.BackColor = Color.LightGray;
+        }
+        private void Form1_Shown(object sender, EventArgs e) //Edit this if you want to add new files to be downloaded
+        {
+            if (bypasslogin)
             {
+                unlockstuff();
+                loadeverything();
+            }
+        }
+        private void deletefileorcancle(string y)//Basicly this deletes a file . useful to add Delete tool option 
+        {
+            if (Control.ModifierKeys == Keys.Shift)
+            {
+                updatelog("Closing " + y);
                 try
                 {
-                    System.Threading.Thread.Sleep(10);
-                    //This deletes the file that was being downloaded
-                    File.Delete(@savetoo + "\\" + y);
-                    Application.DoEvents();
+                    System.Diagnostics.Process.Start("cmd", "/c taskkill /IM " + y + " /f");
                 }
                 catch (Exception crash)
                 {
-                    //aww... it crashed... and no one cares because its in a loop and will simply try again
+                    updatelog("Unable to kill process: " + crash.Message);
                 }
             }
-            if (activedownloads.Count == 0)
+            else
             {
-                //TODO: Reset stage after its all done. But I think that happens anyways. 
-                // hidealllaunchbuttons();
-                //scanandreportdone();
-                //checkforsaveddata();
+                if (activedownloads.Contains(y))
+                {
+                    wascancled.Add(y);
+                    changebutton(y, null, null, null, null, null, "false", null, "false", "false");
+                }
+                else
+                {
+                    //Change button back to default
+                    changebutton(y, null, null, null, "false", null, "false", null, "false", "false");
+                    //Makes a loop that only breaks when the file is missing
+                    while (File.Exists(@savetoo + "\\" + y))
+                    {
+                        try
+                        {
+                            System.Threading.Thread.Sleep(10);
+                            //This deletes the file that was being downloaded
+                            File.Delete(@savetoo + "\\" + y);
+                            Application.DoEvents();
+                        }
+                        catch (Exception crash)
+                        {
+                            //aww... it crashed... and no one cares because its in a loop and will simply try again
+                        }
+                    }
+                    //Clears a list
+                    reporteddone.Remove(y);
+                    //Clears a list
+                    activedownloads.Remove(y);
+                    //Clears a list
+                    wascancled.Remove(y);
+                    //Clears a list
+                    filesavablibleonline.Remove(y);
+                    //Clears a list
+                    waslaunched.Remove(y);
+                }
             }
-
         }
 
         public void reportdone(string y)//When a file is done, or already on HDD, then this function is called, and passed the file name 
@@ -1045,8 +1110,12 @@ namespace ToolDeployment
             long size = fInfo.Length;
             if (size < 1)
             {
+                //Tells user the download failed
+                updatelog("Failed: " + y + "finished but only 0bytes. Deleting.");
                 //If the file is 0 bytes, then lets delete it. Most likely failed download. 
-                cleanupfaileddownload(y);
+                wascancled.Add(y);
+                activedownloads.Remove(y);
+                deletefileorcancle(y);
                 return;
             }
 
@@ -1074,7 +1143,7 @@ namespace ToolDeployment
                 //tell user
                 updatelog(y + " Reported done! Activating buttons");
                 //Change the contols around to match a file being ready for launch
-                changebutton(y, null, o, "Black", "true", "true", null, null, "false", "false");
+                changebutton(y, null, o, "Black", "true", "true", null, null, "true", "false");
 
                 //If the file that we just finished downloading was KillEmAll.exe, then lets make a whitelist for it
                 if (y == killemallvar)
@@ -1120,6 +1189,7 @@ namespace ToolDeployment
                 {
                     //disables the cancel all button
                     cancleallbtn.Enabled = false;
+                    uncheckall();
                     if (runAllAfterDownloadToolStripMenuItem.Checked == true)
                     {
                         //if user selected the option to run after download, then this runs the files. all that were checked
@@ -1177,7 +1247,7 @@ namespace ToolDeployment
             //Clears a list
             waslaunched.Clear();
         }
-        private void parsembamresults() //Pulls MBAM log from clipbaord, and outputs the good buts to the user
+        private void parsembamresults() //Pulls MBAM log from clipbaord, and outputs the good bits to the user
         {
             //Gets text out of clipboard
             string x = Clipboard.GetText();
@@ -1640,14 +1710,14 @@ namespace ToolDeployment
         private Boolean changebutton(
             string fileexename,
             string returnischecked,
-            string BTNtextNull,
-            string BTNcolorNull,
-            string BTNEnabledDisabledNull,
-            string BTNVisibleHiddenNull,
-            string CHKBXCheckUncheckNullNull,
-            string CHKBXEnabledDisabledNull,
-            string CancelBTNVisableHiddenNull,
-            string prgsbrVisableHiddenNull)///Edit this if you want to add new files to be downloaded
+            string BTNtext,
+            string BTNcolor,
+            string BTNEnabled,
+            string BTNVisible,
+            string CHKBXChecked,
+            string CHKBXEnabled,
+            string CancelBTNVisable,
+            string prgsbrVisable)///Edit this if you want to add new files to be downloaded
         {
             Boolean checkedvar = true;
             Boolean enablebutton = false;
@@ -1658,64 +1728,64 @@ namespace ToolDeployment
             Color btncolor = Color.Black;
 
             #region I needed some way to pass either a 'true' 'false' or a 'null' to leave unchanged. Thats where this came in.
-            if (BTNcolorNull == "Black")
+            if (BTNcolor == "Black")
             {
                 btncolor = Color.Black;
             }
-            else if (BTNcolorNull == "Green")
+            else if (BTNcolor == "Green")
             {
                 btncolor = Color.Green;
             }
-            else if (BTNcolorNull == "Red")
+            else if (BTNcolor == "Red")
             {
                 btncolor = Color.IndianRed;
             }
 
-            if (BTNEnabledDisabledNull == "true")
+            if (BTNEnabled == "true")
             {
                 enablebutton = true;
             }
-            else if (BTNEnabledDisabledNull == "false")
+            else if (BTNEnabled == "false")
             {
                 enablebutton = false;
             }
-            if (BTNVisibleHiddenNull == "true")
+            if (BTNVisible == "true")
             {
                 btnisvisible = true;
             }
-            else if (BTNVisibleHiddenNull == "false")
+            else if (BTNVisible == "false")
             {
                 btnisvisible = false;
             }
-            if (CHKBXCheckUncheckNullNull == "true")
+            if (CHKBXChecked == "true")
             {
                 checkedvar = true;
             }
-            else if (CHKBXCheckUncheckNullNull == "false")
+            else if (CHKBXChecked == "false")
             {
                 checkedvar = false;
             }
-            if (CHKBXEnabledDisabledNull == "true")
+            if (CHKBXEnabled == "true")
             {
                 CHKBXEnabledDisabled = true;
             }
-            else if (CHKBXEnabledDisabledNull == "false")
+            else if (CHKBXEnabled == "false")
             {
                 CHKBXEnabledDisabled = false;
             }
-            if (CancelBTNVisableHiddenNull == "true")
+            if (CancelBTNVisable == "true")
             {
                 showcancelBTN = true;
             }
-            else if (CancelBTNVisableHiddenNull == "false")
+            else if (CancelBTNVisable == "false")
             {
                 showcancelBTN = false;
             }
-            if (prgsbrVisableHiddenNull == "true")
+            if (prgsbrVisable == "true")
             {
                 prgsbrVisableHidden = true;
             }
-            else if (prgsbrVisableHiddenNull == "false")
+            else if (prgsbrVisable == "false")
             {
                 prgsbrVisableHidden = false;
             }
@@ -1736,434 +1806,434 @@ namespace ToolDeployment
 
             if (fileexename == ccleanervar)
             {
-                if (BTNcolorNull != null) { ccbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { ccbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { ccbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { ccbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { CcleanerChkBX.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { CcleanerChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { ccbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { ccbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { ccbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { ccbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { CcleanerChkBX.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { CcleanerChkBX.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (CcleanerChkBX.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { cclcanclebtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { CCprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { cclcanclebtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { CCprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == jrtvar)
             {
-                if (BTNcolorNull != null) { JRTbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { JRTbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { JRTbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { JRTbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { JRTChkBX.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { JRTChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { JRTbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { JRTbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { JRTbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { JRTbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { JRTChkBX.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { JRTChkBX.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (JRTChkBX.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { JRTcanclebtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { JRTprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { JRTcanclebtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { JRTprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == adwvar)
             {
 
-                if (BTNcolorNull != null) { ADWbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { ADWbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { ADWbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { ADWbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { ADWChkBX.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { ADWChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { ADWbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { ADWbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { ADWbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { ADWbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { ADWChkBX.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { ADWChkBX.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (ADWChkBX.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { ADWcanclebtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { ADWprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { ADWcanclebtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { ADWprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == mbamvar)
             {
-                if (BTNcolorNull != null) { MBAMbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { MBAMbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { MBAMbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { MBAMbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { MbamChkBx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { MbamChkBx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { MBAMbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { MBAMbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { MBAMbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { MBAMbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { MbamChkBx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { MbamChkBx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (MbamChkBx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { MBAMcnaclebtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { MBAMprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { MBAMcnaclebtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { MBAMprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == hitmanx32var || fileexename == hitmanx64var)
             {
-                if (BTNcolorNull != null) { Hitmanbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { Hitmanbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { Hitmanbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { Hitmanbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { HitmanChkBX.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { HitmanChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { Hitmanbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { Hitmanbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { Hitmanbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { Hitmanbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { HitmanChkBX.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { HitmanChkBX.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (HitmanChkBX.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { Hitmancanclebtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { Hitmanprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { Hitmancanclebtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { Hitmanprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == nintievar)
             {
-                if (BTNcolorNull != null) { ninitebtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { ninitebtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { ninitebtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { ninitebtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { NiniteChkBX.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { NiniteChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { ninitebtn.ForeColor = btncolor; }
+                if (BTNtext != null) { ninitebtn.Text = BTNtext; }
+                if (BTNEnabled != null) { ninitebtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { ninitebtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { NiniteChkBX.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { NiniteChkBX.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (NiniteChkBX.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { ninitecanclebtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { niniteprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { ninitecanclebtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { niniteprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == mbaevar)
             {
-                if (BTNcolorNull != null) { MBAEbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { MBAEbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { MBAEbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { MBAEbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { MBAEChkBx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { MBAEChkBx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { MBAEbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { MBAEbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { MBAEbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { MBAEbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { MBAEChkBx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { MBAEChkBx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (MBAEChkBx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { MBAEcancelbutton.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { MBAEprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { MBAEcancelbutton.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { MBAEprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == uncheckvar)
             {
-                if (BTNcolorNull != null) { Unchkbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { Unchkbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { Unchkbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { Unchkbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { UncheckyChkBX.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { UncheckyChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { Unchkbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { Unchkbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { Unchkbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { Unchkbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { UncheckyChkBX.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { UncheckyChkBX.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (UncheckyChkBX.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { Uncheckycanclebtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { unchkprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { Uncheckycanclebtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { unchkprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == abpievar)
             {
-                if (BTNcolorNull != null) { ABPbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { ABPbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { ABPbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { ABPbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { ABPIEChkBX.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { ABPIEChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { ABPbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { ABPbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { ABPbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { ABPbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { ABPIEChkBX.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { ABPIEChkBX.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (ABPIEChkBX.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { ABPcanclebtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { APBprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { ABPcanclebtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { APBprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == AVG2014var)
             {
-                if (BTNcolorNull != null) { AVGbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { AVGbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { AVGbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { AVGbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { AVG2014ChkBX.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { AVG2014ChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { AVGbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { AVGbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { AVGbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { AVGbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { AVG2014ChkBX.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { AVG2014ChkBX.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (AVG2014ChkBX.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { AVGcanclebtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { AVGprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { AVGcanclebtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { AVGprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == callingcardvar)
             {
-                if (BTNcolorNull != null) { callingcardbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { callingcardbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { callingcardbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { callingcardbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { callingcardchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { callingcardchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { callingcardbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { callingcardbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { callingcardbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { callingcardbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { callingcardchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { callingcardchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (callingcardchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { callingcardcancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { callingcardprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { callingcardcancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { callingcardprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == killemallvar)
             {
-                if (BTNcolorNull != null) { killemallbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { killemallbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { killemallbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { killemallbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { killemallchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { killemallchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { killemallbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { killemallbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { killemallbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { killemallbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { killemallchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { killemallchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (killemallchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { killemallcancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { killemallprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { killemallcancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { killemallprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == rkillvar)
             {
-                if (BTNcolorNull != null) { rkillbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { rkillbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { rkillbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { rkillbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { rkillchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { rkillchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { rkillbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { rkillbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { rkillbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { rkillbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { rkillchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { rkillchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (rkillchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { rkillcancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { rkillprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { rkillcancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { rkillprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == autorunsvar)
             {
-                if (BTNcolorNull != null) { autorunsbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { autorunsbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { autorunsbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { autorunsbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { autorunschkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { autorunschkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { autorunsbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { autorunsbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { autorunsbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { autorunsbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { autorunschkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { autorunschkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (autorunschkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { autorunscancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { autorunsprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { autorunscancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { autorunsprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == tdssvar)
             {
-                if (BTNcolorNull != null) { tdssbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { tdssbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { tdssbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { tdssbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { tdsschkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { tdsschkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { tdssbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { tdssbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { tdssbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { tdssbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { tdsschkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { tdsschkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (tdsschkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { tdsscancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { tdssprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { tdsscancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { tdssprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == superaintivar)
             {
-                if (BTNcolorNull != null) { superantibtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { superantibtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { superantibtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { superantibtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { superantichkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { superantichkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { superantibtn.ForeColor = btncolor; }
+                if (BTNtext != null) { superantibtn.Text = BTNtext; }
+                if (BTNEnabled != null) { superantibtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { superantibtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { superantichkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { superantichkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (superantichkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { superanticancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { superantiprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { superanticancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { superantiprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == tweakingtoolsvar)
             {
-                if (BTNcolorNull != null) { tweakingtoolsbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { tweakingtoolsbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { tweakingtoolsbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { tweakingtoolsbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { tweakikngtookschkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { tweakikngtookschkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { tweakingtoolsbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { tweakingtoolsbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { tweakingtoolsbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { tweakingtoolsbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { tweakikngtookschkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { tweakikngtookschkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (tweakikngtookschkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { tweakingtoolscancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { tweakingtoolsprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { tweakingtoolscancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { tweakingtoolsprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == avgremovalvar)
             {
-                if (BTNcolorNull != null) { avgremovalbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { avgremovalbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { avgremovalbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { avgremovalbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { avgremovalchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { avgremovalchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { avgremovalbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { avgremovalbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { avgremovalbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { avgremovalbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { avgremovalchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { avgremovalchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (avgremovalchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { avgremovalcancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { avgremovalprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { avgremovalcancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { avgremovalprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == sfcvar)
             {
-                if (BTNcolorNull != null) { sfcbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { sfcbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { sfcbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { sfcbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { sfcchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { sfcchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { sfcbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { sfcbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { sfcbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { sfcbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { sfcchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { sfcchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (sfcchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { sfccancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { sfcprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { sfccancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { sfcprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == revelationsvar)
             {
-                if (BTNcolorNull != null) { revelationbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { revelationbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { revelationbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { revelationbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { revelationchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { revelationchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { revelationbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { revelationbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { revelationbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { revelationbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { revelationchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { revelationchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (revelationchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { revelationscancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { revelationprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { revelationscancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { revelationprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == nortonremovalvar)
             {
-                if (BTNcolorNull != null) { nortonremovalbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { nortonremovalbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { nortonremovalbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { nortonremovalbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { nortonremovalchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { nortonremovalchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { nortonremovalbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { nortonremovalbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { nortonremovalbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { nortonremovalbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { nortonremovalchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { nortonremovalchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (nortonremovalchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { nortonremovalcancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { nortonremovalprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { nortonremovalcancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { nortonremovalprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == mcafferemovalvar)
             {
-                if (BTNcolorNull != null) { mcafeeremovalbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { mcafeeremovalbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { mcafeeremovalbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { mcafeeremovalbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { mcafferemovalchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { mcafferemovalchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { mcafeeremovalbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { mcafeeremovalbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { mcafeeremovalbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { mcafeeremovalbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { mcafferemovalchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { mcafferemovalchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (mcafferemovalchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { mcafferemovalcancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { mcafferemovalprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { mcafferemovalcancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { mcafferemovalprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == roguekiller32var || fileexename == roguekiller64var)
             {
-                if (BTNcolorNull != null) { roguekillerbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { roguekillerbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { roguekillerbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { roguekillerbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { roguekillerchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { roguekillerchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { roguekillerbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { roguekillerbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { roguekillerbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { roguekillerbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { roguekillerchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { roguekillerchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (roguekillerchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { roguekillercancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { roguekillerprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { roguekillercancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { roguekillerprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == Esetvar)
             {
-                if (BTNcolorNull != null) { esetbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { esetbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { esetbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { esetbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { esetchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { esetchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { esetbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { esetbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { esetbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { esetbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { esetchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { esetchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (esetchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { esetcancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { esetprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { esetcancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { esetprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == produkeyvar)
             {
-                if (BTNcolorNull != null) { produkeybtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { produkeybtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { produkeybtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { produkeybtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { produkeychkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { produkeychkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { produkeybtn.ForeColor = btncolor; }
+                if (BTNtext != null) { produkeybtn.Text = BTNtext; }
+                if (BTNEnabled != null) { produkeybtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { produkeybtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { produkeychkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { produkeychkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (produkeychkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { produkeycancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { produkeyprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { produkeycancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { produkeyprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == hjtvar)
             {
-                if (BTNcolorNull != null) { hjtbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { hjtbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { hjtbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { hjtbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { hjtchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { hjtchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { hjtbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { hjtbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { hjtbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { hjtbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { hjtchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { hjtchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (hjtchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { hjtcancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { hjtprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { hjtcancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { hjtprgsbr.Visible = prgsbrVisableHidden; }
 
             }
             if (fileexename == pcdecrapvar)
             {
-                if (BTNcolorNull != null) { pcdecrapbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { pcdecrapbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { pcdecrapbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { pcdecrapbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { pcdecrapchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { pcdecrapchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { pcdecrapbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { pcdecrapbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { pcdecrapbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { pcdecrapbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { pcdecrapchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { pcdecrapchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (pcdecrapchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { pcdecrapcancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { pcdecrapprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { pcdecrapcancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { pcdecrapprgsbr.Visible = prgsbrVisableHidden; }
             }
 
             if (fileexename == revovar)
             {
 
-                if (BTNcolorNull != null) { revobtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { revobtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { revobtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { revobtn.Visible = btnisvisible; }
+                if (BTNcolor != null) { revobtn.ForeColor = btncolor; }
+                if (BTNtext != null) { revobtn.Text = BTNtext; }
+                if (BTNEnabled != null) { revobtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { revobtn.Visible = btnisvisible; }
 
-                if (CHKBXCheckUncheckNullNull != null) { revochkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { revochkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXChecked != null) { revochkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { revochkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (revochkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { revocancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { revoprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { revocancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { revoprgsbr.Visible = prgsbrVisableHidden; }
             }
             if (fileexename == chromevar)
             {
 
-                if (BTNcolorNull != null) { chromebtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { chromebtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { chromebtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { chromebtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { chromechkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { chromechkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { chromebtn.ForeColor = btncolor; }
+                if (BTNtext != null) { chromebtn.Text = BTNtext; }
+                if (BTNEnabled != null) { chromebtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { chromebtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { chromechkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { chromechkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (chromechkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { chromecancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { chromeprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { chromecancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { chromeprgsbr.Visible = prgsbrVisableHidden; }
             }
             if (fileexename == classicsrtvar)
             {
 
-                if (BTNcolorNull != null) { classicbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { classicbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { classicbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { classicbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { classicchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { classicchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { classicbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { classicbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { classicbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { classicbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { classicchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { classicchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (classicchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { classiccancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { classicprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { classiccancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { classicprgsbr.Visible = prgsbrVisableHidden; }
             }
             if (fileexename == teamvar)
             {
 
-                if (BTNcolorNull != null) { teambtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { teambtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { teambtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { teambtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { teamchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { teamchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { teambtn.ForeColor = btncolor; }
+                if (BTNtext != null) { teambtn.Text = BTNtext; }
+                if (BTNEnabled != null) { teambtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { teambtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { teamchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { teamchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (teamchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { teamcancelbr.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { teamprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { teamcancelbr.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { teamprgsbr.Visible = prgsbrVisableHidden; }
             }
             if (fileexename == readervar)
             {
 
-                if (BTNcolorNull != null) { readerbtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { readerbtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { readerbtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { readerbtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { readerchkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { readerchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { readerbtn.ForeColor = btncolor; }
+                if (BTNtext != null) { readerbtn.Text = BTNtext; }
+                if (BTNEnabled != null) { readerbtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { readerbtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { readerchkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { readerchkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (readerchkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { readercancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { readerprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { readercancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { readerprgsbr.Visible = prgsbrVisableHidden; }
             }
             if (fileexename == libraofficevar)
             {
 
-                if (BTNcolorNull != null) { librebtn.ForeColor = btncolor; }
-                if (BTNtextNull != null) { librebtn.Text = BTNtextNull; }
-                if (BTNEnabledDisabledNull != null) { librebtn.Enabled = enablebutton; }
-                if (BTNVisibleHiddenNull != null) { librebtn.Visible = btnisvisible; }
-                if (CHKBXCheckUncheckNullNull != null) { librachkbx.Checked = checkedvar; }
-                if (CHKBXEnabledDisabledNull != null) { librachkbx.Enabled = CHKBXEnabledDisabled; }
+                if (BTNcolor != null) { librebtn.ForeColor = btncolor; }
+                if (BTNtext != null) { librebtn.Text = BTNtext; }
+                if (BTNEnabled != null) { librebtn.Enabled = enablebutton; }
+                if (BTNVisible != null) { librebtn.Visible = btnisvisible; }
+                if (CHKBXChecked != null) { librachkbx.Checked = checkedvar; }
+                if (CHKBXEnabled != null) { librachkbx.Enabled = CHKBXEnabledDisabled; }
                 if (returnischecked != null) { if (librachkbx.Checked) { return true; } }
-                if (CancelBTNVisableHiddenNull != null) { librecancelbtn.Visible = showcancelBTN; }
-                if (prgsbrVisableHiddenNull != null) { libreprgsbr.Visible = prgsbrVisableHidden; }
+                if (CancelBTNVisable != null) { librecancelbtn.Visible = showcancelBTN; }
+                if (prgsbrVisable != null) { libreprgsbr.Visible = prgsbrVisableHidden; }
             }
             return false;
 
@@ -2190,247 +2260,165 @@ namespace ToolDeployment
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            wascancled.Add(ccleanervar);
-            ((Control)sender).Visible = false;
-            CCprgsbr.Visible = false;
-            CcleanerChkBX.Checked = false;
+            deletefileorcancle(ccleanervar);
         }
 
         private void JRTcanclebtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(jrtvar);
-            ((Control)sender).Visible = false;
-            JRTprgsbr.Visible = false;
-            JRTChkBX.Checked = false;
+            deletefileorcancle(jrtvar);
         }
 
         private void ADWcanclebtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(adwvar);
-            ((Control)sender).Visible = false;
-            ADWprgsbr.Visible = false;
-            ADWChkBX.Checked = false;
+            deletefileorcancle(adwvar);
         }
 
         private void MBAMcnaclebtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(mbamvar);
-            ((Control)sender).Visible = false;
-            MBAMprgsbr.Visible = false;
-            MbamChkBx.Checked = false;
+            deletefileorcancle(mbamvar);
 
         }
 
         private void Hitmancanclebtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(hitmanx32var);
-            wascancled.Add(hitmanx64var);
-            ((Control)sender).Visible = false;
-            Hitmanprgsbr.Visible = false;
-            HitmanChkBX.Checked = false;
+            deletefileorcancle(hitmanx32var);
+            deletefileorcancle(hitmanx64var);
         }
 
         private void ninitecanclebtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(nintievar);
-            ((Control)sender).Visible = false;
-            niniteprgsbr.Visible = false;
-            NiniteChkBX.Checked = false;
+            deletefileorcancle(nintievar);
         }
 
         private void MBAEcancelbutton_Click(object sender, EventArgs e)
         {
-            wascancled.Add(mbaevar);
-            ((Control)sender).Visible = false;
-            MBAEprgsbr.Visible = false;
-            MBAEChkBx.Checked = false;
+            deletefileorcancle(mbaevar);
         }
 
         private void Uncheckycanclebtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(uncheckvar);
-            ((Control)sender).Visible = false;
-            unchkprgsbr.Visible = false;
-            UncheckyChkBX.Checked = false;
+
+            deletefileorcancle(uncheckvar);
         }
 
         private void AVGcanclebtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(AVG2014var);
-            ((Control)sender).Visible = false;
-            AVGprgsbr.Visible = false;
-            AVG2014ChkBX.Checked = false;
+            deletefileorcancle(AVG2014var);
         }
 
 
         private void ABPcanclebtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(abpievar);
-            ((Control)sender).Visible = false;
-            APBprgsbr.Visible = false;
-            ABPIEChkBX.Checked = false;
+
+            deletefileorcancle(abpievar);
         }
 
         private void tdsscancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(tdssvar);
-            ((Control)sender).Visible = false;
-            tdssprgsbr.Visible = false;
-            tdsschkbx.Checked = false;
+            deletefileorcancle(tdssvar);
         }
 
         private void superanticancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(superaintivar);
-            ((Control)sender).Visible = false;
-            superantiprgsbr.Visible = false;
-            superantichkbx.Checked = false;
+            deletefileorcancle(superaintivar);
         }
 
         private void tweakingtoolscancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(tweakingtoolsvar);
-            ((Control)sender).Visible = false;
-            tweakingtoolsprgsbr.Visible = false;
+            deletefileorcancle(tweakingtoolsvar);
         }
 
         private void simplesystemcancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(avgremovalvar);
-            ((Control)sender).Visible = false;
-            avgremovalprgsbr.Visible = false;
-            avgremovalchkbx.Checked = false;
+            deletefileorcancle(avgremovalvar);
         }
 
         private void sfccancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(sfcvar);
-            ((Control)sender).Visible = false;
+            deletefileorcancle(sfcvar);
         }
 
         private void revelationscancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(revelationsvar);
-            ((Control)sender).Visible = false;
-            revelationprgsbr.Visible = false;
-            revelationchkbx.Checked = false;
+            deletefileorcancle(revelationsvar);
         }
 
         private void nortonremovalcancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(nortonremovalvar);
-            ((Control)sender).Visible = false;
-            nortonremovalprgsbr.Visible = false;
-            nortonremovalchkbx.Checked = false;
+            deletefileorcancle(nortonremovalvar);
         }
 
         private void mcafferemovalcancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(mcafferemovalvar);
-            ((Control)sender).Visible = false;
-            mcafferemovalprgsbr.Visible = false;
-            mcafferemovalchkbx.Checked = false;
+            deletefileorcancle(mcafferemovalvar);
         }
 
         private void roguekillercancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(roguekiller32var);
-            wascancled.Add(roguekiller64var);
-            ((Control)sender).Visible = false;
-            roguekillerprgsbr.Visible = false;
-            roguekillerchkbx.Checked = false;
+            deletefileorcancle(roguekiller32var);
+            deletefileorcancle(roguekiller64var);
         }
 
         private void esetcancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(Esetvar);
-            ((Control)sender).Visible = false;
-            esetprgsbr.Visible = false;
-            esetchkbx.Checked = false;
+            deletefileorcancle(Esetvar);
         }
 
         private void produkeycancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(produkeyvar);
-            ((Control)sender).Visible = false;
-            produkeyprgsbr.Visible = false;
-            produkeychkbx.Checked = false;
+            deletefileorcancle(produkeyvar);
         }
 
         private void killemallcancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(killemallvar);
-            ((Control)sender).Visible = false;
-            killemallprgsbr.Visible = false;
+            deletefileorcancle(killemallvar);
         }
 
         private void rkillcancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(rkillvar);
-            ((Control)sender).Visible = false;
-            rkillprgsbr.Visible = false;
-            rkillchkbx.Checked = false;
+            deletefileorcancle(rkillvar);
         }
 
         private void autorunscancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(autorunsvar);
-            ((Control)sender).Visible = false;
-            autorunsprgsbr.Visible = false;
-            autorunschkbx.Checked = false;
+            deletefileorcancle(autorunsvar);
         }
         private void hjtcancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(hjtvar);
-            ((Control)sender).Visible = false;
-            hjtprgsbr.Visible = false;
+            deletefileorcancle(hjtvar);
         }
         private void pcdecrapcancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(pcdecrapvar);
-            ((Control)sender).Visible = false;
-            pcdecrapprgsbr.Visible = false;
+            deletefileorcancle(pcdecrapvar);
         }
         private void revocancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(revovar);
-            ((Control)sender).Visible = false;
-            revoprgsbr.Visible = false;
+            deletefileorcancle(revovar);
         }
 
         private void chromecancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(chromevar);
-            ((Control)sender).Visible = false;
-            chromeprgsbr.Visible = false;
+            deletefileorcancle(chromevar);
         }
 
         private void readercancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(readervar);
-            ((Control)sender).Visible = false;
-            readerprgsbr.Visible = false;
+            deletefileorcancle(readervar);
         }
 
         private void librecancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(libraofficevar);
-            ((Control)sender).Visible = false;
-            libreprgsbr.Visible = false;
+            deletefileorcancle(libraofficevar);
         }
 
         private void classiccancelbtn_Click(object sender, EventArgs e)
         {
-            wascancled.Add(classicsrtvar);
-            ((Control)sender).Visible = false;
-            classicprgsbr.Visible = false;
+            deletefileorcancle(classicsrtvar);
         }
 
         private void teamcancelbr_Click(object sender, EventArgs e)
         {
-            wascancled.Add(teamvar);
-            ((Control)sender).Visible = false;
-            teamprgsbr.Visible = false;
+            deletefileorcancle(teamvar);
         }
         #endregion
         #region Launch buttons
@@ -2741,10 +2729,22 @@ namespace ToolDeployment
          * */
         private void CF6Notes_KeyPress(object sender, KeyPressEventArgs e)
         {
+
             if (e.KeyChar == (char)13)
             {
                 this.ActiveControl = logwindow;
                 writesaveddata();
+            }
+        }
+        private void passwordenterbutton(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                if (textBox1.Text == password)
+                {
+                    unlockstuff();
+                    loadeverything();
+                }
             }
         }
         private void resetStageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2964,6 +2964,15 @@ namespace ToolDeployment
         }
 
         #endregion
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text == password)
+            {
+                unlockstuff();
+                loadeverything();
+            }
+        }
         #region So much fail
         /* // This is just my attempt at using Windows API... still trying to figure that one out.
         private void testautomation()
