@@ -29,6 +29,7 @@ namespace ToolDeployment
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.CcleanerChkBX = new System.Windows.Forms.CheckBox();
             this.JRTChkBX = new System.Windows.Forms.CheckBox();
@@ -268,12 +269,17 @@ namespace ToolDeployment
             this.classiccancelbtn = new System.Windows.Forms.Button();
             this.classicchkbx = new System.Windows.Forms.CheckBox();
             this.classicbtn = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.Extras.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // CcleanerChkBX
@@ -355,7 +361,7 @@ namespace ToolDeployment
             this.AVG2014ChkBX.Name = "AVG2014ChkBX";
             this.AVG2014ChkBX.Size = new System.Drawing.Size(75, 17);
             this.AVG2014ChkBX.TabIndex = 1;
-            this.AVG2014ChkBX.Text = "AVG 2014";
+            this.AVG2014ChkBX.Text = "AVG 2015";
             this.AVG2014ChkBX.UseVisualStyleBackColor = true;
             // 
             // NiniteChkBX
@@ -428,15 +434,17 @@ namespace ToolDeployment
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Standard Tools";
+            this.groupBox1.Visible = false;
             // 
             // ninitecanclebtn
             // 
             this.ninitecanclebtn.FlatAppearance.BorderSize = 0;
             this.ninitecanclebtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.ninitecanclebtn.Location = new System.Drawing.Point(93, 126);
+            this.ninitecanclebtn.Location = new System.Drawing.Point(96, 126);
             this.ninitecanclebtn.Name = "ninitecanclebtn";
             this.ninitecanclebtn.Size = new System.Drawing.Size(20, 20);
             this.ninitecanclebtn.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.ninitecanclebtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.ninitecanclebtn.UseVisualStyleBackColor = true;
             this.ninitecanclebtn.Visible = false;
             this.ninitecanclebtn.Click += new System.EventHandler(this.ninitecanclebtn_Click);
@@ -445,10 +453,11 @@ namespace ToolDeployment
             // 
             this.Hitmancanclebtn.FlatAppearance.BorderSize = 0;
             this.Hitmancanclebtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.Hitmancanclebtn.Location = new System.Drawing.Point(93, 104);
+            this.Hitmancanclebtn.Location = new System.Drawing.Point(96, 104);
             this.Hitmancanclebtn.Name = "Hitmancanclebtn";
             this.Hitmancanclebtn.Size = new System.Drawing.Size(20, 20);
             this.Hitmancanclebtn.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.Hitmancanclebtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.Hitmancanclebtn.UseVisualStyleBackColor = true;
             this.Hitmancanclebtn.Visible = false;
             this.Hitmancanclebtn.Click += new System.EventHandler(this.Hitmancanclebtn_Click);
@@ -457,10 +466,11 @@ namespace ToolDeployment
             // 
             this.MBAMcnaclebtn.FlatAppearance.BorderSize = 0;
             this.MBAMcnaclebtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.MBAMcnaclebtn.Location = new System.Drawing.Point(93, 82);
+            this.MBAMcnaclebtn.Location = new System.Drawing.Point(96, 82);
             this.MBAMcnaclebtn.Name = "MBAMcnaclebtn";
             this.MBAMcnaclebtn.Size = new System.Drawing.Size(20, 20);
             this.MBAMcnaclebtn.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.MBAMcnaclebtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.MBAMcnaclebtn.UseVisualStyleBackColor = true;
             this.MBAMcnaclebtn.Visible = false;
             this.MBAMcnaclebtn.Click += new System.EventHandler(this.MBAMcnaclebtn_Click);
@@ -469,10 +479,11 @@ namespace ToolDeployment
             // 
             this.ADWcanclebtn.FlatAppearance.BorderSize = 0;
             this.ADWcanclebtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.ADWcanclebtn.Location = new System.Drawing.Point(93, 60);
+            this.ADWcanclebtn.Location = new System.Drawing.Point(96, 60);
             this.ADWcanclebtn.Name = "ADWcanclebtn";
             this.ADWcanclebtn.Size = new System.Drawing.Size(20, 20);
             this.ADWcanclebtn.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.ADWcanclebtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.ADWcanclebtn.UseVisualStyleBackColor = true;
             this.ADWcanclebtn.Visible = false;
             this.ADWcanclebtn.Click += new System.EventHandler(this.ADWcanclebtn_Click);
@@ -481,10 +492,11 @@ namespace ToolDeployment
             // 
             this.JRTcanclebtn.FlatAppearance.BorderSize = 0;
             this.JRTcanclebtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.JRTcanclebtn.Location = new System.Drawing.Point(93, 38);
+            this.JRTcanclebtn.Location = new System.Drawing.Point(96, 38);
             this.JRTcanclebtn.Name = "JRTcanclebtn";
             this.JRTcanclebtn.Size = new System.Drawing.Size(20, 20);
             this.JRTcanclebtn.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.JRTcanclebtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.JRTcanclebtn.UseVisualStyleBackColor = true;
             this.JRTcanclebtn.Visible = false;
             this.JRTcanclebtn.Click += new System.EventHandler(this.JRTcanclebtn_Click);
@@ -493,10 +505,11 @@ namespace ToolDeployment
             // 
             this.cclcanclebtn.FlatAppearance.BorderSize = 0;
             this.cclcanclebtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.cclcanclebtn.Location = new System.Drawing.Point(93, 16);
+            this.cclcanclebtn.Location = new System.Drawing.Point(96, 16);
             this.cclcanclebtn.Name = "cclcanclebtn";
             this.cclcanclebtn.Size = new System.Drawing.Size(20, 20);
             this.cclcanclebtn.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.cclcanclebtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.cclcanclebtn.UseVisualStyleBackColor = true;
             this.cclcanclebtn.Visible = false;
             this.cclcanclebtn.Click += new System.EventHandler(this.button1_Click);
@@ -504,11 +517,12 @@ namespace ToolDeployment
             // autorunscancelbtn
             // 
             this.autorunscancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.autorunscancelbtn.Location = new System.Drawing.Point(93, 192);
+            this.autorunscancelbtn.Location = new System.Drawing.Point(96, 192);
             this.autorunscancelbtn.Name = "autorunscancelbtn";
             this.autorunscancelbtn.Size = new System.Drawing.Size(20, 20);
             this.autorunscancelbtn.TabIndex = 8;
             this.autorunscancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.autorunscancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.autorunscancelbtn.UseVisualStyleBackColor = true;
             this.autorunscancelbtn.Visible = false;
             this.autorunscancelbtn.Click += new System.EventHandler(this.autorunscancelbtn_Click);
@@ -574,11 +588,12 @@ namespace ToolDeployment
             // killemallcancelbtn
             // 
             this.killemallcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.killemallcancelbtn.Location = new System.Drawing.Point(93, 148);
+            this.killemallcancelbtn.Location = new System.Drawing.Point(96, 148);
             this.killemallcancelbtn.Name = "killemallcancelbtn";
             this.killemallcancelbtn.Size = new System.Drawing.Size(20, 20);
             this.killemallcancelbtn.TabIndex = 8;
             this.killemallcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.killemallcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.killemallcancelbtn.UseVisualStyleBackColor = true;
             this.killemallcancelbtn.Visible = false;
             this.killemallcancelbtn.Click += new System.EventHandler(this.killemallcancelbtn_Click);
@@ -594,11 +609,12 @@ namespace ToolDeployment
             // rkillcancelbtn
             // 
             this.rkillcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.rkillcancelbtn.Location = new System.Drawing.Point(93, 170);
+            this.rkillcancelbtn.Location = new System.Drawing.Point(96, 170);
             this.rkillcancelbtn.Name = "rkillcancelbtn";
             this.rkillcancelbtn.Size = new System.Drawing.Size(20, 20);
             this.rkillcancelbtn.TabIndex = 8;
             this.rkillcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.rkillcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.rkillcancelbtn.UseVisualStyleBackColor = true;
             this.rkillcancelbtn.Visible = false;
             this.rkillcancelbtn.Click += new System.EventHandler(this.rkillcancelbtn_Click);
@@ -644,11 +660,12 @@ namespace ToolDeployment
             // hjtcancelbtn
             // 
             this.hjtcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.hjtcancelbtn.Location = new System.Drawing.Point(93, 214);
+            this.hjtcancelbtn.Location = new System.Drawing.Point(96, 214);
             this.hjtcancelbtn.Name = "hjtcancelbtn";
             this.hjtcancelbtn.Size = new System.Drawing.Size(20, 20);
             this.hjtcancelbtn.TabIndex = 8;
             this.hjtcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.hjtcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.hjtcancelbtn.UseVisualStyleBackColor = true;
             this.hjtcancelbtn.Visible = false;
             this.hjtcancelbtn.Click += new System.EventHandler(this.hjtcancelbtn_Click);
@@ -831,15 +848,17 @@ namespace ToolDeployment
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preventative Tools";
+            this.groupBox2.Visible = false;
             // 
             // ABPcanclebtn
             // 
             this.ABPcanclebtn.FlatAppearance.BorderSize = 0;
             this.ABPcanclebtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.ABPcanclebtn.Location = new System.Drawing.Point(93, 85);
+            this.ABPcanclebtn.Location = new System.Drawing.Point(96, 85);
             this.ABPcanclebtn.Name = "ABPcanclebtn";
             this.ABPcanclebtn.Size = new System.Drawing.Size(20, 20);
             this.ABPcanclebtn.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.ABPcanclebtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.ABPcanclebtn.UseVisualStyleBackColor = true;
             this.ABPcanclebtn.Visible = false;
             this.ABPcanclebtn.Click += new System.EventHandler(this.ABPcanclebtn_Click);
@@ -848,10 +867,11 @@ namespace ToolDeployment
             // 
             this.AVGcanclebtn.FlatAppearance.BorderSize = 0;
             this.AVGcanclebtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.AVGcanclebtn.Location = new System.Drawing.Point(93, 61);
+            this.AVGcanclebtn.Location = new System.Drawing.Point(96, 61);
             this.AVGcanclebtn.Name = "AVGcanclebtn";
             this.AVGcanclebtn.Size = new System.Drawing.Size(20, 20);
             this.AVGcanclebtn.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.AVGcanclebtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.AVGcanclebtn.UseVisualStyleBackColor = true;
             this.AVGcanclebtn.Visible = false;
             this.AVGcanclebtn.Click += new System.EventHandler(this.AVGcanclebtn_Click);
@@ -860,10 +880,11 @@ namespace ToolDeployment
             // 
             this.Uncheckycanclebtn.FlatAppearance.BorderSize = 0;
             this.Uncheckycanclebtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.Uncheckycanclebtn.Location = new System.Drawing.Point(93, 39);
+            this.Uncheckycanclebtn.Location = new System.Drawing.Point(96, 39);
             this.Uncheckycanclebtn.Name = "Uncheckycanclebtn";
             this.Uncheckycanclebtn.Size = new System.Drawing.Size(20, 20);
             this.Uncheckycanclebtn.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.Uncheckycanclebtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.Uncheckycanclebtn.UseVisualStyleBackColor = true;
             this.Uncheckycanclebtn.Visible = false;
             this.Uncheckycanclebtn.Click += new System.EventHandler(this.Uncheckycanclebtn_Click);
@@ -880,10 +901,11 @@ namespace ToolDeployment
             // 
             this.MBAEcancelbutton.FlatAppearance.BorderSize = 0;
             this.MBAEcancelbutton.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.MBAEcancelbutton.Location = new System.Drawing.Point(93, 16);
+            this.MBAEcancelbutton.Location = new System.Drawing.Point(96, 16);
             this.MBAEcancelbutton.Name = "MBAEcancelbutton";
             this.MBAEcancelbutton.Size = new System.Drawing.Size(20, 20);
             this.MBAEcancelbutton.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.MBAEcancelbutton, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.MBAEcancelbutton.UseVisualStyleBackColor = true;
             this.MBAEcancelbutton.Visible = false;
             this.MBAEcancelbutton.Click += new System.EventHandler(this.MBAEcancelbutton_Click);
@@ -978,7 +1000,7 @@ namespace ToolDeployment
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(470, 27);
+            this.menuStrip1.Size = new System.Drawing.Size(473, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.DoubleClick += new System.EventHandler(this.showCF6NotesToolStripMenuItem_Click);
@@ -1018,6 +1040,7 @@ namespace ToolDeployment
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(37, 23);
             this.toolsToolStripMenuItem.Text = "File";
+            this.toolsToolStripMenuItem.Visible = false;
             this.toolsToolStripMenuItem.DoubleClick += new System.EventHandler(this.toolsToolStripMenuItem_DoubleClick);
             // 
             // saveGreenButtonsToolStripMenuItem
@@ -1228,12 +1251,13 @@ namespace ToolDeployment
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
             this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Visible = false;
             this.helpToolStripMenuItem.DoubleClick += new System.EventHandler(this.helpToolStripMenuItem_DoubleClick);
             // 
             // googleToolStripMenuItem
             // 
             this.googleToolStripMenuItem.Name = "googleToolStripMenuItem";
-            this.googleToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.googleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.googleToolStripMenuItem.Text = "Google";
             this.googleToolStripMenuItem.Click += new System.EventHandler(this.googleToolStripMenuItem_Click);
             // 
@@ -1243,8 +1267,6 @@ namespace ToolDeployment
             this.CF6Notes.ForeColor = System.Drawing.Color.Black;
             this.CF6Notes.Name = "CF6Notes";
             this.CF6Notes.Size = new System.Drawing.Size(375, 23);
-            this.CF6Notes.Text = "MS:?|Apz:?|TMP:?|REG:?|JRT:?|ADW:?|MB:?|SFC:?|CD:?|HM:? || APB:?|Unchk:?|Mbae:?|A" +
-    "VG:?|WU:?|NN:?";
             this.CF6Notes.ToolTipText = "Use this to track and save the results of your scans. ";
             this.CF6Notes.Visible = false;
             this.CF6Notes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CF6Notes_KeyPress);
@@ -1258,6 +1280,7 @@ namespace ToolDeployment
             this.DeployBTN.TabIndex = 6;
             this.DeployBTN.Text = "Download Selected Tools";
             this.DeployBTN.UseVisualStyleBackColor = true;
+            this.DeployBTN.Visible = false;
             this.DeployBTN.Click += new System.EventHandler(this.DeployBTN_Click);
             // 
             // DeployAllBTN
@@ -1269,6 +1292,7 @@ namespace ToolDeployment
             this.DeployAllBTN.TabIndex = 6;
             this.DeployAllBTN.Text = "Download Standard Tools";
             this.DeployAllBTN.UseVisualStyleBackColor = true;
+            this.DeployAllBTN.Visible = false;
             this.DeployAllBTN.Click += new System.EventHandler(this.DeployAllBTN_Click);
             // 
             // groupBox3
@@ -1289,15 +1313,17 @@ namespace ToolDeployment
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Remote Connections";
+            this.groupBox3.Visible = false;
             // 
             // callingcardcancelbtn
             // 
             this.callingcardcancelbtn.FlatAppearance.BorderSize = 0;
             this.callingcardcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.callingcardcancelbtn.Location = new System.Drawing.Point(93, 15);
+            this.callingcardcancelbtn.Location = new System.Drawing.Point(96, 15);
             this.callingcardcancelbtn.Name = "callingcardcancelbtn";
             this.callingcardcancelbtn.Size = new System.Drawing.Size(20, 20);
             this.callingcardcancelbtn.TabIndex = 10;
+            this.toolTip1.SetToolTip(this.callingcardcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.callingcardcancelbtn.UseVisualStyleBackColor = true;
             this.callingcardcancelbtn.Visible = false;
             this.callingcardcancelbtn.Click += new System.EventHandler(this.button1_Click_1);
@@ -1356,11 +1382,12 @@ namespace ToolDeployment
             // teamcancelbr
             // 
             this.teamcancelbr.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.teamcancelbr.Location = new System.Drawing.Point(93, 37);
+            this.teamcancelbr.Location = new System.Drawing.Point(96, 36);
             this.teamcancelbr.Name = "teamcancelbr";
             this.teamcancelbr.Size = new System.Drawing.Size(20, 21);
             this.teamcancelbr.TabIndex = 8;
             this.teamcancelbr.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.teamcancelbr, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.teamcancelbr.UseVisualStyleBackColor = true;
             this.teamcancelbr.Visible = false;
             this.teamcancelbr.Click += new System.EventHandler(this.teamcancelbr_Click);
@@ -1387,16 +1414,18 @@ namespace ToolDeployment
             this.button2.TabIndex = 0;
             this.button2.Text = "Download All Tools";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // esetcancelbtn
             // 
             this.esetcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.esetcancelbtn.Location = new System.Drawing.Point(97, 146);
+            this.esetcancelbtn.Location = new System.Drawing.Point(103, 146);
             this.esetcancelbtn.Name = "esetcancelbtn";
             this.esetcancelbtn.Size = new System.Drawing.Size(20, 20);
             this.esetcancelbtn.TabIndex = 8;
             this.esetcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.esetcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.esetcancelbtn.UseVisualStyleBackColor = true;
             this.esetcancelbtn.Visible = false;
             this.esetcancelbtn.Click += new System.EventHandler(this.esetcancelbtn_Click);
@@ -1427,11 +1456,12 @@ namespace ToolDeployment
             // tdsscancelbtn
             // 
             this.tdsscancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.tdsscancelbtn.Location = new System.Drawing.Point(97, 14);
+            this.tdsscancelbtn.Location = new System.Drawing.Point(103, 14);
             this.tdsscancelbtn.Name = "tdsscancelbtn";
             this.tdsscancelbtn.Size = new System.Drawing.Size(20, 20);
             this.tdsscancelbtn.TabIndex = 8;
             this.tdsscancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.tdsscancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.tdsscancelbtn.UseVisualStyleBackColor = true;
             this.tdsscancelbtn.Visible = false;
             this.tdsscancelbtn.Click += new System.EventHandler(this.tdsscancelbtn_Click);
@@ -1462,11 +1492,12 @@ namespace ToolDeployment
             // superanticancelbtn
             // 
             this.superanticancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.superanticancelbtn.Location = new System.Drawing.Point(97, 36);
+            this.superanticancelbtn.Location = new System.Drawing.Point(103, 36);
             this.superanticancelbtn.Name = "superanticancelbtn";
             this.superanticancelbtn.Size = new System.Drawing.Size(20, 20);
             this.superanticancelbtn.TabIndex = 8;
             this.superanticancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.superanticancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.superanticancelbtn.UseVisualStyleBackColor = true;
             this.superanticancelbtn.Visible = false;
             this.superanticancelbtn.Click += new System.EventHandler(this.superanticancelbtn_Click);
@@ -1497,11 +1528,12 @@ namespace ToolDeployment
             // tweakingtoolscancelbtn
             // 
             this.tweakingtoolscancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.tweakingtoolscancelbtn.Location = new System.Drawing.Point(97, 58);
+            this.tweakingtoolscancelbtn.Location = new System.Drawing.Point(103, 58);
             this.tweakingtoolscancelbtn.Name = "tweakingtoolscancelbtn";
             this.tweakingtoolscancelbtn.Size = new System.Drawing.Size(20, 20);
             this.tweakingtoolscancelbtn.TabIndex = 8;
             this.tweakingtoolscancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.tweakingtoolscancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.tweakingtoolscancelbtn.UseVisualStyleBackColor = true;
             this.tweakingtoolscancelbtn.Visible = false;
             this.tweakingtoolscancelbtn.Click += new System.EventHandler(this.tweakingtoolscancelbtn_Click);
@@ -1532,11 +1564,12 @@ namespace ToolDeployment
             // avgremovalcancelbtn
             // 
             this.avgremovalcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.avgremovalcancelbtn.Location = new System.Drawing.Point(97, 213);
+            this.avgremovalcancelbtn.Location = new System.Drawing.Point(103, 213);
             this.avgremovalcancelbtn.Name = "avgremovalcancelbtn";
             this.avgremovalcancelbtn.Size = new System.Drawing.Size(20, 20);
             this.avgremovalcancelbtn.TabIndex = 8;
             this.avgremovalcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.avgremovalcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.avgremovalcancelbtn.UseVisualStyleBackColor = true;
             this.avgremovalcancelbtn.Visible = false;
             this.avgremovalcancelbtn.Click += new System.EventHandler(this.simplesystemcancelbtn_Click);
@@ -1567,11 +1600,12 @@ namespace ToolDeployment
             // sfccancelbtn
             // 
             this.sfccancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.sfccancelbtn.Location = new System.Drawing.Point(97, 102);
+            this.sfccancelbtn.Location = new System.Drawing.Point(103, 102);
             this.sfccancelbtn.Name = "sfccancelbtn";
             this.sfccancelbtn.Size = new System.Drawing.Size(20, 20);
             this.sfccancelbtn.TabIndex = 8;
             this.sfccancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.sfccancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.sfccancelbtn.UseVisualStyleBackColor = true;
             this.sfccancelbtn.Visible = false;
             this.sfccancelbtn.Click += new System.EventHandler(this.sfccancelbtn_Click);
@@ -1602,11 +1636,12 @@ namespace ToolDeployment
             // revelationscancelbtn
             // 
             this.revelationscancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.revelationscancelbtn.Location = new System.Drawing.Point(97, 124);
+            this.revelationscancelbtn.Location = new System.Drawing.Point(103, 124);
             this.revelationscancelbtn.Name = "revelationscancelbtn";
             this.revelationscancelbtn.Size = new System.Drawing.Size(20, 20);
             this.revelationscancelbtn.TabIndex = 8;
             this.revelationscancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.revelationscancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.revelationscancelbtn.UseVisualStyleBackColor = true;
             this.revelationscancelbtn.Visible = false;
             this.revelationscancelbtn.Click += new System.EventHandler(this.revelationscancelbtn_Click);
@@ -1637,11 +1672,12 @@ namespace ToolDeployment
             // nortonremovalcancelbtn
             // 
             this.nortonremovalcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.nortonremovalcancelbtn.Location = new System.Drawing.Point(97, 257);
+            this.nortonremovalcancelbtn.Location = new System.Drawing.Point(103, 257);
             this.nortonremovalcancelbtn.Name = "nortonremovalcancelbtn";
             this.nortonremovalcancelbtn.Size = new System.Drawing.Size(20, 20);
             this.nortonremovalcancelbtn.TabIndex = 8;
             this.nortonremovalcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.nortonremovalcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.nortonremovalcancelbtn.UseVisualStyleBackColor = true;
             this.nortonremovalcancelbtn.Visible = false;
             this.nortonremovalcancelbtn.Click += new System.EventHandler(this.nortonremovalcancelbtn_Click);
@@ -1672,11 +1708,12 @@ namespace ToolDeployment
             // mcafferemovalcancelbtn
             // 
             this.mcafferemovalcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.mcafferemovalcancelbtn.Location = new System.Drawing.Point(97, 235);
+            this.mcafferemovalcancelbtn.Location = new System.Drawing.Point(103, 235);
             this.mcafferemovalcancelbtn.Name = "mcafferemovalcancelbtn";
             this.mcafferemovalcancelbtn.Size = new System.Drawing.Size(20, 20);
             this.mcafferemovalcancelbtn.TabIndex = 8;
             this.mcafferemovalcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.mcafferemovalcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.mcafferemovalcancelbtn.UseVisualStyleBackColor = true;
             this.mcafferemovalcancelbtn.Visible = false;
             this.mcafferemovalcancelbtn.Click += new System.EventHandler(this.mcafferemovalcancelbtn_Click);
@@ -1707,11 +1744,12 @@ namespace ToolDeployment
             // roguekillercancelbtn
             // 
             this.roguekillercancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.roguekillercancelbtn.Location = new System.Drawing.Point(97, 80);
+            this.roguekillercancelbtn.Location = new System.Drawing.Point(103, 80);
             this.roguekillercancelbtn.Name = "roguekillercancelbtn";
             this.roguekillercancelbtn.Size = new System.Drawing.Size(20, 20);
             this.roguekillercancelbtn.TabIndex = 8;
             this.roguekillercancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.roguekillercancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.roguekillercancelbtn.UseVisualStyleBackColor = true;
             this.roguekillercancelbtn.Visible = false;
             this.roguekillercancelbtn.Click += new System.EventHandler(this.roguekillercancelbtn_Click);
@@ -1742,11 +1780,12 @@ namespace ToolDeployment
             // produkeycancelbtn
             // 
             this.produkeycancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.produkeycancelbtn.Location = new System.Drawing.Point(97, 168);
+            this.produkeycancelbtn.Location = new System.Drawing.Point(103, 168);
             this.produkeycancelbtn.Name = "produkeycancelbtn";
             this.produkeycancelbtn.Size = new System.Drawing.Size(20, 20);
             this.produkeycancelbtn.TabIndex = 8;
             this.produkeycancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.produkeycancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.produkeycancelbtn.UseVisualStyleBackColor = true;
             this.produkeycancelbtn.Visible = false;
             this.produkeycancelbtn.Click += new System.EventHandler(this.produkeycancelbtn_Click);
@@ -2372,6 +2411,7 @@ namespace ToolDeployment
             this.groupBox4.TabIndex = 12;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Advanced Tools";
+            this.groupBox4.Visible = false;
             // 
             // pcdecrapchkbx
             // 
@@ -2386,11 +2426,12 @@ namespace ToolDeployment
             // pcdecrapcancelbtn
             // 
             this.pcdecrapcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.pcdecrapcancelbtn.Location = new System.Drawing.Point(97, 190);
+            this.pcdecrapcancelbtn.Location = new System.Drawing.Point(103, 190);
             this.pcdecrapcancelbtn.Name = "pcdecrapcancelbtn";
             this.pcdecrapcancelbtn.Size = new System.Drawing.Size(20, 21);
             this.pcdecrapcancelbtn.TabIndex = 8;
             this.pcdecrapcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.pcdecrapcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.pcdecrapcancelbtn.UseVisualStyleBackColor = true;
             this.pcdecrapcancelbtn.Visible = false;
             this.pcdecrapcancelbtn.Click += new System.EventHandler(this.pcdecrapcancelbtn_Click);
@@ -2640,6 +2681,7 @@ namespace ToolDeployment
             this.button1.TabIndex = 8;
             this.button1.Text = "Download Advanced Tools";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click_2);
             // 
             // cancleallbtn
@@ -2654,6 +2696,7 @@ namespace ToolDeployment
             this.cancleallbtn.TabIndex = 14;
             this.cancleallbtn.Text = "Cancel All";
             this.cancleallbtn.UseVisualStyleBackColor = true;
+            this.cancleallbtn.Visible = false;
             this.cancleallbtn.Click += new System.EventHandler(this.cancleallbtn_Click);
             // 
             // nuke
@@ -2665,6 +2708,7 @@ namespace ToolDeployment
             this.nuke.TabIndex = 15;
             this.nuke.Text = "Delete all Tools";
             this.nuke.UseVisualStyleBackColor = true;
+            this.nuke.Visible = false;
             this.nuke.Click += new System.EventHandler(this.nuke_Click);
             // 
             // msiinstallerbtn
@@ -2676,6 +2720,7 @@ namespace ToolDeployment
             this.msiinstallerbtn.TabIndex = 16;
             this.msiinstallerbtn.Text = "Enable MSI Installer in safemode";
             this.msiinstallerbtn.UseVisualStyleBackColor = true;
+            this.msiinstallerbtn.Visible = false;
             this.msiinstallerbtn.Click += new System.EventHandler(this.msiinstallerbtn_Click);
             // 
             // logwindow
@@ -2686,18 +2731,20 @@ namespace ToolDeployment
             this.logwindow.Location = new System.Drawing.Point(9, 510);
             this.logwindow.Name = "logwindow";
             this.logwindow.ReadOnly = true;
-            this.logwindow.Size = new System.Drawing.Size(461, 109);
+            this.logwindow.Size = new System.Drawing.Size(459, 109);
             this.logwindow.TabIndex = 17;
             this.logwindow.Text = "Loading...";
+            this.logwindow.Visible = false;
             // 
             // chromecancelbtn
             // 
             this.chromecancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.chromecancelbtn.Location = new System.Drawing.Point(97, 37);
+            this.chromecancelbtn.Location = new System.Drawing.Point(103, 37);
             this.chromecancelbtn.Name = "chromecancelbtn";
             this.chromecancelbtn.Size = new System.Drawing.Size(20, 21);
             this.chromecancelbtn.TabIndex = 8;
             this.chromecancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.chromecancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.chromecancelbtn.UseVisualStyleBackColor = true;
             this.chromecancelbtn.Visible = false;
             this.chromecancelbtn.Click += new System.EventHandler(this.chromecancelbtn_Click);
@@ -2715,11 +2762,12 @@ namespace ToolDeployment
             // revocancelbtn
             // 
             this.revocancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.revocancelbtn.Location = new System.Drawing.Point(97, 14);
+            this.revocancelbtn.Location = new System.Drawing.Point(103, 14);
             this.revocancelbtn.Name = "revocancelbtn";
             this.revocancelbtn.Size = new System.Drawing.Size(20, 21);
             this.revocancelbtn.TabIndex = 8;
             this.revocancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.revocancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.revocancelbtn.UseVisualStyleBackColor = true;
             this.revocancelbtn.Visible = false;
             this.revocancelbtn.Click += new System.EventHandler(this.revocancelbtn_Click);
@@ -2740,11 +2788,12 @@ namespace ToolDeployment
             // readercancelbtn
             // 
             this.readercancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.readercancelbtn.Location = new System.Drawing.Point(97, 60);
+            this.readercancelbtn.Location = new System.Drawing.Point(103, 60);
             this.readercancelbtn.Name = "readercancelbtn";
             this.readercancelbtn.Size = new System.Drawing.Size(20, 21);
             this.readercancelbtn.TabIndex = 8;
             this.readercancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.readercancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.readercancelbtn.UseVisualStyleBackColor = true;
             this.readercancelbtn.Visible = false;
             this.readercancelbtn.Click += new System.EventHandler(this.readercancelbtn_Click);
@@ -2762,11 +2811,12 @@ namespace ToolDeployment
             // librecancelbtn
             // 
             this.librecancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.librecancelbtn.Location = new System.Drawing.Point(97, 83);
+            this.librecancelbtn.Location = new System.Drawing.Point(103, 83);
             this.librecancelbtn.Name = "librecancelbtn";
             this.librecancelbtn.Size = new System.Drawing.Size(20, 21);
             this.librecancelbtn.TabIndex = 8;
             this.librecancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.librecancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.librecancelbtn.UseVisualStyleBackColor = true;
             this.librecancelbtn.Visible = false;
             this.librecancelbtn.Click += new System.EventHandler(this.librecancelbtn_Click);
@@ -2896,6 +2946,7 @@ namespace ToolDeployment
             this.Extras.TabIndex = 18;
             this.Extras.TabStop = false;
             this.Extras.Text = "Extras";
+            this.Extras.Visible = false;
             // 
             // classicprgsbr
             // 
@@ -2909,11 +2960,12 @@ namespace ToolDeployment
             // classiccancelbtn
             // 
             this.classiccancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.classiccancelbtn.Location = new System.Drawing.Point(97, 104);
+            this.classiccancelbtn.Location = new System.Drawing.Point(103, 104);
             this.classiccancelbtn.Name = "classiccancelbtn";
             this.classiccancelbtn.Size = new System.Drawing.Size(20, 21);
             this.classiccancelbtn.TabIndex = 8;
             this.classiccancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.classiccancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
             this.classiccancelbtn.UseVisualStyleBackColor = true;
             this.classiccancelbtn.Visible = false;
             this.classiccancelbtn.Click += new System.EventHandler(this.classiccancelbtn_Click);
@@ -2941,13 +2993,53 @@ namespace ToolDeployment
             this.classicbtn.UseVisualStyleBackColor = true;
             this.classicbtn.Click += new System.EventHandler(this.classicbtn_Click);
             // 
+            // groupBox5
+            // 
+            this.groupBox5.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox5.Controls.Add(this.button3);
+            this.groupBox5.Controls.Add(this.textBox1);
+            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.ForeColor = System.Drawing.Color.Black;
+            this.groupBox5.Location = new System.Drawing.Point(177, 254);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(113, 72);
+            this.groupBox5.TabIndex = 19;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Password";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(6, 19);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.PasswordChar = 'x';
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.passwordenterbutton);
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.Transparent;
+            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Silver;
+            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Location = new System.Drawing.Point(6, 44);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(99, 23);
+            this.button3.TabIndex = 1;
+            this.button3.Text = "OK";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(470, 623);
-            this.Controls.Add(this.Extras);
+            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.ClientSize = new System.Drawing.Size(473, 623);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.logwindow);
             this.Controls.Add(this.msiinstallerbtn);
             this.Controls.Add(this.nuke);
@@ -2966,7 +3058,6 @@ namespace ToolDeployment
             this.Controls.Add(this.progressBar17);
             this.Controls.Add(this.progressBar16);
             this.Controls.Add(this.progressBar15);
-            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.button60);
             this.Controls.Add(this.checkBox28);
             this.Controls.Add(this.button59);
@@ -3013,18 +3104,20 @@ namespace ToolDeployment
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button31);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.DeployAllBTN);
             this.Controls.Add(this.DeployBTN);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.Extras);
+            this.Controls.Add(this.groupBox3);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(486, 662);
-            this.MinimumSize = new System.Drawing.Size(486, 662);
+            this.MaximumSize = new System.Drawing.Size(489, 662);
+            this.MinimumSize = new System.Drawing.Size(489, 662);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -3041,6 +3134,8 @@ namespace ToolDeployment
             this.groupBox4.PerformLayout();
             this.Extras.ResumeLayout(false);
             this.Extras.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3287,6 +3382,10 @@ namespace ToolDeployment
         private ToolStripMenuItem clipboardTestToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator9;
         private ToolStripMenuItem mRebootToolStripMenuItem;
+        private ToolTip toolTip1;
+        private GroupBox groupBox5;
+        private TextBox textBox1;
+        private Button button3;
     }
 }
 
