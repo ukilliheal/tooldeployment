@@ -84,6 +84,7 @@ namespace ToolDeployment
             //(e.TotalBytesToReceive / 1024d / 1024d).ToString("0.00"));
 
             //Checks if original window is open
+            //MessageBox.Show("Progress change " + filebeingdownloaded);
             if (System.Windows.Forms.Application.OpenForms["Form1"] != null)
             {
                 //This updates the correct progress bar in the main form. The fuction also checks if the file was cancled. 
