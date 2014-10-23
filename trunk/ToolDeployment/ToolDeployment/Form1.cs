@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Management;
 
+
 /*
  * Its a mess, yes. I am still in the process of learning C sharp . 
  * I am working on adding more comments to better explain the code. Bare with me here.
@@ -22,6 +23,14 @@ namespace ToolDeployment
 {
     public partial class Form1 : Form
     {
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd,
+                         int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
 
         #region Vars being defined //Edit to add new Tools (Buttons, Progress bars, etc)
         //This is where I list each tool, and define the file name. 
@@ -75,6 +84,7 @@ namespace ToolDeployment
         string systemrootdrive = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System));
         Boolean is64bit = false;
         Boolean bypasslogin = false;
+        Boolean isdownloadingstuff = false;
         Random random = new Random();
         private const uint WM_COMMAND = 0x0111;
         private const int BN_CLICKED = 245;
@@ -422,7 +432,7 @@ namespace ToolDeployment
                 if (File.Exists(savetoo + "\\" + x) && !reporteddone.Contains(x))
                 {
                     updatelog(x + " already exists. Reporting as done. ");
-                    reportdone(x);
+                    reportdone(x, false);
                 }
                 if (!File.Exists(savetoo + "\\" + x) && reporteddone.Contains(x))
                 {
@@ -540,7 +550,7 @@ namespace ToolDeployment
                         //This checks if file was not reported as done, and is not in the list of active downloads.
                         //If so, then reports it as done. 
                         updatelog("Tried to download " + x + " but it already exists");
-                        reportdone(x);
+                        reportdone(x, false);
                     }
                 }
                 else
@@ -552,6 +562,9 @@ namespace ToolDeployment
 
                     //creats new form. This is left over from when this application spawned multiple windows for each download
                     listdownloads f2 = new listdownloads();
+
+                    //Created to better notify user via systemtray if downloading has finished
+                    isdownloadingstuff = true;
 
                     //This calls a function in the new form
                     //Passes the file name, where to save it to
@@ -921,7 +934,6 @@ namespace ToolDeployment
                 is64bit = true;
                 //updatelog("Is 64bit OS");
             }
-
             //Below I define which programs accept switchs, and what switches I want to use. 
             //This is automaticlly included when opening a file
             automationlist.Add(hitmanx32var + "/scan /noinstall");
@@ -1018,7 +1030,9 @@ namespace ToolDeployment
 
             //Hey look! I did a thing!
             updatelog("Written by Ukilliheal on 9/11/2014. \nhttps://code.google.com/p/tooldeployment/");
+
             updatelog("Application loaded and ready for use");
+
         }
         private void unlockstuff()
         {
@@ -1039,13 +1053,23 @@ namespace ToolDeployment
             logwindow.Visible = true;
             groupBox5.Visible = false;
             //this.BackColor = Color.LightGray;
+            /*
+            while (this.Height != 662)
+            {
+                this.Height = this.Height + 2;
+                Application.DoEvents();
+                //System.Threading.Thread.Sleep(1);
+            }
+            this.Height = 662;
+            */
+            loadeverything();
         }
+
         private void Form1_Shown(object sender, EventArgs e) //Edit this if you want to add new files to be downloaded
         {
             if (bypasslogin)
             {
                 unlockstuff();
-                loadeverything();
             }
         }
         private void deletefileorcancle(string y)//Basicly this deletes a file . useful to add Delete tool option 
@@ -1102,7 +1126,7 @@ namespace ToolDeployment
             }
         }
 
-        public void reportdone(string y)//When a file is done, or already on HDD, then this function is called, and passed the file name 
+        public void reportdone(string y, Boolean notifyuser)//When a file is done, or already on HDD, then this function is called, and passed the file name 
         {
             //Gets info about the file
             FileInfo fInfo = new FileInfo(@savetoo + "\\" + y);
@@ -1142,6 +1166,13 @@ namespace ToolDeployment
                 reporteddone.Add(y);
                 //tell user
                 updatelog(y + " Reported done! Activating buttons");
+                if (notifyuser)
+                {
+                    notifyIcon1.BalloonTipText = y + " Reported done!";
+                    notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
+                    notifyIcon1.BalloonTipTitle = "Alert!";
+                    notifyIcon1.ShowBalloonTip(100);
+                }
                 //Change the contols around to match a file being ready for launch
                 changebutton(y, null, o, "Black", "true", "true", null, null, "true", "false");
 
@@ -1190,6 +1221,15 @@ namespace ToolDeployment
                     //disables the cancel all button
                     cancleallbtn.Enabled = false;
                     uncheckall();
+                    if (isdownloadingstuff)
+                    {
+                        isdownloadingstuff = false;
+                        notifyIcon1.BalloonTipText = "All downloads completed!";
+                        notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
+                        notifyIcon1.BalloonTipTitle = "Alert!";
+                        notifyIcon1.ShowBalloonTip(50);
+                    }
+
                     if (runAllAfterDownloadToolStripMenuItem.Checked == true)
                     {
                         //if user selected the option to run after download, then this runs the files. all that were checked
@@ -2738,12 +2778,20 @@ namespace ToolDeployment
         }
         private void passwordenterbutton(object sender, KeyPressEventArgs e)
         {
+
             if (e.KeyChar == (char)13)
             {
                 if (textBox1.Text == password)
                 {
                     unlockstuff();
-                    loadeverything();
+                }
+                else
+                {
+                    notifyIcon1.BalloonTipText = "Wrong Password!";
+                    notifyIcon1.BalloonTipIcon = ToolTipIcon.Error;
+                    notifyIcon1.BalloonTipTitle = "Alert!";
+                    notifyIcon1.ShowBalloonTip(50);
+
                 }
             }
         }
@@ -2970,8 +3018,50 @@ namespace ToolDeployment
             if (textBox1.Text == password)
             {
                 unlockstuff();
-                loadeverything();
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void Form1_MouseDown(object sender,
+        System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+        private void Form1_Resize(object sender, System.EventArgs e)
+        {
+            if (FormWindowState.Minimized == WindowState)
+            {
+                //Hide();
+            }
+        }
+        private void notifyIcon1_DoubleClick(object sender, System.EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void setURLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Uri.EscapeDataString
+            baseurl = "http://" + CF6Notes.Text.Trim().Replace(" ", "%20");
+            updatelog("baseURL is now: " + baseurl);
         }
         #region So much fail
         /* // This is just my attempt at using Windows API... still trying to figure that one out.
