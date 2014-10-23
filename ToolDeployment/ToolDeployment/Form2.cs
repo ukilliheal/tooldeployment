@@ -114,7 +114,7 @@ namespace ToolDeployment
                 if (System.Windows.Forms.Application.OpenForms["Form1"] != null)
                 {
                     //reports a file as being done. main form handles the rest. 
-                    (System.Windows.Forms.Application.OpenForms["Form1"] as Form1).reportdone(filebeingdownloaded);
+                    (System.Windows.Forms.Application.OpenForms["Form1"] as Form1).reportdone(filebeingdownloaded, true);
                 }
 
                 //Dear Form2; Go away, no one likes you!
