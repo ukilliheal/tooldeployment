@@ -49,46 +49,46 @@ namespace ToolDeployment
             this.JRTcanclebtn = new System.Windows.Forms.Button();
             this.cclcanclebtn = new System.Windows.Forms.Button();
             this.autorunscancelbtn = new System.Windows.Forms.Button();
+            this.killemallchkbx = new System.Windows.Forms.CheckBox();
+            this.killemallcancelbtn = new System.Windows.Forms.Button();
+            this.rkillcancelbtn = new System.Windows.Forms.Button();
+            this.rkillchkbx = new System.Windows.Forms.CheckBox();
+            this.autorunschkbx = new System.Windows.Forms.CheckBox();
+            this.hjtchkbx = new System.Windows.Forms.CheckBox();
+            this.hjtcancelbtn = new System.Windows.Forms.Button();
             this.niniteprgsbr = new System.Windows.Forms.ProgressBar();
             this.Hitmanprgsbr = new System.Windows.Forms.ProgressBar();
             this.MBAMprgsbr = new System.Windows.Forms.ProgressBar();
             this.ADWprgsbr = new System.Windows.Forms.ProgressBar();
             this.JRTprgsbr = new System.Windows.Forms.ProgressBar();
-            this.killemallchkbx = new System.Windows.Forms.CheckBox();
             this.autorunsprgsbr = new System.Windows.Forms.ProgressBar();
-            this.killemallcancelbtn = new System.Windows.Forms.Button();
             this.rkillprgsbr = new System.Windows.Forms.ProgressBar();
-            this.rkillcancelbtn = new System.Windows.Forms.Button();
             this.killemallprgsbr = new System.Windows.Forms.ProgressBar();
-            this.rkillchkbx = new System.Windows.Forms.CheckBox();
-            this.autorunschkbx = new System.Windows.Forms.CheckBox();
-            this.hjtchkbx = new System.Windows.Forms.CheckBox();
-            this.hjtcancelbtn = new System.Windows.Forms.Button();
             this.hjtprgsbr = new System.Windows.Forms.ProgressBar();
-            this.autorunsbtn = new System.Windows.Forms.Button();
-            this.ninitebtn = new System.Windows.Forms.Button();
-            this.Hitmanbtn = new System.Windows.Forms.Button();
-            this.MBAMbtn = new System.Windows.Forms.Button();
-            this.ADWbtn = new System.Windows.Forms.Button();
-            this.JRTbtn = new System.Windows.Forms.Button();
-            this.killemallbtn = new System.Windows.Forms.Button();
-            this.rkillbtn = new System.Windows.Forms.Button();
-            this.hjtbtn = new System.Windows.Forms.Button();
             this.CCprgsbr = new System.Windows.Forms.ProgressBar();
             this.ccbtn = new System.Windows.Forms.Button();
+            this.autorunsbtn = new System.Windows.Forms.Button();
+            this.hjtbtn = new System.Windows.Forms.Button();
+            this.rkillbtn = new System.Windows.Forms.Button();
+            this.ninitebtn = new System.Windows.Forms.Button();
+            this.killemallbtn = new System.Windows.Forms.Button();
+            this.JRTbtn = new System.Windows.Forms.Button();
+            this.ADWbtn = new System.Windows.Forms.Button();
+            this.Hitmanbtn = new System.Windows.Forms.Button();
+            this.MBAMbtn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ABPcanclebtn = new System.Windows.Forms.Button();
             this.AVGcanclebtn = new System.Windows.Forms.Button();
             this.Uncheckycanclebtn = new System.Windows.Forms.Button();
-            this.APBprgsbr = new System.Windows.Forms.ProgressBar();
             this.MBAEcancelbutton = new System.Windows.Forms.Button();
+            this.APBprgsbr = new System.Windows.Forms.ProgressBar();
             this.AVGprgsbr = new System.Windows.Forms.ProgressBar();
+            this.ABPbtn = new System.Windows.Forms.Button();
             this.unchkprgsbr = new System.Windows.Forms.ProgressBar();
             this.MBAEprgsbr = new System.Windows.Forms.ProgressBar();
-            this.ABPbtn = new System.Windows.Forms.Button();
             this.AVGbtn = new System.Windows.Forms.Button();
-            this.Unchkbtn = new System.Windows.Forms.Button();
             this.MBAEbtn = new System.Windows.Forms.Button();
+            this.Unchkbtn = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,11 +131,11 @@ namespace ToolDeployment
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.callingcardcancelbtn = new System.Windows.Forms.Button();
             this.callingcardchkbx = new System.Windows.Forms.CheckBox();
-            this.callingcardprgsbr = new System.Windows.Forms.ProgressBar();
-            this.callingcardbtn = new System.Windows.Forms.Button();
             this.teamchkbx = new System.Windows.Forms.CheckBox();
-            this.teamprgsbr = new System.Windows.Forms.ProgressBar();
             this.teamcancelbr = new System.Windows.Forms.Button();
+            this.callingcardprgsbr = new System.Windows.Forms.ProgressBar();
+            this.teamprgsbr = new System.Windows.Forms.ProgressBar();
+            this.callingcardbtn = new System.Windows.Forms.Button();
             this.teambtn = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.esetchkbx = new System.Windows.Forms.CheckBox();
@@ -202,8 +202,8 @@ namespace ToolDeployment
             this.superanticancelbtn = new System.Windows.Forms.Button();
             this.tdsscancelbtn = new System.Windows.Forms.Button();
             this.esetcancelbtn = new System.Windows.Forms.Button();
-            this.pcdecrapchkbx = new System.Windows.Forms.CheckBox();
             this.pcdecrapcancelbtn = new System.Windows.Forms.Button();
+            this.pcdecrapchkbx = new System.Windows.Forms.CheckBox();
             this.avgremovalprgsbr = new System.Windows.Forms.ProgressBar();
             this.roguekillerprgsbr = new System.Windows.Forms.ProgressBar();
             this.nortonremovalprgsbr = new System.Windows.Forms.ProgressBar();
@@ -248,18 +248,28 @@ namespace ToolDeployment
             this.chromeprgsbr = new System.Windows.Forms.ProgressBar();
             this.revoprgsbr = new System.Windows.Forms.ProgressBar();
             this.Extras = new System.Windows.Forms.GroupBox();
-            this.classicprgsbr = new System.Windows.Forms.ProgressBar();
             this.classiccancelbtn = new System.Windows.Forms.Button();
             this.librecancelbtn = new System.Windows.Forms.Button();
             this.classicchkbx = new System.Windows.Forms.CheckBox();
             this.readercancelbtn = new System.Windows.Forms.Button();
             this.revocancelbtn = new System.Windows.Forms.Button();
-            this.classicbtn = new System.Windows.Forms.Button();
             this.chromecancelbtn = new System.Windows.Forms.Button();
+            this.classicprgsbr = new System.Windows.Forms.ProgressBar();
+            this.classicbtn = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.downloadAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.minimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.button4 = new System.Windows.Forms.Button();
             this.cancleallbtn = new System.Windows.Forms.Button();
             this.button52 = new System.Windows.Forms.Button();
             this.button51 = new System.Windows.Forms.Button();
@@ -275,10 +285,6 @@ namespace ToolDeployment
             this.button36 = new System.Windows.Forms.Button();
             this.button34 = new System.Windows.Forms.Button();
             this.button33 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -286,6 +292,7 @@ namespace ToolDeployment
             this.groupBox4.SuspendLayout();
             this.Extras.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // CcleanerChkBX
@@ -403,43 +410,43 @@ namespace ToolDeployment
             this.groupBox1.Controls.Add(this.JRTcanclebtn);
             this.groupBox1.Controls.Add(this.cclcanclebtn);
             this.groupBox1.Controls.Add(this.autorunscancelbtn);
-            this.groupBox1.Controls.Add(this.niniteprgsbr);
             this.groupBox1.Controls.Add(this.NiniteChkBX);
-            this.groupBox1.Controls.Add(this.Hitmanprgsbr);
             this.groupBox1.Controls.Add(this.HitmanChkBX);
-            this.groupBox1.Controls.Add(this.MBAMprgsbr);
             this.groupBox1.Controls.Add(this.ADWChkBX);
-            this.groupBox1.Controls.Add(this.ADWprgsbr);
             this.groupBox1.Controls.Add(this.JRTChkBX);
-            this.groupBox1.Controls.Add(this.JRTprgsbr);
             this.groupBox1.Controls.Add(this.CcleanerChkBX);
             this.groupBox1.Controls.Add(this.MbamChkBx);
             this.groupBox1.Controls.Add(this.killemallchkbx);
-            this.groupBox1.Controls.Add(this.autorunsprgsbr);
             this.groupBox1.Controls.Add(this.killemallcancelbtn);
-            this.groupBox1.Controls.Add(this.rkillprgsbr);
             this.groupBox1.Controls.Add(this.rkillcancelbtn);
-            this.groupBox1.Controls.Add(this.killemallprgsbr);
             this.groupBox1.Controls.Add(this.rkillchkbx);
             this.groupBox1.Controls.Add(this.autorunschkbx);
             this.groupBox1.Controls.Add(this.hjtchkbx);
             this.groupBox1.Controls.Add(this.hjtcancelbtn);
+            this.groupBox1.Controls.Add(this.niniteprgsbr);
+            this.groupBox1.Controls.Add(this.Hitmanprgsbr);
+            this.groupBox1.Controls.Add(this.MBAMprgsbr);
+            this.groupBox1.Controls.Add(this.ADWprgsbr);
+            this.groupBox1.Controls.Add(this.JRTprgsbr);
+            this.groupBox1.Controls.Add(this.autorunsprgsbr);
+            this.groupBox1.Controls.Add(this.rkillprgsbr);
+            this.groupBox1.Controls.Add(this.killemallprgsbr);
             this.groupBox1.Controls.Add(this.hjtprgsbr);
-            this.groupBox1.Controls.Add(this.autorunsbtn);
-            this.groupBox1.Controls.Add(this.ninitebtn);
-            this.groupBox1.Controls.Add(this.Hitmanbtn);
-            this.groupBox1.Controls.Add(this.MBAMbtn);
-            this.groupBox1.Controls.Add(this.ADWbtn);
-            this.groupBox1.Controls.Add(this.JRTbtn);
-            this.groupBox1.Controls.Add(this.killemallbtn);
-            this.groupBox1.Controls.Add(this.rkillbtn);
-            this.groupBox1.Controls.Add(this.hjtbtn);
             this.groupBox1.Controls.Add(this.CCprgsbr);
             this.groupBox1.Controls.Add(this.ccbtn);
+            this.groupBox1.Controls.Add(this.autorunsbtn);
+            this.groupBox1.Controls.Add(this.hjtbtn);
+            this.groupBox1.Controls.Add(this.rkillbtn);
+            this.groupBox1.Controls.Add(this.ninitebtn);
+            this.groupBox1.Controls.Add(this.killemallbtn);
+            this.groupBox1.Controls.Add(this.JRTbtn);
+            this.groupBox1.Controls.Add(this.ADWbtn);
+            this.groupBox1.Controls.Add(this.Hitmanbtn);
+            this.groupBox1.Controls.Add(this.MBAMbtn);
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(9, 87);
+            this.groupBox1.Location = new System.Drawing.Point(12, 89);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(224, 238);
+            this.groupBox1.Size = new System.Drawing.Size(221, 238);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Standard Tools";
@@ -558,46 +565,6 @@ namespace ToolDeployment
             this.autorunscancelbtn.Visible = false;
             this.autorunscancelbtn.Click += new System.EventHandler(this.autorunscancelbtn_Click);
             // 
-            // niniteprgsbr
-            // 
-            this.niniteprgsbr.Location = new System.Drawing.Point(116, 127);
-            this.niniteprgsbr.Name = "niniteprgsbr";
-            this.niniteprgsbr.Size = new System.Drawing.Size(100, 17);
-            this.niniteprgsbr.TabIndex = 7;
-            this.niniteprgsbr.Visible = false;
-            // 
-            // Hitmanprgsbr
-            // 
-            this.Hitmanprgsbr.Location = new System.Drawing.Point(116, 104);
-            this.Hitmanprgsbr.Name = "Hitmanprgsbr";
-            this.Hitmanprgsbr.Size = new System.Drawing.Size(100, 17);
-            this.Hitmanprgsbr.TabIndex = 7;
-            this.Hitmanprgsbr.Visible = false;
-            // 
-            // MBAMprgsbr
-            // 
-            this.MBAMprgsbr.Location = new System.Drawing.Point(116, 83);
-            this.MBAMprgsbr.Name = "MBAMprgsbr";
-            this.MBAMprgsbr.Size = new System.Drawing.Size(100, 17);
-            this.MBAMprgsbr.TabIndex = 7;
-            this.MBAMprgsbr.Visible = false;
-            // 
-            // ADWprgsbr
-            // 
-            this.ADWprgsbr.Location = new System.Drawing.Point(116, 61);
-            this.ADWprgsbr.Name = "ADWprgsbr";
-            this.ADWprgsbr.Size = new System.Drawing.Size(100, 17);
-            this.ADWprgsbr.TabIndex = 7;
-            this.ADWprgsbr.Visible = false;
-            // 
-            // JRTprgsbr
-            // 
-            this.JRTprgsbr.Location = new System.Drawing.Point(116, 39);
-            this.JRTprgsbr.Name = "JRTprgsbr";
-            this.JRTprgsbr.Size = new System.Drawing.Size(100, 17);
-            this.JRTprgsbr.TabIndex = 7;
-            this.JRTprgsbr.Visible = false;
-            // 
             // killemallchkbx
             // 
             this.killemallchkbx.AutoSize = true;
@@ -607,14 +574,6 @@ namespace ToolDeployment
             this.killemallchkbx.TabIndex = 10;
             this.killemallchkbx.Text = "KillEmAll";
             this.killemallchkbx.UseVisualStyleBackColor = true;
-            // 
-            // autorunsprgsbr
-            // 
-            this.autorunsprgsbr.Location = new System.Drawing.Point(116, 193);
-            this.autorunsprgsbr.Name = "autorunsprgsbr";
-            this.autorunsprgsbr.Size = new System.Drawing.Size(100, 18);
-            this.autorunsprgsbr.TabIndex = 13;
-            this.autorunsprgsbr.Visible = false;
             // 
             // killemallcancelbtn
             // 
@@ -633,14 +592,6 @@ namespace ToolDeployment
             this.killemallcancelbtn.Visible = false;
             this.killemallcancelbtn.Click += new System.EventHandler(this.killemallcancelbtn_Click);
             // 
-            // rkillprgsbr
-            // 
-            this.rkillprgsbr.Location = new System.Drawing.Point(116, 171);
-            this.rkillprgsbr.Name = "rkillprgsbr";
-            this.rkillprgsbr.Size = new System.Drawing.Size(100, 18);
-            this.rkillprgsbr.TabIndex = 13;
-            this.rkillprgsbr.Visible = false;
-            // 
             // rkillcancelbtn
             // 
             this.rkillcancelbtn.FlatAppearance.BorderSize = 0;
@@ -657,14 +608,6 @@ namespace ToolDeployment
             this.rkillcancelbtn.UseVisualStyleBackColor = true;
             this.rkillcancelbtn.Visible = false;
             this.rkillcancelbtn.Click += new System.EventHandler(this.rkillcancelbtn_Click);
-            // 
-            // killemallprgsbr
-            // 
-            this.killemallprgsbr.Location = new System.Drawing.Point(116, 149);
-            this.killemallprgsbr.Name = "killemallprgsbr";
-            this.killemallprgsbr.Size = new System.Drawing.Size(100, 18);
-            this.killemallprgsbr.TabIndex = 13;
-            this.killemallprgsbr.Visible = false;
             // 
             // rkillchkbx
             // 
@@ -713,6 +656,70 @@ namespace ToolDeployment
             this.hjtcancelbtn.Visible = false;
             this.hjtcancelbtn.Click += new System.EventHandler(this.hjtcancelbtn_Click);
             // 
+            // niniteprgsbr
+            // 
+            this.niniteprgsbr.Location = new System.Drawing.Point(116, 128);
+            this.niniteprgsbr.Name = "niniteprgsbr";
+            this.niniteprgsbr.Size = new System.Drawing.Size(100, 17);
+            this.niniteprgsbr.TabIndex = 7;
+            this.niniteprgsbr.Visible = false;
+            // 
+            // Hitmanprgsbr
+            // 
+            this.Hitmanprgsbr.Location = new System.Drawing.Point(116, 105);
+            this.Hitmanprgsbr.Name = "Hitmanprgsbr";
+            this.Hitmanprgsbr.Size = new System.Drawing.Size(100, 17);
+            this.Hitmanprgsbr.TabIndex = 7;
+            this.Hitmanprgsbr.Visible = false;
+            // 
+            // MBAMprgsbr
+            // 
+            this.MBAMprgsbr.Location = new System.Drawing.Point(116, 84);
+            this.MBAMprgsbr.Name = "MBAMprgsbr";
+            this.MBAMprgsbr.Size = new System.Drawing.Size(100, 17);
+            this.MBAMprgsbr.TabIndex = 7;
+            this.MBAMprgsbr.Visible = false;
+            // 
+            // ADWprgsbr
+            // 
+            this.ADWprgsbr.Location = new System.Drawing.Point(116, 62);
+            this.ADWprgsbr.Name = "ADWprgsbr";
+            this.ADWprgsbr.Size = new System.Drawing.Size(100, 17);
+            this.ADWprgsbr.TabIndex = 7;
+            this.ADWprgsbr.Visible = false;
+            // 
+            // JRTprgsbr
+            // 
+            this.JRTprgsbr.Location = new System.Drawing.Point(116, 40);
+            this.JRTprgsbr.Name = "JRTprgsbr";
+            this.JRTprgsbr.Size = new System.Drawing.Size(100, 17);
+            this.JRTprgsbr.TabIndex = 7;
+            this.JRTprgsbr.Visible = false;
+            // 
+            // autorunsprgsbr
+            // 
+            this.autorunsprgsbr.Location = new System.Drawing.Point(116, 193);
+            this.autorunsprgsbr.Name = "autorunsprgsbr";
+            this.autorunsprgsbr.Size = new System.Drawing.Size(100, 18);
+            this.autorunsprgsbr.TabIndex = 13;
+            this.autorunsprgsbr.Visible = false;
+            // 
+            // rkillprgsbr
+            // 
+            this.rkillprgsbr.Location = new System.Drawing.Point(116, 171);
+            this.rkillprgsbr.Name = "rkillprgsbr";
+            this.rkillprgsbr.Size = new System.Drawing.Size(100, 18);
+            this.rkillprgsbr.TabIndex = 13;
+            this.rkillprgsbr.Visible = false;
+            // 
+            // killemallprgsbr
+            // 
+            this.killemallprgsbr.Location = new System.Drawing.Point(116, 149);
+            this.killemallprgsbr.Name = "killemallprgsbr";
+            this.killemallprgsbr.Size = new System.Drawing.Size(100, 18);
+            this.killemallprgsbr.TabIndex = 13;
+            this.killemallprgsbr.Visible = false;
+            // 
             // hjtprgsbr
             // 
             this.hjtprgsbr.Location = new System.Drawing.Point(116, 214);
@@ -720,128 +727,6 @@ namespace ToolDeployment
             this.hjtprgsbr.Size = new System.Drawing.Size(100, 20);
             this.hjtprgsbr.TabIndex = 13;
             this.hjtprgsbr.Visible = false;
-            // 
-            // autorunsbtn
-            // 
-            this.autorunsbtn.Enabled = false;
-            this.autorunsbtn.Location = new System.Drawing.Point(116, 192);
-            this.autorunsbtn.Margin = new System.Windows.Forms.Padding(1);
-            this.autorunsbtn.Name = "autorunsbtn";
-            this.autorunsbtn.Size = new System.Drawing.Size(100, 20);
-            this.autorunsbtn.TabIndex = 8;
-            this.autorunsbtn.Text = "Launch";
-            this.autorunsbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.autorunsbtn.UseVisualStyleBackColor = true;
-            this.autorunsbtn.Click += new System.EventHandler(this.autorunsbtn_Click);
-            // 
-            // ninitebtn
-            // 
-            this.ninitebtn.Enabled = false;
-            this.ninitebtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ninitebtn.Location = new System.Drawing.Point(116, 126);
-            this.ninitebtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
-            this.ninitebtn.Name = "ninitebtn";
-            this.ninitebtn.Size = new System.Drawing.Size(100, 20);
-            this.ninitebtn.TabIndex = 8;
-            this.ninitebtn.Text = "Launch";
-            this.ninitebtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.ninitebtn.UseVisualStyleBackColor = true;
-            this.ninitebtn.Click += new System.EventHandler(this.ninitebtn_Click);
-            // 
-            // Hitmanbtn
-            // 
-            this.Hitmanbtn.Enabled = false;
-            this.Hitmanbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Hitmanbtn.Location = new System.Drawing.Point(116, 103);
-            this.Hitmanbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
-            this.Hitmanbtn.Name = "Hitmanbtn";
-            this.Hitmanbtn.Size = new System.Drawing.Size(100, 20);
-            this.Hitmanbtn.TabIndex = 8;
-            this.Hitmanbtn.Text = "Launch";
-            this.Hitmanbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.Hitmanbtn.UseVisualStyleBackColor = true;
-            this.Hitmanbtn.Click += new System.EventHandler(this.Hitmanbtn_Click);
-            // 
-            // MBAMbtn
-            // 
-            this.MBAMbtn.Enabled = false;
-            this.MBAMbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MBAMbtn.Location = new System.Drawing.Point(116, 82);
-            this.MBAMbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
-            this.MBAMbtn.Name = "MBAMbtn";
-            this.MBAMbtn.Size = new System.Drawing.Size(100, 20);
-            this.MBAMbtn.TabIndex = 8;
-            this.MBAMbtn.Text = "Launch";
-            this.MBAMbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.MBAMbtn.UseVisualStyleBackColor = true;
-            this.MBAMbtn.Click += new System.EventHandler(this.MBAMbtn_Click);
-            // 
-            // ADWbtn
-            // 
-            this.ADWbtn.Enabled = false;
-            this.ADWbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ADWbtn.Location = new System.Drawing.Point(116, 60);
-            this.ADWbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
-            this.ADWbtn.Name = "ADWbtn";
-            this.ADWbtn.Size = new System.Drawing.Size(100, 20);
-            this.ADWbtn.TabIndex = 8;
-            this.ADWbtn.Text = "Launch";
-            this.ADWbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.ADWbtn.UseVisualStyleBackColor = true;
-            this.ADWbtn.Click += new System.EventHandler(this.ADWbtn_Click);
-            // 
-            // JRTbtn
-            // 
-            this.JRTbtn.Enabled = false;
-            this.JRTbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.JRTbtn.Location = new System.Drawing.Point(116, 38);
-            this.JRTbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
-            this.JRTbtn.Name = "JRTbtn";
-            this.JRTbtn.Size = new System.Drawing.Size(100, 20);
-            this.JRTbtn.TabIndex = 8;
-            this.JRTbtn.Text = "Launch";
-            this.JRTbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.JRTbtn.UseVisualStyleBackColor = true;
-            this.JRTbtn.Click += new System.EventHandler(this.JRTbtn_Click);
-            // 
-            // killemallbtn
-            // 
-            this.killemallbtn.Enabled = false;
-            this.killemallbtn.Location = new System.Drawing.Point(116, 148);
-            this.killemallbtn.Margin = new System.Windows.Forms.Padding(1);
-            this.killemallbtn.Name = "killemallbtn";
-            this.killemallbtn.Size = new System.Drawing.Size(100, 20);
-            this.killemallbtn.TabIndex = 8;
-            this.killemallbtn.Text = "Launch";
-            this.killemallbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.killemallbtn.UseVisualStyleBackColor = true;
-            this.killemallbtn.Click += new System.EventHandler(this.killemallbtn_Click);
-            // 
-            // rkillbtn
-            // 
-            this.rkillbtn.Enabled = false;
-            this.rkillbtn.Location = new System.Drawing.Point(116, 170);
-            this.rkillbtn.Margin = new System.Windows.Forms.Padding(1);
-            this.rkillbtn.Name = "rkillbtn";
-            this.rkillbtn.Size = new System.Drawing.Size(100, 20);
-            this.rkillbtn.TabIndex = 8;
-            this.rkillbtn.Text = "Launch";
-            this.rkillbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rkillbtn.UseVisualStyleBackColor = true;
-            this.rkillbtn.Click += new System.EventHandler(this.rkillbtn_Click);
-            // 
-            // hjtbtn
-            // 
-            this.hjtbtn.Enabled = false;
-            this.hjtbtn.Location = new System.Drawing.Point(116, 214);
-            this.hjtbtn.Margin = new System.Windows.Forms.Padding(1);
-            this.hjtbtn.Name = "hjtbtn";
-            this.hjtbtn.Size = new System.Drawing.Size(100, 20);
-            this.hjtbtn.TabIndex = 11;
-            this.hjtbtn.Text = "Launch";
-            this.hjtbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.hjtbtn.UseVisualStyleBackColor = true;
-            this.hjtbtn.Click += new System.EventHandler(this.hjtbtn_Click);
             // 
             // CCprgsbr
             // 
@@ -853,17 +738,173 @@ namespace ToolDeployment
             // 
             // ccbtn
             // 
+            this.ccbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ccbtn.Enabled = false;
+            this.ccbtn.FlatAppearance.BorderSize = 0;
+            this.ccbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ccbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ccbtn.Location = new System.Drawing.Point(116, 16);
             this.ccbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
             this.ccbtn.Name = "ccbtn";
             this.ccbtn.Size = new System.Drawing.Size(100, 20);
             this.ccbtn.TabIndex = 8;
-            this.ccbtn.Text = "Launch";
+            this.ccbtn.Text = "File missing";
             this.ccbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.ccbtn.UseVisualStyleBackColor = true;
+            this.ccbtn.UseVisualStyleBackColor = false;
             this.ccbtn.Click += new System.EventHandler(this.ccbtn_Click);
+            // 
+            // autorunsbtn
+            // 
+            this.autorunsbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.autorunsbtn.Enabled = false;
+            this.autorunsbtn.FlatAppearance.BorderSize = 0;
+            this.autorunsbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.autorunsbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autorunsbtn.Location = new System.Drawing.Point(116, 192);
+            this.autorunsbtn.Margin = new System.Windows.Forms.Padding(1);
+            this.autorunsbtn.Name = "autorunsbtn";
+            this.autorunsbtn.Size = new System.Drawing.Size(100, 20);
+            this.autorunsbtn.TabIndex = 8;
+            this.autorunsbtn.Text = "File missing";
+            this.autorunsbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.autorunsbtn.UseVisualStyleBackColor = false;
+            this.autorunsbtn.Click += new System.EventHandler(this.autorunsbtn_Click);
+            // 
+            // hjtbtn
+            // 
+            this.hjtbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.hjtbtn.Enabled = false;
+            this.hjtbtn.FlatAppearance.BorderSize = 0;
+            this.hjtbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.hjtbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hjtbtn.Location = new System.Drawing.Point(116, 214);
+            this.hjtbtn.Margin = new System.Windows.Forms.Padding(1);
+            this.hjtbtn.Name = "hjtbtn";
+            this.hjtbtn.Size = new System.Drawing.Size(100, 20);
+            this.hjtbtn.TabIndex = 11;
+            this.hjtbtn.Text = "File missing";
+            this.hjtbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.hjtbtn.UseVisualStyleBackColor = false;
+            this.hjtbtn.Click += new System.EventHandler(this.hjtbtn_Click);
+            // 
+            // rkillbtn
+            // 
+            this.rkillbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.rkillbtn.Enabled = false;
+            this.rkillbtn.FlatAppearance.BorderSize = 0;
+            this.rkillbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rkillbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rkillbtn.Location = new System.Drawing.Point(116, 170);
+            this.rkillbtn.Margin = new System.Windows.Forms.Padding(1);
+            this.rkillbtn.Name = "rkillbtn";
+            this.rkillbtn.Size = new System.Drawing.Size(100, 20);
+            this.rkillbtn.TabIndex = 8;
+            this.rkillbtn.Text = "File missing";
+            this.rkillbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.rkillbtn.UseVisualStyleBackColor = false;
+            this.rkillbtn.Click += new System.EventHandler(this.rkillbtn_Click);
+            // 
+            // ninitebtn
+            // 
+            this.ninitebtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.ninitebtn.Enabled = false;
+            this.ninitebtn.FlatAppearance.BorderSize = 0;
+            this.ninitebtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ninitebtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ninitebtn.Location = new System.Drawing.Point(116, 126);
+            this.ninitebtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
+            this.ninitebtn.Name = "ninitebtn";
+            this.ninitebtn.Size = new System.Drawing.Size(100, 20);
+            this.ninitebtn.TabIndex = 8;
+            this.ninitebtn.Text = "File missing";
+            this.ninitebtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.ninitebtn.UseVisualStyleBackColor = false;
+            this.ninitebtn.Click += new System.EventHandler(this.ninitebtn_Click);
+            // 
+            // killemallbtn
+            // 
+            this.killemallbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.killemallbtn.Enabled = false;
+            this.killemallbtn.FlatAppearance.BorderSize = 0;
+            this.killemallbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.killemallbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.killemallbtn.Location = new System.Drawing.Point(116, 148);
+            this.killemallbtn.Margin = new System.Windows.Forms.Padding(1);
+            this.killemallbtn.Name = "killemallbtn";
+            this.killemallbtn.Size = new System.Drawing.Size(100, 20);
+            this.killemallbtn.TabIndex = 8;
+            this.killemallbtn.Text = "File missing";
+            this.killemallbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.killemallbtn.UseVisualStyleBackColor = false;
+            this.killemallbtn.Click += new System.EventHandler(this.killemallbtn_Click);
+            // 
+            // JRTbtn
+            // 
+            this.JRTbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.JRTbtn.Enabled = false;
+            this.JRTbtn.FlatAppearance.BorderSize = 0;
+            this.JRTbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.JRTbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.JRTbtn.Location = new System.Drawing.Point(116, 38);
+            this.JRTbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
+            this.JRTbtn.Name = "JRTbtn";
+            this.JRTbtn.Size = new System.Drawing.Size(100, 20);
+            this.JRTbtn.TabIndex = 8;
+            this.JRTbtn.Text = "File missing";
+            this.JRTbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.JRTbtn.UseVisualStyleBackColor = false;
+            this.JRTbtn.Click += new System.EventHandler(this.JRTbtn_Click);
+            // 
+            // ADWbtn
+            // 
+            this.ADWbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.ADWbtn.Enabled = false;
+            this.ADWbtn.FlatAppearance.BorderSize = 0;
+            this.ADWbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ADWbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ADWbtn.Location = new System.Drawing.Point(116, 60);
+            this.ADWbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
+            this.ADWbtn.Name = "ADWbtn";
+            this.ADWbtn.Size = new System.Drawing.Size(100, 20);
+            this.ADWbtn.TabIndex = 8;
+            this.ADWbtn.Text = "File missing";
+            this.ADWbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.ADWbtn.UseVisualStyleBackColor = false;
+            this.ADWbtn.Click += new System.EventHandler(this.ADWbtn_Click);
+            // 
+            // Hitmanbtn
+            // 
+            this.Hitmanbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.Hitmanbtn.Enabled = false;
+            this.Hitmanbtn.FlatAppearance.BorderSize = 0;
+            this.Hitmanbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Hitmanbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Hitmanbtn.Location = new System.Drawing.Point(116, 103);
+            this.Hitmanbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
+            this.Hitmanbtn.Name = "Hitmanbtn";
+            this.Hitmanbtn.Size = new System.Drawing.Size(100, 20);
+            this.Hitmanbtn.TabIndex = 8;
+            this.Hitmanbtn.Text = "File missing";
+            this.Hitmanbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.Hitmanbtn.UseVisualStyleBackColor = false;
+            this.Hitmanbtn.Click += new System.EventHandler(this.Hitmanbtn_Click);
+            // 
+            // MBAMbtn
+            // 
+            this.MBAMbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.MBAMbtn.Enabled = false;
+            this.MBAMbtn.FlatAppearance.BorderSize = 0;
+            this.MBAMbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.MBAMbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MBAMbtn.Location = new System.Drawing.Point(116, 82);
+            this.MBAMbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
+            this.MBAMbtn.Name = "MBAMbtn";
+            this.MBAMbtn.Size = new System.Drawing.Size(100, 20);
+            this.MBAMbtn.TabIndex = 8;
+            this.MBAMbtn.Text = "File missing";
+            this.MBAMbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.MBAMbtn.UseVisualStyleBackColor = false;
+            this.MBAMbtn.Click += new System.EventHandler(this.MBAMbtn_Click);
             // 
             // groupBox2
             // 
@@ -874,23 +915,23 @@ namespace ToolDeployment
             this.groupBox2.Controls.Add(this.ABPcanclebtn);
             this.groupBox2.Controls.Add(this.AVGcanclebtn);
             this.groupBox2.Controls.Add(this.Uncheckycanclebtn);
-            this.groupBox2.Controls.Add(this.APBprgsbr);
             this.groupBox2.Controls.Add(this.MBAEcancelbutton);
             this.groupBox2.Controls.Add(this.MBAEChkBx);
-            this.groupBox2.Controls.Add(this.AVGprgsbr);
             this.groupBox2.Controls.Add(this.UncheckyChkBX);
-            this.groupBox2.Controls.Add(this.unchkprgsbr);
             this.groupBox2.Controls.Add(this.ABPIEChkBX);
-            this.groupBox2.Controls.Add(this.MBAEprgsbr);
             this.groupBox2.Controls.Add(this.AVG2014ChkBX);
+            this.groupBox2.Controls.Add(this.APBprgsbr);
+            this.groupBox2.Controls.Add(this.AVGprgsbr);
             this.groupBox2.Controls.Add(this.ABPbtn);
+            this.groupBox2.Controls.Add(this.unchkprgsbr);
+            this.groupBox2.Controls.Add(this.MBAEprgsbr);
             this.groupBox2.Controls.Add(this.AVGbtn);
-            this.groupBox2.Controls.Add(this.Unchkbtn);
             this.groupBox2.Controls.Add(this.MBAEbtn);
+            this.groupBox2.Controls.Add(this.Unchkbtn);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(9, 327);
+            this.groupBox2.Location = new System.Drawing.Point(12, 330);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(224, 114);
+            this.groupBox2.Size = new System.Drawing.Size(221, 114);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preventative Tools";
@@ -944,14 +985,6 @@ namespace ToolDeployment
             this.Uncheckycanclebtn.Visible = false;
             this.Uncheckycanclebtn.Click += new System.EventHandler(this.Uncheckycanclebtn_Click);
             // 
-            // APBprgsbr
-            // 
-            this.APBprgsbr.Location = new System.Drawing.Point(117, 87);
-            this.APBprgsbr.Name = "APBprgsbr";
-            this.APBprgsbr.Size = new System.Drawing.Size(100, 17);
-            this.APBprgsbr.TabIndex = 7;
-            this.APBprgsbr.Visible = false;
-            // 
             // MBAEcancelbutton
             // 
             this.MBAEcancelbutton.FlatAppearance.BorderSize = 0;
@@ -968,6 +1001,14 @@ namespace ToolDeployment
             this.MBAEcancelbutton.Visible = false;
             this.MBAEcancelbutton.Click += new System.EventHandler(this.MBAEcancelbutton_Click);
             // 
+            // APBprgsbr
+            // 
+            this.APBprgsbr.Location = new System.Drawing.Point(117, 87);
+            this.APBprgsbr.Name = "APBprgsbr";
+            this.APBprgsbr.Size = new System.Drawing.Size(100, 17);
+            this.APBprgsbr.TabIndex = 7;
+            this.APBprgsbr.Visible = false;
+            // 
             // AVGprgsbr
             // 
             this.AVGprgsbr.Location = new System.Drawing.Point(117, 63);
@@ -975,6 +1016,23 @@ namespace ToolDeployment
             this.AVGprgsbr.Size = new System.Drawing.Size(100, 17);
             this.AVGprgsbr.TabIndex = 7;
             this.AVGprgsbr.Visible = false;
+            // 
+            // ABPbtn
+            // 
+            this.ABPbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.ABPbtn.Enabled = false;
+            this.ABPbtn.FlatAppearance.BorderSize = 0;
+            this.ABPbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ABPbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ABPbtn.Location = new System.Drawing.Point(117, 85);
+            this.ABPbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
+            this.ABPbtn.Name = "ABPbtn";
+            this.ABPbtn.Size = new System.Drawing.Size(100, 20);
+            this.ABPbtn.TabIndex = 8;
+            this.ABPbtn.Text = "File missing";
+            this.ABPbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.ABPbtn.UseVisualStyleBackColor = false;
+            this.ABPbtn.Click += new System.EventHandler(this.ABPbtn_Click);
             // 
             // unchkprgsbr
             // 
@@ -992,61 +1050,56 @@ namespace ToolDeployment
             this.MBAEprgsbr.TabIndex = 7;
             this.MBAEprgsbr.Visible = false;
             // 
-            // ABPbtn
-            // 
-            this.ABPbtn.Enabled = false;
-            this.ABPbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ABPbtn.Location = new System.Drawing.Point(117, 86);
-            this.ABPbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
-            this.ABPbtn.Name = "ABPbtn";
-            this.ABPbtn.Size = new System.Drawing.Size(100, 20);
-            this.ABPbtn.TabIndex = 8;
-            this.ABPbtn.Text = "Launch";
-            this.ABPbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.ABPbtn.UseVisualStyleBackColor = true;
-            this.ABPbtn.Click += new System.EventHandler(this.ABPbtn_Click);
-            // 
             // AVGbtn
             // 
+            this.AVGbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.AVGbtn.Enabled = false;
+            this.AVGbtn.FlatAppearance.BorderSize = 0;
+            this.AVGbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.AVGbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AVGbtn.Location = new System.Drawing.Point(117, 62);
+            this.AVGbtn.Location = new System.Drawing.Point(117, 61);
             this.AVGbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
             this.AVGbtn.Name = "AVGbtn";
             this.AVGbtn.Size = new System.Drawing.Size(100, 20);
             this.AVGbtn.TabIndex = 8;
-            this.AVGbtn.Text = "Launch";
+            this.AVGbtn.Text = "File missing";
             this.AVGbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.AVGbtn.UseVisualStyleBackColor = true;
+            this.AVGbtn.UseVisualStyleBackColor = false;
             this.AVGbtn.Click += new System.EventHandler(this.AVGbtn_Click);
-            // 
-            // Unchkbtn
-            // 
-            this.Unchkbtn.Enabled = false;
-            this.Unchkbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Unchkbtn.Location = new System.Drawing.Point(117, 40);
-            this.Unchkbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
-            this.Unchkbtn.Name = "Unchkbtn";
-            this.Unchkbtn.Size = new System.Drawing.Size(100, 20);
-            this.Unchkbtn.TabIndex = 8;
-            this.Unchkbtn.Text = "Launch";
-            this.Unchkbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.Unchkbtn.UseVisualStyleBackColor = true;
-            this.Unchkbtn.Click += new System.EventHandler(this.Unchkbtn_Click);
             // 
             // MBAEbtn
             // 
+            this.MBAEbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.MBAEbtn.Enabled = false;
+            this.MBAEbtn.FlatAppearance.BorderSize = 0;
+            this.MBAEbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.MBAEbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MBAEbtn.Location = new System.Drawing.Point(117, 17);
+            this.MBAEbtn.Location = new System.Drawing.Point(117, 16);
             this.MBAEbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
             this.MBAEbtn.Name = "MBAEbtn";
             this.MBAEbtn.Size = new System.Drawing.Size(100, 20);
             this.MBAEbtn.TabIndex = 8;
-            this.MBAEbtn.Text = "Launch";
+            this.MBAEbtn.Text = "File missing";
             this.MBAEbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.MBAEbtn.UseVisualStyleBackColor = true;
+            this.MBAEbtn.UseVisualStyleBackColor = false;
             this.MBAEbtn.Click += new System.EventHandler(this.MBAEbtn_Click);
+            // 
+            // Unchkbtn
+            // 
+            this.Unchkbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.Unchkbtn.Enabled = false;
+            this.Unchkbtn.FlatAppearance.BorderSize = 0;
+            this.Unchkbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Unchkbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Unchkbtn.Location = new System.Drawing.Point(117, 39);
+            this.Unchkbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
+            this.Unchkbtn.Name = "Unchkbtn";
+            this.Unchkbtn.Size = new System.Drawing.Size(100, 20);
+            this.Unchkbtn.TabIndex = 8;
+            this.Unchkbtn.Text = "File missing";
+            this.Unchkbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.Unchkbtn.UseVisualStyleBackColor = false;
+            this.Unchkbtn.Click += new System.EventHandler(this.Unchkbtn_Click);
             // 
             // menuStrip1
             // 
@@ -1058,7 +1111,7 @@ namespace ToolDeployment
             this.CF6Notes});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.menuStrip1.Size = new System.Drawing.Size(476, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
@@ -1346,7 +1399,7 @@ namespace ToolDeployment
             this.CF6Notes.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.CF6Notes.ForeColor = System.Drawing.Color.Black;
             this.CF6Notes.Name = "CF6Notes";
-            this.CF6Notes.Size = new System.Drawing.Size(320, 16);
+            this.CF6Notes.Size = new System.Drawing.Size(275, 16);
             this.CF6Notes.ToolTipText = "Use this to track and save the results of your scans. ";
             this.CF6Notes.Visible = false;
             this.CF6Notes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CF6Notes_KeyPress);
@@ -1356,12 +1409,12 @@ namespace ToolDeployment
             this.DeployBTN.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DeployBTN.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.DeployBTN.BackColor = System.Drawing.Color.LightSteelBlue;
             this.DeployBTN.FlatAppearance.BorderSize = 0;
             this.DeployBTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.DeployBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DeployBTN.ForeColor = System.Drawing.Color.Black;
-            this.DeployBTN.Location = new System.Drawing.Point(12, 27);
+            this.DeployBTN.Location = new System.Drawing.Point(12, 30);
             this.DeployBTN.Name = "DeployBTN";
             this.DeployBTN.Size = new System.Drawing.Size(109, 35);
             this.DeployBTN.TabIndex = 6;
@@ -1375,12 +1428,12 @@ namespace ToolDeployment
             this.DeployAllBTN.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DeployAllBTN.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.DeployAllBTN.BackColor = System.Drawing.Color.LightSteelBlue;
             this.DeployAllBTN.FlatAppearance.BorderSize = 0;
             this.DeployAllBTN.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.DeployAllBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DeployAllBTN.ForeColor = System.Drawing.Color.Black;
-            this.DeployAllBTN.Location = new System.Drawing.Point(124, 27);
+            this.DeployAllBTN.Location = new System.Drawing.Point(124, 30);
             this.DeployAllBTN.Name = "DeployAllBTN";
             this.DeployAllBTN.Size = new System.Drawing.Size(101, 35);
             this.DeployAllBTN.TabIndex = 6;
@@ -1397,16 +1450,16 @@ namespace ToolDeployment
             this.groupBox3.BackColor = System.Drawing.Color.Transparent;
             this.groupBox3.Controls.Add(this.callingcardcancelbtn);
             this.groupBox3.Controls.Add(this.callingcardchkbx);
-            this.groupBox3.Controls.Add(this.callingcardprgsbr);
-            this.groupBox3.Controls.Add(this.callingcardbtn);
             this.groupBox3.Controls.Add(this.teamchkbx);
-            this.groupBox3.Controls.Add(this.teamprgsbr);
             this.groupBox3.Controls.Add(this.teamcancelbr);
+            this.groupBox3.Controls.Add(this.callingcardprgsbr);
+            this.groupBox3.Controls.Add(this.teamprgsbr);
+            this.groupBox3.Controls.Add(this.callingcardbtn);
             this.groupBox3.Controls.Add(this.teambtn);
             this.groupBox3.ForeColor = System.Drawing.Color.Black;
-            this.groupBox3.Location = new System.Drawing.Point(9, 441);
+            this.groupBox3.Location = new System.Drawing.Point(12, 446);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(224, 63);
+            this.groupBox3.Size = new System.Drawing.Size(221, 59);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Remote Connections";
@@ -1438,28 +1491,6 @@ namespace ToolDeployment
             this.callingcardchkbx.Text = "Calling Card";
             this.callingcardchkbx.UseVisualStyleBackColor = true;
             // 
-            // callingcardprgsbr
-            // 
-            this.callingcardprgsbr.Location = new System.Drawing.Point(117, 17);
-            this.callingcardprgsbr.Name = "callingcardprgsbr";
-            this.callingcardprgsbr.Size = new System.Drawing.Size(100, 17);
-            this.callingcardprgsbr.TabIndex = 7;
-            this.callingcardprgsbr.Visible = false;
-            // 
-            // callingcardbtn
-            // 
-            this.callingcardbtn.Enabled = false;
-            this.callingcardbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.callingcardbtn.Location = new System.Drawing.Point(117, 15);
-            this.callingcardbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
-            this.callingcardbtn.Name = "callingcardbtn";
-            this.callingcardbtn.Size = new System.Drawing.Size(100, 20);
-            this.callingcardbtn.TabIndex = 10;
-            this.callingcardbtn.Text = "Launch";
-            this.callingcardbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.callingcardbtn.UseVisualStyleBackColor = true;
-            this.callingcardbtn.Click += new System.EventHandler(this.callingcardbtn_Click);
-            // 
             // teamchkbx
             // 
             this.teamchkbx.AutoSize = true;
@@ -1469,15 +1500,6 @@ namespace ToolDeployment
             this.teamchkbx.TabIndex = 10;
             this.teamchkbx.Text = "Teamviewer";
             this.teamchkbx.UseVisualStyleBackColor = true;
-            // 
-            // teamprgsbr
-            // 
-            this.teamprgsbr.Enabled = false;
-            this.teamprgsbr.Location = new System.Drawing.Point(116, 37);
-            this.teamprgsbr.Name = "teamprgsbr";
-            this.teamprgsbr.Size = new System.Drawing.Size(100, 20);
-            this.teamprgsbr.TabIndex = 13;
-            this.teamprgsbr.Visible = false;
             // 
             // teamcancelbr
             // 
@@ -1496,17 +1518,55 @@ namespace ToolDeployment
             this.teamcancelbr.Visible = false;
             this.teamcancelbr.Click += new System.EventHandler(this.teamcancelbr_Click);
             // 
+            // callingcardprgsbr
+            // 
+            this.callingcardprgsbr.Location = new System.Drawing.Point(117, 17);
+            this.callingcardprgsbr.Name = "callingcardprgsbr";
+            this.callingcardprgsbr.Size = new System.Drawing.Size(100, 17);
+            this.callingcardprgsbr.TabIndex = 7;
+            this.callingcardprgsbr.Visible = false;
+            // 
+            // teamprgsbr
+            // 
+            this.teamprgsbr.Enabled = false;
+            this.teamprgsbr.Location = new System.Drawing.Point(116, 37);
+            this.teamprgsbr.Name = "teamprgsbr";
+            this.teamprgsbr.Size = new System.Drawing.Size(100, 20);
+            this.teamprgsbr.TabIndex = 13;
+            this.teamprgsbr.Visible = false;
+            // 
+            // callingcardbtn
+            // 
+            this.callingcardbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.callingcardbtn.Enabled = false;
+            this.callingcardbtn.FlatAppearance.BorderSize = 0;
+            this.callingcardbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.callingcardbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.callingcardbtn.Location = new System.Drawing.Point(116, 15);
+            this.callingcardbtn.Margin = new System.Windows.Forms.Padding(1, 0, 1, 1);
+            this.callingcardbtn.Name = "callingcardbtn";
+            this.callingcardbtn.Size = new System.Drawing.Size(100, 20);
+            this.callingcardbtn.TabIndex = 10;
+            this.callingcardbtn.Text = "File missing";
+            this.callingcardbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.callingcardbtn.UseVisualStyleBackColor = false;
+            this.callingcardbtn.Click += new System.EventHandler(this.callingcardbtn_Click);
+            // 
             // teambtn
             // 
+            this.teambtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.teambtn.Enabled = false;
+            this.teambtn.FlatAppearance.BorderSize = 0;
+            this.teambtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.teambtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.teambtn.Location = new System.Drawing.Point(116, 37);
             this.teambtn.Margin = new System.Windows.Forms.Padding(1);
             this.teambtn.Name = "teambtn";
             this.teambtn.Size = new System.Drawing.Size(100, 20);
             this.teambtn.TabIndex = 11;
-            this.teambtn.Text = "Launch";
+            this.teambtn.Text = "File missing";
             this.teambtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.teambtn.UseVisualStyleBackColor = true;
+            this.teambtn.UseVisualStyleBackColor = false;
             this.teambtn.Click += new System.EventHandler(this.teambtn_Click);
             // 
             // button2
@@ -1514,12 +1574,12 @@ namespace ToolDeployment
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.button2.BackColor = System.Drawing.Color.LightSteelBlue;
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.Black;
-            this.button2.Location = new System.Drawing.Point(341, 27);
+            this.button2.Location = new System.Drawing.Point(341, 30);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(122, 35);
             this.button2.TabIndex = 0;
@@ -1540,15 +1600,19 @@ namespace ToolDeployment
             // 
             // esetbtn
             // 
+            this.esetbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.esetbtn.Enabled = false;
-            this.esetbtn.Location = new System.Drawing.Point(123, 146);
+            this.esetbtn.FlatAppearance.BorderSize = 0;
+            this.esetbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.esetbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.esetbtn.Location = new System.Drawing.Point(113, 147);
             this.esetbtn.Margin = new System.Windows.Forms.Padding(1);
             this.esetbtn.Name = "esetbtn";
             this.esetbtn.Size = new System.Drawing.Size(104, 20);
             this.esetbtn.TabIndex = 11;
-            this.esetbtn.Text = "Launch";
+            this.esetbtn.Text = "File missing";
             this.esetbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.esetbtn.UseVisualStyleBackColor = true;
+            this.esetbtn.UseVisualStyleBackColor = false;
             this.esetbtn.Click += new System.EventHandler(this.esetbtn_Click);
             // 
             // tdsschkbx
@@ -1563,15 +1627,19 @@ namespace ToolDeployment
             // 
             // tdssbtn
             // 
+            this.tdssbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.tdssbtn.Enabled = false;
-            this.tdssbtn.Location = new System.Drawing.Point(123, 13);
+            this.tdssbtn.FlatAppearance.BorderSize = 0;
+            this.tdssbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.tdssbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tdssbtn.Location = new System.Drawing.Point(113, 14);
             this.tdssbtn.Margin = new System.Windows.Forms.Padding(1);
             this.tdssbtn.Name = "tdssbtn";
             this.tdssbtn.Size = new System.Drawing.Size(104, 20);
             this.tdssbtn.TabIndex = 11;
-            this.tdssbtn.Text = "Launch";
+            this.tdssbtn.Text = "File missing";
             this.tdssbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.tdssbtn.UseVisualStyleBackColor = true;
+            this.tdssbtn.UseVisualStyleBackColor = false;
             this.tdssbtn.Click += new System.EventHandler(this.tdssbtn_Click);
             // 
             // superantichkbx
@@ -1586,15 +1654,19 @@ namespace ToolDeployment
             // 
             // superantibtn
             // 
+            this.superantibtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.superantibtn.Enabled = false;
-            this.superantibtn.Location = new System.Drawing.Point(123, 36);
+            this.superantibtn.FlatAppearance.BorderSize = 0;
+            this.superantibtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.superantibtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.superantibtn.Location = new System.Drawing.Point(113, 37);
             this.superantibtn.Margin = new System.Windows.Forms.Padding(1);
             this.superantibtn.Name = "superantibtn";
             this.superantibtn.Size = new System.Drawing.Size(104, 20);
             this.superantibtn.TabIndex = 11;
-            this.superantibtn.Text = "Launch";
+            this.superantibtn.Text = "File missing";
             this.superantibtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.superantibtn.UseVisualStyleBackColor = true;
+            this.superantibtn.UseVisualStyleBackColor = false;
             this.superantibtn.Click += new System.EventHandler(this.superantibtn_Click);
             // 
             // tweakikngtookschkbx
@@ -1609,15 +1681,19 @@ namespace ToolDeployment
             // 
             // tweakingtoolsbtn
             // 
+            this.tweakingtoolsbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.tweakingtoolsbtn.Enabled = false;
-            this.tweakingtoolsbtn.Location = new System.Drawing.Point(123, 57);
+            this.tweakingtoolsbtn.FlatAppearance.BorderSize = 0;
+            this.tweakingtoolsbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.tweakingtoolsbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tweakingtoolsbtn.Location = new System.Drawing.Point(113, 58);
             this.tweakingtoolsbtn.Margin = new System.Windows.Forms.Padding(1);
             this.tweakingtoolsbtn.Name = "tweakingtoolsbtn";
             this.tweakingtoolsbtn.Size = new System.Drawing.Size(104, 20);
             this.tweakingtoolsbtn.TabIndex = 11;
-            this.tweakingtoolsbtn.Text = "Launch";
+            this.tweakingtoolsbtn.Text = "File missing";
             this.tweakingtoolsbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.tweakingtoolsbtn.UseVisualStyleBackColor = true;
+            this.tweakingtoolsbtn.UseVisualStyleBackColor = false;
             this.tweakingtoolsbtn.Click += new System.EventHandler(this.tweakingtoolsbtn_Click);
             // 
             // avgremovalchkbx
@@ -1632,15 +1708,19 @@ namespace ToolDeployment
             // 
             // avgremovalbtn
             // 
+            this.avgremovalbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.avgremovalbtn.Enabled = false;
-            this.avgremovalbtn.Location = new System.Drawing.Point(123, 213);
+            this.avgremovalbtn.FlatAppearance.BorderSize = 0;
+            this.avgremovalbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.avgremovalbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.avgremovalbtn.Location = new System.Drawing.Point(113, 214);
             this.avgremovalbtn.Margin = new System.Windows.Forms.Padding(1);
             this.avgremovalbtn.Name = "avgremovalbtn";
             this.avgremovalbtn.Size = new System.Drawing.Size(104, 20);
             this.avgremovalbtn.TabIndex = 11;
-            this.avgremovalbtn.Text = "Launch";
+            this.avgremovalbtn.Text = "File missing";
             this.avgremovalbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.avgremovalbtn.UseVisualStyleBackColor = true;
+            this.avgremovalbtn.UseVisualStyleBackColor = false;
             this.avgremovalbtn.Click += new System.EventHandler(this.simplesystembtn_Click);
             // 
             // sfcchkbx
@@ -1655,15 +1735,19 @@ namespace ToolDeployment
             // 
             // sfcbtn
             // 
+            this.sfcbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.sfcbtn.Enabled = false;
-            this.sfcbtn.Location = new System.Drawing.Point(123, 102);
+            this.sfcbtn.FlatAppearance.BorderSize = 0;
+            this.sfcbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.sfcbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sfcbtn.Location = new System.Drawing.Point(113, 103);
             this.sfcbtn.Margin = new System.Windows.Forms.Padding(1);
             this.sfcbtn.Name = "sfcbtn";
             this.sfcbtn.Size = new System.Drawing.Size(104, 20);
             this.sfcbtn.TabIndex = 11;
-            this.sfcbtn.Text = "Launch";
+            this.sfcbtn.Text = "File missing";
             this.sfcbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.sfcbtn.UseVisualStyleBackColor = true;
+            this.sfcbtn.UseVisualStyleBackColor = false;
             this.sfcbtn.Click += new System.EventHandler(this.sfcbtn_Click);
             // 
             // revelationchkbx
@@ -1678,15 +1762,19 @@ namespace ToolDeployment
             // 
             // revelationbtn
             // 
+            this.revelationbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.revelationbtn.Enabled = false;
-            this.revelationbtn.Location = new System.Drawing.Point(123, 124);
+            this.revelationbtn.FlatAppearance.BorderSize = 0;
+            this.revelationbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.revelationbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.revelationbtn.Location = new System.Drawing.Point(113, 125);
             this.revelationbtn.Margin = new System.Windows.Forms.Padding(1);
             this.revelationbtn.Name = "revelationbtn";
             this.revelationbtn.Size = new System.Drawing.Size(104, 20);
             this.revelationbtn.TabIndex = 11;
-            this.revelationbtn.Text = "Launch";
+            this.revelationbtn.Text = "File missing";
             this.revelationbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.revelationbtn.UseVisualStyleBackColor = true;
+            this.revelationbtn.UseVisualStyleBackColor = false;
             this.revelationbtn.Click += new System.EventHandler(this.revelationbtn_Click);
             // 
             // nortonremovalchkbx
@@ -1701,15 +1789,19 @@ namespace ToolDeployment
             // 
             // nortonremovalbtn
             // 
+            this.nortonremovalbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.nortonremovalbtn.Enabled = false;
-            this.nortonremovalbtn.Location = new System.Drawing.Point(123, 256);
+            this.nortonremovalbtn.FlatAppearance.BorderSize = 0;
+            this.nortonremovalbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.nortonremovalbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nortonremovalbtn.Location = new System.Drawing.Point(113, 257);
             this.nortonremovalbtn.Margin = new System.Windows.Forms.Padding(1);
             this.nortonremovalbtn.Name = "nortonremovalbtn";
             this.nortonremovalbtn.Size = new System.Drawing.Size(104, 20);
             this.nortonremovalbtn.TabIndex = 11;
-            this.nortonremovalbtn.Text = "Launch";
+            this.nortonremovalbtn.Text = "File missing";
             this.nortonremovalbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.nortonremovalbtn.UseVisualStyleBackColor = true;
+            this.nortonremovalbtn.UseVisualStyleBackColor = false;
             this.nortonremovalbtn.Click += new System.EventHandler(this.nortonremovalbtn_Click);
             // 
             // mcafferemovalchkbx
@@ -1724,15 +1816,19 @@ namespace ToolDeployment
             // 
             // mcafeeremovalbtn
             // 
+            this.mcafeeremovalbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.mcafeeremovalbtn.Enabled = false;
-            this.mcafeeremovalbtn.Location = new System.Drawing.Point(123, 235);
+            this.mcafeeremovalbtn.FlatAppearance.BorderSize = 0;
+            this.mcafeeremovalbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.mcafeeremovalbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mcafeeremovalbtn.Location = new System.Drawing.Point(113, 236);
             this.mcafeeremovalbtn.Margin = new System.Windows.Forms.Padding(1);
             this.mcafeeremovalbtn.Name = "mcafeeremovalbtn";
             this.mcafeeremovalbtn.Size = new System.Drawing.Size(104, 20);
             this.mcafeeremovalbtn.TabIndex = 11;
-            this.mcafeeremovalbtn.Text = "Launch";
+            this.mcafeeremovalbtn.Text = "File missing";
             this.mcafeeremovalbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.mcafeeremovalbtn.UseVisualStyleBackColor = true;
+            this.mcafeeremovalbtn.UseVisualStyleBackColor = false;
             this.mcafeeremovalbtn.Click += new System.EventHandler(this.mcafeeremovalbtn_Click);
             // 
             // roguekillerchkbx
@@ -1747,15 +1843,19 @@ namespace ToolDeployment
             // 
             // roguekillerbtn
             // 
+            this.roguekillerbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.roguekillerbtn.Enabled = false;
-            this.roguekillerbtn.Location = new System.Drawing.Point(123, 79);
+            this.roguekillerbtn.FlatAppearance.BorderSize = 0;
+            this.roguekillerbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.roguekillerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.roguekillerbtn.Location = new System.Drawing.Point(113, 80);
             this.roguekillerbtn.Margin = new System.Windows.Forms.Padding(1);
             this.roguekillerbtn.Name = "roguekillerbtn";
             this.roguekillerbtn.Size = new System.Drawing.Size(104, 20);
             this.roguekillerbtn.TabIndex = 11;
-            this.roguekillerbtn.Text = "Launch";
+            this.roguekillerbtn.Text = "File missing";
             this.roguekillerbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.roguekillerbtn.UseVisualStyleBackColor = true;
+            this.roguekillerbtn.UseVisualStyleBackColor = false;
             this.roguekillerbtn.Click += new System.EventHandler(this.roguekillerbtn_Click);
             // 
             // produkeychkbx
@@ -1770,15 +1870,19 @@ namespace ToolDeployment
             // 
             // produkeybtn
             // 
+            this.produkeybtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.produkeybtn.Enabled = false;
-            this.produkeybtn.Location = new System.Drawing.Point(123, 168);
+            this.produkeybtn.FlatAppearance.BorderSize = 0;
+            this.produkeybtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.produkeybtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.produkeybtn.Location = new System.Drawing.Point(113, 169);
             this.produkeybtn.Margin = new System.Windows.Forms.Padding(1);
             this.produkeybtn.Name = "produkeybtn";
             this.produkeybtn.Size = new System.Drawing.Size(104, 20);
             this.produkeybtn.TabIndex = 11;
-            this.produkeybtn.Text = "Launch";
+            this.produkeybtn.Text = "File missing";
             this.produkeybtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.produkeybtn.UseVisualStyleBackColor = true;
+            this.produkeybtn.UseVisualStyleBackColor = false;
             this.produkeybtn.Click += new System.EventHandler(this.produkeybtn_Click);
             // 
             // button31
@@ -2161,7 +2265,6 @@ namespace ToolDeployment
             this.groupBox4.BackColor = System.Drawing.Color.Transparent;
             this.groupBox4.Controls.Add(this.roguekillercancelbtn);
             this.groupBox4.Controls.Add(this.produkeycancelbtn);
-            this.groupBox4.Controls.Add(this.roguekillerchkbx);
             this.groupBox4.Controls.Add(this.mcafferemovalcancelbtn);
             this.groupBox4.Controls.Add(this.nortonremovalcancelbtn);
             this.groupBox4.Controls.Add(this.revelationscancelbtn);
@@ -2171,6 +2274,8 @@ namespace ToolDeployment
             this.groupBox4.Controls.Add(this.superanticancelbtn);
             this.groupBox4.Controls.Add(this.tdsscancelbtn);
             this.groupBox4.Controls.Add(this.esetcancelbtn);
+            this.groupBox4.Controls.Add(this.pcdecrapcancelbtn);
+            this.groupBox4.Controls.Add(this.roguekillerchkbx);
             this.groupBox4.Controls.Add(this.avgremovalchkbx);
             this.groupBox4.Controls.Add(this.produkeychkbx);
             this.groupBox4.Controls.Add(this.revelationchkbx);
@@ -2182,7 +2287,6 @@ namespace ToolDeployment
             this.groupBox4.Controls.Add(this.tweakikngtookschkbx);
             this.groupBox4.Controls.Add(this.mcafferemovalchkbx);
             this.groupBox4.Controls.Add(this.pcdecrapchkbx);
-            this.groupBox4.Controls.Add(this.pcdecrapcancelbtn);
             this.groupBox4.Controls.Add(this.avgremovalprgsbr);
             this.groupBox4.Controls.Add(this.roguekillerprgsbr);
             this.groupBox4.Controls.Add(this.nortonremovalprgsbr);
@@ -2208,9 +2312,9 @@ namespace ToolDeployment
             this.groupBox4.Controls.Add(this.pcdecrapbtn);
             this.groupBox4.Controls.Add(this.avgremovalbtn);
             this.groupBox4.ForeColor = System.Drawing.Color.Black;
-            this.groupBox4.Location = new System.Drawing.Point(237, 87);
+            this.groupBox4.Location = new System.Drawing.Point(236, 89);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(231, 283);
+            this.groupBox4.Size = new System.Drawing.Size(227, 283);
             this.groupBox4.TabIndex = 12;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Advanced Tools";
@@ -2222,7 +2326,7 @@ namespace ToolDeployment
             this.roguekillercancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roguekillercancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.roguekillercancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.roguekillercancelbtn.Location = new System.Drawing.Point(100, 79);
+            this.roguekillercancelbtn.Location = new System.Drawing.Point(89, 79);
             this.roguekillercancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.roguekillercancelbtn.Name = "roguekillercancelbtn";
             this.roguekillercancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2239,7 +2343,7 @@ namespace ToolDeployment
             this.produkeycancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.produkeycancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.produkeycancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.produkeycancelbtn.Location = new System.Drawing.Point(100, 167);
+            this.produkeycancelbtn.Location = new System.Drawing.Point(89, 167);
             this.produkeycancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.produkeycancelbtn.Name = "produkeycancelbtn";
             this.produkeycancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2256,7 +2360,7 @@ namespace ToolDeployment
             this.mcafferemovalcancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mcafferemovalcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.mcafferemovalcancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.mcafferemovalcancelbtn.Location = new System.Drawing.Point(100, 234);
+            this.mcafferemovalcancelbtn.Location = new System.Drawing.Point(89, 234);
             this.mcafferemovalcancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.mcafferemovalcancelbtn.Name = "mcafferemovalcancelbtn";
             this.mcafferemovalcancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2273,7 +2377,7 @@ namespace ToolDeployment
             this.nortonremovalcancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.nortonremovalcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.nortonremovalcancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.nortonremovalcancelbtn.Location = new System.Drawing.Point(100, 256);
+            this.nortonremovalcancelbtn.Location = new System.Drawing.Point(89, 256);
             this.nortonremovalcancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.nortonremovalcancelbtn.Name = "nortonremovalcancelbtn";
             this.nortonremovalcancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2290,7 +2394,7 @@ namespace ToolDeployment
             this.revelationscancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.revelationscancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.revelationscancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.revelationscancelbtn.Location = new System.Drawing.Point(100, 123);
+            this.revelationscancelbtn.Location = new System.Drawing.Point(89, 123);
             this.revelationscancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.revelationscancelbtn.Name = "revelationscancelbtn";
             this.revelationscancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2307,7 +2411,7 @@ namespace ToolDeployment
             this.sfccancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.sfccancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.sfccancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.sfccancelbtn.Location = new System.Drawing.Point(100, 101);
+            this.sfccancelbtn.Location = new System.Drawing.Point(89, 101);
             this.sfccancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.sfccancelbtn.Name = "sfccancelbtn";
             this.sfccancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2324,7 +2428,7 @@ namespace ToolDeployment
             this.avgremovalcancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.avgremovalcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.avgremovalcancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.avgremovalcancelbtn.Location = new System.Drawing.Point(100, 212);
+            this.avgremovalcancelbtn.Location = new System.Drawing.Point(89, 212);
             this.avgremovalcancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.avgremovalcancelbtn.Name = "avgremovalcancelbtn";
             this.avgremovalcancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2341,7 +2445,7 @@ namespace ToolDeployment
             this.tweakingtoolscancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tweakingtoolscancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.tweakingtoolscancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.tweakingtoolscancelbtn.Location = new System.Drawing.Point(100, 57);
+            this.tweakingtoolscancelbtn.Location = new System.Drawing.Point(89, 57);
             this.tweakingtoolscancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.tweakingtoolscancelbtn.Name = "tweakingtoolscancelbtn";
             this.tweakingtoolscancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2358,7 +2462,7 @@ namespace ToolDeployment
             this.superanticancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.superanticancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.superanticancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.superanticancelbtn.Location = new System.Drawing.Point(100, 35);
+            this.superanticancelbtn.Location = new System.Drawing.Point(89, 35);
             this.superanticancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.superanticancelbtn.Name = "superanticancelbtn";
             this.superanticancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2375,7 +2479,7 @@ namespace ToolDeployment
             this.tdsscancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tdsscancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.tdsscancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.tdsscancelbtn.Location = new System.Drawing.Point(100, 13);
+            this.tdsscancelbtn.Location = new System.Drawing.Point(89, 13);
             this.tdsscancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.tdsscancelbtn.Name = "tdsscancelbtn";
             this.tdsscancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2392,7 +2496,7 @@ namespace ToolDeployment
             this.esetcancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.esetcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.esetcancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.esetcancelbtn.Location = new System.Drawing.Point(100, 145);
+            this.esetcancelbtn.Location = new System.Drawing.Point(89, 145);
             this.esetcancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.esetcancelbtn.Name = "esetcancelbtn";
             this.esetcancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2402,6 +2506,23 @@ namespace ToolDeployment
             this.esetcancelbtn.UseVisualStyleBackColor = true;
             this.esetcancelbtn.Visible = false;
             this.esetcancelbtn.Click += new System.EventHandler(this.esetcancelbtn_Click);
+            // 
+            // pcdecrapcancelbtn
+            // 
+            this.pcdecrapcancelbtn.FlatAppearance.BorderSize = 0;
+            this.pcdecrapcancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pcdecrapcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
+            this.pcdecrapcancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.pcdecrapcancelbtn.Location = new System.Drawing.Point(89, 189);
+            this.pcdecrapcancelbtn.Margin = new System.Windows.Forms.Padding(0);
+            this.pcdecrapcancelbtn.Name = "pcdecrapcancelbtn";
+            this.pcdecrapcancelbtn.Size = new System.Drawing.Size(23, 21);
+            this.pcdecrapcancelbtn.TabIndex = 8;
+            this.pcdecrapcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip1.SetToolTip(this.pcdecrapcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
+            this.pcdecrapcancelbtn.UseVisualStyleBackColor = true;
+            this.pcdecrapcancelbtn.Visible = false;
+            this.pcdecrapcancelbtn.Click += new System.EventHandler(this.pcdecrapcancelbtn_Click);
             // 
             // pcdecrapchkbx
             // 
@@ -2413,26 +2534,9 @@ namespace ToolDeployment
             this.pcdecrapchkbx.Text = "PC Decrapifier";
             this.pcdecrapchkbx.UseVisualStyleBackColor = true;
             // 
-            // pcdecrapcancelbtn
-            // 
-            this.pcdecrapcancelbtn.FlatAppearance.BorderSize = 0;
-            this.pcdecrapcancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.pcdecrapcancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
-            this.pcdecrapcancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.pcdecrapcancelbtn.Location = new System.Drawing.Point(100, 189);
-            this.pcdecrapcancelbtn.Margin = new System.Windows.Forms.Padding(0);
-            this.pcdecrapcancelbtn.Name = "pcdecrapcancelbtn";
-            this.pcdecrapcancelbtn.Size = new System.Drawing.Size(23, 21);
-            this.pcdecrapcancelbtn.TabIndex = 8;
-            this.pcdecrapcancelbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.toolTip1.SetToolTip(this.pcdecrapcancelbtn, "Cancel download or Delete file\r\nHold SHIFT then Click to kill process");
-            this.pcdecrapcancelbtn.UseVisualStyleBackColor = true;
-            this.pcdecrapcancelbtn.Visible = false;
-            this.pcdecrapcancelbtn.Click += new System.EventHandler(this.pcdecrapcancelbtn_Click);
-            // 
             // avgremovalprgsbr
             // 
-            this.avgremovalprgsbr.Location = new System.Drawing.Point(123, 213);
+            this.avgremovalprgsbr.Location = new System.Drawing.Point(112, 213);
             this.avgremovalprgsbr.Name = "avgremovalprgsbr";
             this.avgremovalprgsbr.Size = new System.Drawing.Size(104, 20);
             this.avgremovalprgsbr.TabIndex = 13;
@@ -2440,7 +2544,7 @@ namespace ToolDeployment
             // 
             // roguekillerprgsbr
             // 
-            this.roguekillerprgsbr.Location = new System.Drawing.Point(123, 80);
+            this.roguekillerprgsbr.Location = new System.Drawing.Point(112, 80);
             this.roguekillerprgsbr.Name = "roguekillerprgsbr";
             this.roguekillerprgsbr.Size = new System.Drawing.Size(104, 20);
             this.roguekillerprgsbr.TabIndex = 13;
@@ -2448,7 +2552,7 @@ namespace ToolDeployment
             // 
             // nortonremovalprgsbr
             // 
-            this.nortonremovalprgsbr.Location = new System.Drawing.Point(123, 257);
+            this.nortonremovalprgsbr.Location = new System.Drawing.Point(112, 257);
             this.nortonremovalprgsbr.Name = "nortonremovalprgsbr";
             this.nortonremovalprgsbr.Size = new System.Drawing.Size(104, 20);
             this.nortonremovalprgsbr.TabIndex = 13;
@@ -2456,7 +2560,7 @@ namespace ToolDeployment
             // 
             // esetprgsbr
             // 
-            this.esetprgsbr.Location = new System.Drawing.Point(123, 146);
+            this.esetprgsbr.Location = new System.Drawing.Point(112, 146);
             this.esetprgsbr.Name = "esetprgsbr";
             this.esetprgsbr.Size = new System.Drawing.Size(104, 20);
             this.esetprgsbr.TabIndex = 13;
@@ -2464,7 +2568,7 @@ namespace ToolDeployment
             // 
             // tdssprgsbr
             // 
-            this.tdssprgsbr.Location = new System.Drawing.Point(123, 14);
+            this.tdssprgsbr.Location = new System.Drawing.Point(112, 14);
             this.tdssprgsbr.Name = "tdssprgsbr";
             this.tdssprgsbr.Size = new System.Drawing.Size(104, 20);
             this.tdssprgsbr.TabIndex = 13;
@@ -2472,7 +2576,7 @@ namespace ToolDeployment
             // 
             // revelationprgsbr
             // 
-            this.revelationprgsbr.Location = new System.Drawing.Point(123, 124);
+            this.revelationprgsbr.Location = new System.Drawing.Point(112, 124);
             this.revelationprgsbr.Name = "revelationprgsbr";
             this.revelationprgsbr.Size = new System.Drawing.Size(104, 20);
             this.revelationprgsbr.TabIndex = 13;
@@ -2480,7 +2584,7 @@ namespace ToolDeployment
             // 
             // tweakingtoolsprgsbr
             // 
-            this.tweakingtoolsprgsbr.Location = new System.Drawing.Point(123, 58);
+            this.tweakingtoolsprgsbr.Location = new System.Drawing.Point(112, 58);
             this.tweakingtoolsprgsbr.Name = "tweakingtoolsprgsbr";
             this.tweakingtoolsprgsbr.Size = new System.Drawing.Size(104, 20);
             this.tweakingtoolsprgsbr.TabIndex = 13;
@@ -2488,7 +2592,7 @@ namespace ToolDeployment
             // 
             // superantiprgsbr
             // 
-            this.superantiprgsbr.Location = new System.Drawing.Point(123, 36);
+            this.superantiprgsbr.Location = new System.Drawing.Point(112, 36);
             this.superantiprgsbr.Name = "superantiprgsbr";
             this.superantiprgsbr.Size = new System.Drawing.Size(104, 20);
             this.superantiprgsbr.TabIndex = 13;
@@ -2496,7 +2600,7 @@ namespace ToolDeployment
             // 
             // mcafferemovalprgsbr
             // 
-            this.mcafferemovalprgsbr.Location = new System.Drawing.Point(123, 235);
+            this.mcafferemovalprgsbr.Location = new System.Drawing.Point(112, 235);
             this.mcafferemovalprgsbr.Name = "mcafferemovalprgsbr";
             this.mcafferemovalprgsbr.Size = new System.Drawing.Size(104, 20);
             this.mcafferemovalprgsbr.TabIndex = 13;
@@ -2504,7 +2608,7 @@ namespace ToolDeployment
             // 
             // sfcprgsbr
             // 
-            this.sfcprgsbr.Location = new System.Drawing.Point(123, 102);
+            this.sfcprgsbr.Location = new System.Drawing.Point(112, 102);
             this.sfcprgsbr.Name = "sfcprgsbr";
             this.sfcprgsbr.Size = new System.Drawing.Size(104, 20);
             this.sfcprgsbr.TabIndex = 13;
@@ -2512,7 +2616,7 @@ namespace ToolDeployment
             // 
             // produkeyprgsbr
             // 
-            this.produkeyprgsbr.Location = new System.Drawing.Point(123, 168);
+            this.produkeyprgsbr.Location = new System.Drawing.Point(112, 168);
             this.produkeyprgsbr.Name = "produkeyprgsbr";
             this.produkeyprgsbr.Size = new System.Drawing.Size(104, 20);
             this.produkeyprgsbr.TabIndex = 13;
@@ -2521,7 +2625,7 @@ namespace ToolDeployment
             // pcdecrapprgsbr
             // 
             this.pcdecrapprgsbr.Enabled = false;
-            this.pcdecrapprgsbr.Location = new System.Drawing.Point(123, 190);
+            this.pcdecrapprgsbr.Location = new System.Drawing.Point(112, 190);
             this.pcdecrapprgsbr.Name = "pcdecrapprgsbr";
             this.pcdecrapprgsbr.Size = new System.Drawing.Size(104, 20);
             this.pcdecrapprgsbr.TabIndex = 13;
@@ -2529,15 +2633,19 @@ namespace ToolDeployment
             // 
             // pcdecrapbtn
             // 
+            this.pcdecrapbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.pcdecrapbtn.Enabled = false;
-            this.pcdecrapbtn.Location = new System.Drawing.Point(123, 190);
+            this.pcdecrapbtn.FlatAppearance.BorderSize = 0;
+            this.pcdecrapbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.pcdecrapbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pcdecrapbtn.Location = new System.Drawing.Point(113, 191);
             this.pcdecrapbtn.Margin = new System.Windows.Forms.Padding(1);
             this.pcdecrapbtn.Name = "pcdecrapbtn";
             this.pcdecrapbtn.Size = new System.Drawing.Size(104, 20);
             this.pcdecrapbtn.TabIndex = 11;
-            this.pcdecrapbtn.Text = "Launch";
+            this.pcdecrapbtn.Text = "File missing";
             this.pcdecrapbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.pcdecrapbtn.UseVisualStyleBackColor = true;
+            this.pcdecrapbtn.UseVisualStyleBackColor = false;
             this.pcdecrapbtn.Click += new System.EventHandler(this.pcdecrapbtn_Click);
             // 
             // progressBar15
@@ -2671,12 +2779,12 @@ namespace ToolDeployment
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.button1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(240, 27);
+            this.button1.Location = new System.Drawing.Point(240, 30);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(98, 35);
             this.button1.TabIndex = 8;
@@ -2690,12 +2798,12 @@ namespace ToolDeployment
             this.nuke.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.nuke.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.nuke.BackColor = System.Drawing.Color.LightSteelBlue;
             this.nuke.FlatAppearance.BorderSize = 0;
             this.nuke.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.nuke.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nuke.ForeColor = System.Drawing.Color.Black;
-            this.nuke.Location = new System.Drawing.Point(124, 65);
+            this.nuke.Location = new System.Drawing.Point(124, 67);
             this.nuke.Name = "nuke";
             this.nuke.Size = new System.Drawing.Size(101, 21);
             this.nuke.TabIndex = 15;
@@ -2709,14 +2817,14 @@ namespace ToolDeployment
             this.msiinstallerbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.msiinstallerbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.msiinstallerbtn.BackColor = System.Drawing.Color.LightSteelBlue;
             this.msiinstallerbtn.FlatAppearance.BorderSize = 0;
             this.msiinstallerbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.msiinstallerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.msiinstallerbtn.ForeColor = System.Drawing.Color.Black;
-            this.msiinstallerbtn.Location = new System.Drawing.Point(240, 65);
+            this.msiinstallerbtn.Location = new System.Drawing.Point(240, 67);
             this.msiinstallerbtn.Name = "msiinstallerbtn";
-            this.msiinstallerbtn.Size = new System.Drawing.Size(224, 21);
+            this.msiinstallerbtn.Size = new System.Drawing.Size(223, 21);
             this.msiinstallerbtn.TabIndex = 16;
             this.msiinstallerbtn.Text = "Enable MSI Installer in safemode";
             this.msiinstallerbtn.UseVisualStyleBackColor = false;
@@ -2725,16 +2833,19 @@ namespace ToolDeployment
             // 
             // logwindow
             // 
-            this.logwindow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.logwindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.logwindow.BackColor = System.Drawing.Color.Silver;
-            this.logwindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.logwindow.Cursor = System.Windows.Forms.Cursors.Default;
+            this.logwindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logwindow.ForeColor = System.Drawing.Color.Indigo;
             this.logwindow.Location = new System.Drawing.Point(9, 510);
             this.logwindow.Name = "logwindow";
             this.logwindow.ReadOnly = true;
             this.logwindow.Size = new System.Drawing.Size(459, 109);
             this.logwindow.TabIndex = 17;
+            this.logwindow.TabStop = false;
             this.logwindow.Text = "Loading...";
             this.logwindow.Visible = false;
             this.logwindow.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
@@ -2751,15 +2862,19 @@ namespace ToolDeployment
             // 
             // chromebtn
             // 
+            this.chromebtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.chromebtn.Enabled = false;
-            this.chromebtn.Location = new System.Drawing.Point(123, 38);
+            this.chromebtn.FlatAppearance.BorderSize = 0;
+            this.chromebtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.chromebtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chromebtn.Location = new System.Drawing.Point(113, 38);
             this.chromebtn.Margin = new System.Windows.Forms.Padding(1);
             this.chromebtn.Name = "chromebtn";
             this.chromebtn.Size = new System.Drawing.Size(104, 20);
             this.chromebtn.TabIndex = 11;
-            this.chromebtn.Text = "Launch";
+            this.chromebtn.Text = "File missing";
             this.chromebtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.chromebtn.UseVisualStyleBackColor = true;
+            this.chromebtn.UseVisualStyleBackColor = false;
             this.chromebtn.Click += new System.EventHandler(this.chromebtn_Click);
             // 
             // revochkbx
@@ -2774,15 +2889,19 @@ namespace ToolDeployment
             // 
             // revobtn
             // 
+            this.revobtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.revobtn.Enabled = false;
-            this.revobtn.Location = new System.Drawing.Point(123, 16);
+            this.revobtn.FlatAppearance.BorderSize = 0;
+            this.revobtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.revobtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.revobtn.Location = new System.Drawing.Point(113, 16);
             this.revobtn.Margin = new System.Windows.Forms.Padding(1);
             this.revobtn.Name = "revobtn";
             this.revobtn.Size = new System.Drawing.Size(104, 20);
             this.revobtn.TabIndex = 11;
-            this.revobtn.Text = "Launch";
+            this.revobtn.Text = "File missing";
             this.revobtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.revobtn.UseVisualStyleBackColor = true;
+            this.revobtn.UseVisualStyleBackColor = false;
             this.revobtn.Click += new System.EventHandler(this.revobtn_Click);
             // 
             // readerchkbx
@@ -2797,15 +2916,19 @@ namespace ToolDeployment
             // 
             // readerbtn
             // 
+            this.readerbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.readerbtn.Enabled = false;
-            this.readerbtn.Location = new System.Drawing.Point(123, 60);
+            this.readerbtn.FlatAppearance.BorderSize = 0;
+            this.readerbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.readerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.readerbtn.Location = new System.Drawing.Point(113, 60);
             this.readerbtn.Margin = new System.Windows.Forms.Padding(1);
             this.readerbtn.Name = "readerbtn";
             this.readerbtn.Size = new System.Drawing.Size(104, 20);
             this.readerbtn.TabIndex = 11;
-            this.readerbtn.Text = "Launch";
+            this.readerbtn.Text = "File missing";
             this.readerbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.readerbtn.UseVisualStyleBackColor = true;
+            this.readerbtn.UseVisualStyleBackColor = false;
             this.readerbtn.Click += new System.EventHandler(this.readerbtn_Click);
             // 
             // librachkbx
@@ -2820,21 +2943,25 @@ namespace ToolDeployment
             // 
             // librebtn
             // 
+            this.librebtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.librebtn.Enabled = false;
-            this.librebtn.Location = new System.Drawing.Point(123, 82);
+            this.librebtn.FlatAppearance.BorderSize = 0;
+            this.librebtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.librebtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.librebtn.Location = new System.Drawing.Point(113, 82);
             this.librebtn.Margin = new System.Windows.Forms.Padding(1);
             this.librebtn.Name = "librebtn";
             this.librebtn.Size = new System.Drawing.Size(104, 20);
             this.librebtn.TabIndex = 11;
-            this.librebtn.Text = "Launch";
+            this.librebtn.Text = "File missing";
             this.librebtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.librebtn.UseVisualStyleBackColor = true;
+            this.librebtn.UseVisualStyleBackColor = false;
             this.librebtn.Click += new System.EventHandler(this.librebtn_Click);
             // 
             // libreprgsbr
             // 
             this.libreprgsbr.Enabled = false;
-            this.libreprgsbr.Location = new System.Drawing.Point(123, 83);
+            this.libreprgsbr.Location = new System.Drawing.Point(112, 83);
             this.libreprgsbr.Name = "libreprgsbr";
             this.libreprgsbr.Size = new System.Drawing.Size(104, 20);
             this.libreprgsbr.TabIndex = 13;
@@ -2843,7 +2970,7 @@ namespace ToolDeployment
             // readerprgsbr
             // 
             this.readerprgsbr.Enabled = false;
-            this.readerprgsbr.Location = new System.Drawing.Point(123, 60);
+            this.readerprgsbr.Location = new System.Drawing.Point(112, 60);
             this.readerprgsbr.Name = "readerprgsbr";
             this.readerprgsbr.Size = new System.Drawing.Size(104, 20);
             this.readerprgsbr.TabIndex = 13;
@@ -2852,7 +2979,7 @@ namespace ToolDeployment
             // chromeprgsbr
             // 
             this.chromeprgsbr.Enabled = false;
-            this.chromeprgsbr.Location = new System.Drawing.Point(123, 37);
+            this.chromeprgsbr.Location = new System.Drawing.Point(112, 37);
             this.chromeprgsbr.Name = "chromeprgsbr";
             this.chromeprgsbr.Size = new System.Drawing.Size(104, 20);
             this.chromeprgsbr.TabIndex = 13;
@@ -2861,7 +2988,7 @@ namespace ToolDeployment
             // revoprgsbr
             // 
             this.revoprgsbr.Enabled = false;
-            this.revoprgsbr.Location = new System.Drawing.Point(123, 15);
+            this.revoprgsbr.Location = new System.Drawing.Point(112, 15);
             this.revoprgsbr.Name = "revoprgsbr";
             this.revoprgsbr.Size = new System.Drawing.Size(104, 20);
             this.revoprgsbr.TabIndex = 13;
@@ -2874,9 +3001,6 @@ namespace ToolDeployment
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Extras.BackColor = System.Drawing.Color.Transparent;
             this.Extras.Controls.Add(this.revochkbx);
-            this.Extras.Controls.Add(this.classicprgsbr);
-            this.Extras.Controls.Add(this.libreprgsbr);
-            this.Extras.Controls.Add(this.chromeprgsbr);
             this.Extras.Controls.Add(this.readerchkbx);
             this.Extras.Controls.Add(this.classiccancelbtn);
             this.Extras.Controls.Add(this.librecancelbtn);
@@ -2885,31 +3009,25 @@ namespace ToolDeployment
             this.Extras.Controls.Add(this.readercancelbtn);
             this.Extras.Controls.Add(this.revocancelbtn);
             this.Extras.Controls.Add(this.chromechkbx);
-            this.Extras.Controls.Add(this.classicbtn);
             this.Extras.Controls.Add(this.chromecancelbtn);
-            this.Extras.Controls.Add(this.librebtn);
-            this.Extras.Controls.Add(this.chromebtn);
+            this.Extras.Controls.Add(this.classicprgsbr);
+            this.Extras.Controls.Add(this.libreprgsbr);
+            this.Extras.Controls.Add(this.chromeprgsbr);
             this.Extras.Controls.Add(this.readerprgsbr);
             this.Extras.Controls.Add(this.revoprgsbr);
-            this.Extras.Controls.Add(this.readerbtn);
+            this.Extras.Controls.Add(this.classicbtn);
+            this.Extras.Controls.Add(this.librebtn);
+            this.Extras.Controls.Add(this.chromebtn);
             this.Extras.Controls.Add(this.revobtn);
+            this.Extras.Controls.Add(this.readerbtn);
             this.Extras.ForeColor = System.Drawing.Color.Black;
-            this.Extras.Location = new System.Drawing.Point(237, 372);
+            this.Extras.Location = new System.Drawing.Point(237, 377);
             this.Extras.Name = "Extras";
-            this.Extras.Size = new System.Drawing.Size(230, 132);
+            this.Extras.Size = new System.Drawing.Size(226, 128);
             this.Extras.TabIndex = 18;
             this.Extras.TabStop = false;
             this.Extras.Text = "Extras";
             this.Extras.Visible = false;
-            // 
-            // classicprgsbr
-            // 
-            this.classicprgsbr.Enabled = false;
-            this.classicprgsbr.Location = new System.Drawing.Point(123, 104);
-            this.classicprgsbr.Name = "classicprgsbr";
-            this.classicprgsbr.Size = new System.Drawing.Size(104, 20);
-            this.classicprgsbr.TabIndex = 13;
-            this.classicprgsbr.Visible = false;
             // 
             // classiccancelbtn
             // 
@@ -2917,7 +3035,7 @@ namespace ToolDeployment
             this.classiccancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.classiccancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.classiccancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.classiccancelbtn.Location = new System.Drawing.Point(100, 103);
+            this.classiccancelbtn.Location = new System.Drawing.Point(89, 103);
             this.classiccancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.classiccancelbtn.Name = "classiccancelbtn";
             this.classiccancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2934,7 +3052,7 @@ namespace ToolDeployment
             this.librecancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.librecancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.librecancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.librecancelbtn.Location = new System.Drawing.Point(100, 82);
+            this.librecancelbtn.Location = new System.Drawing.Point(89, 82);
             this.librecancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.librecancelbtn.Name = "librecancelbtn";
             this.librecancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2961,7 +3079,7 @@ namespace ToolDeployment
             this.readercancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.readercancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.readercancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.readercancelbtn.Location = new System.Drawing.Point(100, 59);
+            this.readercancelbtn.Location = new System.Drawing.Point(89, 59);
             this.readercancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.readercancelbtn.Name = "readercancelbtn";
             this.readercancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2978,7 +3096,7 @@ namespace ToolDeployment
             this.revocancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.revocancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.revocancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.revocancelbtn.Location = new System.Drawing.Point(100, 13);
+            this.revocancelbtn.Location = new System.Drawing.Point(89, 13);
             this.revocancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.revocancelbtn.Name = "revocancelbtn";
             this.revocancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -2989,26 +3107,13 @@ namespace ToolDeployment
             this.revocancelbtn.Visible = false;
             this.revocancelbtn.Click += new System.EventHandler(this.revocancelbtn_Click);
             // 
-            // classicbtn
-            // 
-            this.classicbtn.Enabled = false;
-            this.classicbtn.Location = new System.Drawing.Point(123, 103);
-            this.classicbtn.Margin = new System.Windows.Forms.Padding(1);
-            this.classicbtn.Name = "classicbtn";
-            this.classicbtn.Size = new System.Drawing.Size(104, 20);
-            this.classicbtn.TabIndex = 11;
-            this.classicbtn.Text = "Launch";
-            this.classicbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.classicbtn.UseVisualStyleBackColor = true;
-            this.classicbtn.Click += new System.EventHandler(this.classicbtn_Click);
-            // 
             // chromecancelbtn
             // 
             this.chromecancelbtn.FlatAppearance.BorderSize = 0;
             this.chromecancelbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chromecancelbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.chromecancelbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chromecancelbtn.Location = new System.Drawing.Point(100, 36);
+            this.chromecancelbtn.Location = new System.Drawing.Point(89, 36);
             this.chromecancelbtn.Margin = new System.Windows.Forms.Padding(0);
             this.chromecancelbtn.Name = "chromecancelbtn";
             this.chromecancelbtn.Size = new System.Drawing.Size(23, 21);
@@ -3019,16 +3124,45 @@ namespace ToolDeployment
             this.chromecancelbtn.Visible = false;
             this.chromecancelbtn.Click += new System.EventHandler(this.chromecancelbtn_Click);
             // 
+            // classicprgsbr
+            // 
+            this.classicprgsbr.Enabled = false;
+            this.classicprgsbr.Location = new System.Drawing.Point(112, 104);
+            this.classicprgsbr.Name = "classicprgsbr";
+            this.classicprgsbr.Size = new System.Drawing.Size(104, 20);
+            this.classicprgsbr.TabIndex = 13;
+            this.classicprgsbr.Visible = false;
+            // 
+            // classicbtn
+            // 
+            this.classicbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.classicbtn.Enabled = false;
+            this.classicbtn.FlatAppearance.BorderSize = 0;
+            this.classicbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.classicbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.classicbtn.Location = new System.Drawing.Point(113, 103);
+            this.classicbtn.Margin = new System.Windows.Forms.Padding(1);
+            this.classicbtn.Name = "classicbtn";
+            this.classicbtn.Size = new System.Drawing.Size(104, 20);
+            this.classicbtn.TabIndex = 11;
+            this.classicbtn.Text = "File missing";
+            this.classicbtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.classicbtn.UseVisualStyleBackColor = false;
+            this.classicbtn.Click += new System.EventHandler(this.classicbtn_Click);
+            // 
             // groupBox5
             // 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.BackColor = System.Drawing.Color.Transparent;
             this.groupBox5.Controls.Add(this.button3);
             this.groupBox5.Controls.Add(this.textBox1);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox5.ForeColor = System.Drawing.Color.Black;
-            this.groupBox5.Location = new System.Drawing.Point(177, 272);
+            this.groupBox5.Location = new System.Drawing.Point(177, 431);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(113, 72);
+            this.groupBox5.Size = new System.Drawing.Size(113, 73);
             this.groupBox5.TabIndex = 19;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Password";
@@ -3057,14 +3191,139 @@ namespace ToolDeployment
             this.textBox1.PasswordChar = 'x';
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 0;
+            this.textBox1.UseSystemPasswordChar = true;
             this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.passwordenterbutton);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.downloadAllToolStripMenuItem,
+            this.minimizeToolStripMenuItem,
+            this.closeToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(164, 70);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // downloadAllToolStripMenuItem
+            // 
+            this.downloadAllToolStripMenuItem.Name = "downloadAllToolStripMenuItem";
+            this.downloadAllToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.downloadAllToolStripMenuItem.Text = "Download All";
+            this.downloadAllToolStripMenuItem.Click += new System.EventHandler(this.downloadAllToolStripMenuItem_Click);
+            // 
+            // minimizeToolStripMenuItem
+            // 
+            this.minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
+            this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.minimizeToolStripMenuItem.Text = "Minimize to Tray";
+            this.minimizeToolStripMenuItem.Click += new System.EventHandler(this.minimizeToolStripMenuItem_Click);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "ToolDeployment";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.BackColor = System.Drawing.Color.IndianRed;
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.ForeColor = System.Drawing.Color.Transparent;
+            this.button5.Location = new System.Drawing.Point(431, 0);
+            this.button5.Margin = new System.Windows.Forms.Padding(0);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(36, 22);
+            this.button5.TabIndex = 22;
+            this.button5.Text = "X";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.BackColor = System.Drawing.Color.Transparent;
+            this.button6.FlatAppearance.BorderSize = 0;
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.ForeColor = System.Drawing.Color.DimGray;
+            this.button6.Location = new System.Drawing.Point(402, 0);
+            this.button6.Margin = new System.Windows.Forms.Padding(0);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(29, 23);
+            this.button6.TabIndex = 22;
+            this.button6.Text = "_";
+            this.button6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.BackColor = System.Drawing.Color.LightGray;
+            this.richTextBox1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.richTextBox1.DetectUrls = false;
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.ForeColor = System.Drawing.Color.Indigo;
+            this.richTextBox1.Location = new System.Drawing.Point(8, 27);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(459, 592);
+            this.richTextBox1.TabIndex = 17;
+            this.richTextBox1.TabStop = false;
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
+            this.richTextBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(34, 22);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(435, 2);
+            this.progressBar1.TabIndex = 23;
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.ContextMenuStrip = this.contextMenuStrip1;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Image = global::ToolDeployment.Properties.Resources._1410130177_toolbox;
+            this.button4.Location = new System.Drawing.Point(-3, -2);
+            this.button4.Margin = new System.Windows.Forms.Padding(0);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(38, 26);
+            this.button4.TabIndex = 20;
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // cancleallbtn
             // 
             this.cancleallbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancleallbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.cancleallbtn.BackColor = System.Drawing.Color.LightSteelBlue;
             this.cancleallbtn.Enabled = false;
             this.cancleallbtn.FlatAppearance.BorderSize = 0;
             this.cancleallbtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -3072,7 +3331,7 @@ namespace ToolDeployment
             this.cancleallbtn.ForeColor = System.Drawing.Color.Black;
             this.cancleallbtn.Image = global::ToolDeployment.Properties.Resources.cancel_button_icone_7889_963;
             this.cancleallbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cancleallbtn.Location = new System.Drawing.Point(12, 65);
+            this.cancleallbtn.Location = new System.Drawing.Point(12, 67);
             this.cancleallbtn.Name = "cancleallbtn";
             this.cancleallbtn.Size = new System.Drawing.Size(109, 21);
             this.cancleallbtn.TabIndex = 14;
@@ -3249,71 +3508,16 @@ namespace ToolDeployment
             this.button33.UseVisualStyleBackColor = true;
             this.button33.Visible = false;
             // 
-            // button4
-            // 
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Image = global::ToolDeployment.Properties.Resources._1410130177_toolbox;
-            this.button4.Location = new System.Drawing.Point(-3, -2);
-            this.button4.Margin = new System.Windows.Forms.Padding(0);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(38, 26);
-            this.button4.TabIndex = 20;
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
-            // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
-            // 
-            // button5
-            // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.BackColor = System.Drawing.Color.Transparent;
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(459, 0);
-            this.button5.Margin = new System.Windows.Forms.Padding(0);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(17, 22);
-            this.button5.TabIndex = 22;
-            this.button5.Text = "X";
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // button6
-            // 
-            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.BackColor = System.Drawing.Color.Transparent;
-            this.button6.FlatAppearance.BorderSize = 0;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(438, 0);
-            this.button6.Margin = new System.Windows.Forms.Padding(0);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(17, 22);
-            this.button6.TabIndex = 22;
-            this.button6.Text = "_";
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.label2_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.ClientSize = new System.Drawing.Size(476, 627);
+            this.ClientSize = new System.Drawing.Size(476, 630);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.logwindow);
             this.Controls.Add(this.msiinstallerbtn);
             this.Controls.Add(this.nuke);
             this.Controls.Add(this.cancleallbtn);
@@ -3379,19 +3583,22 @@ namespace ToolDeployment
             this.Controls.Add(this.button31);
             this.Controls.Add(this.DeployAllBTN);
             this.Controls.Add(this.DeployBTN);
-            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.Extras);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.logwindow);
+            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(489, 662);
+            this.MaximumSize = new System.Drawing.Size(476, 630);
+            this.MinimumSize = new System.Drawing.Size(476, 630);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -3413,6 +3620,7 @@ namespace ToolDeployment
             this.Extras.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3604,7 +3812,6 @@ namespace ToolDeployment
         private System.Windows.Forms.Button hjtbtn;
         private System.Windows.Forms.ProgressBar hjtprgsbr;
         private System.Windows.Forms.Button msiinstallerbtn;
-        private System.Windows.Forms.RichTextBox logwindow;
         private System.Windows.Forms.ToolStripTextBox CF6Notes;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem saveGreenButtonsToolStripMenuItem;
@@ -3669,6 +3876,13 @@ namespace ToolDeployment
         private Button button5;
         private Button button6;
         private ToolStripMenuItem setURLToolStripMenuItem;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem downloadAllToolStripMenuItem;
+        private ToolStripMenuItem closeToolStripMenuItem;
+        private ToolStripMenuItem minimizeToolStripMenuItem;
+        private RichTextBox richTextBox1;
+        public RichTextBox logwindow;
+        public ProgressBar progressBar1;
     }
 }
 
