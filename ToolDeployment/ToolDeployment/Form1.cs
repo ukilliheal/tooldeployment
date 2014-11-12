@@ -12,9 +12,34 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Management;
+using System.Diagnostics;
 
 
-/*
+/*The MIT License (MIT)
+
+Copyright (c) 2014 Ukilliheal
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+ * 
+ * 
+ * 
+ * 
  * Its a mess, yes. I am still in the process of learning C sharp . 
  * I am working on adding more comments to better explain the code. Bare with me here.
  * More comments on the way!
@@ -32,9 +57,25 @@ namespace ToolDeployment
         [DllImportAttribute("user32.dll")]
         public static extern bool ReleaseCapture();
 
+        //Unmanaged function from user32.dll -  geekpedia.com/tutorial210_Retrieving-the-Operating-System-Idle-Time-Uptime-and-Last-Input-Time.html
+        [DllImport("user32.dll")]
+        static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+
+        // Struct we'll need to pass to the function
+        internal struct LASTINPUTINFO
+        {
+            public uint cbSize;
+            public uint dwTime;
+        }
+        BackgroundWorker myBGWorker = new BackgroundWorker();
+
         #region Vars being defined //Edit to add new Tools (Buttons, Progress bars, etc)
         //This is where I list each tool, and define the file name. 
+        int idlethreashhold = 15; //In minutes
+        string configfile = "config.ini";
         string password = "cake";
+        string BTNDefaulttxt = "File missing";
+
         string ccleanervar = "CCleaner.exe";
         string jrtvar = "JRT.exe";
         string adwvar = "AdwCleaner.exe";
@@ -70,7 +111,7 @@ namespace ToolDeployment
         string classicsrtvar = "ClassicStartInstaller.exe";
         string readervar = "ReaderInstaller.exe";
         string libraofficevar = "LibreOfficeInstaller.exe";
-        string ahkvar = "AutoHotkey.exe"; //not being used right now. 
+
         //I use the cf6 notes to help me keep track of the computer repair. 
         string CF6NotesDefaultText = "Msconfig:? | Appwiz:? | Ccleaner:? ";
 
@@ -82,9 +123,16 @@ namespace ToolDeployment
         string savetoo = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "_RemoteTools_";
         string oldsaveto = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "_RemoteTools_";
         string systemrootdrive = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System));
+
         Boolean is64bit = false;
         Boolean bypasslogin = false;
         Boolean isdownloadingstuff = false;
+        Boolean backgroundworkeriscancled = false;
+
+        Color BTNDefaultForeColor = Color.Black;
+        Color BTNDefaultBackColor = Color.LightSteelBlue;
+        Color CHKBXDefaultForeColor = Color.Black;
+
         Random random = new Random();
         private const uint WM_COMMAND = 0x0111;
         private const int BN_CLICKED = 245;
@@ -155,6 +203,19 @@ namespace ToolDeployment
             int index = random.Next(names.Count);//choses a 'random' title for the application.
             var name = names[index]; //gets chosen title 
             this.Text = name; //sets the chosen title
+            try
+            {
+                if (!EventLog.SourceExists("ToolDeployment"))
+                {
+                    EventLog.CreateEventSource("ToolDeployment", "Application");
+                }
+                EventLog.WriteEntry("ToolDeployment", "Tooldeployment.exe loaded.", EventLogEntryType.Information);
+
+            }
+            catch (Exception x)
+            {
+                //
+            }
         }
         private void updatelog(string x)//This adds a new line to the main log window, adds the text from string x, then scrolls to bottom
         {
@@ -162,12 +223,18 @@ namespace ToolDeployment
             //I figured the easiest way to do this would be with a text window giving updates
             try
             {
+                /*
                 logwindow.Text += x + Environment.NewLine; //adds a new line
+                 * */
+
+                logwindow.AppendText("\n" + x);
                 logwindow.SelectionStart = logwindow.Text.Length; //sets the selection to the start
                 logwindow.ScrollToCaret(); //scrolls to the start. This makes the newest updates visible to the user
+
             }
             catch (Exception crash)
             {
+                //eventlog("Unable to write to log window. The following error occurred:\n" + crash.Message +"\n\nBelow is the message that failed to write to log window:\n\n" + x);
                 //just in case something can't write to the log window. Doesn't matter if it fails anyways.
                 //Disabled because it could keep showing up over and over again
 
@@ -212,7 +279,7 @@ namespace ToolDeployment
                 {
                     //after the loop above finishes, this goes through the list of files online, 
                     //filtering out already completed, then changes the buttons around. 
-                    changebutton(y, null, "Avalible Online!", "Red", "true", "true", null, null, null, null);
+                    changebutton(y, null, "Avalible Online!", Color.Salmon, BTNDefaultBackColor, "true", "true", null, null, null, CHKBXDefaultForeColor, null, null);
                 }
             }
         }
@@ -228,7 +295,14 @@ namespace ToolDeployment
                     filesavablibleonline.Add(p);  //since we know its avalible online, lets add it to the list
                 }
             }
-            new Thread(new ThreadStart(deleteit)).Start();
+            try
+            {
+                new Thread(new ThreadStart(deleteit)).Start();
+            }
+            catch (Exception x)
+            {
+                MessageBox.Show("Failed while deleting unfinished download: " + x.Message);
+            }
             string g = "Cleaning up downloads, Please wait...";
             while (filesavablibleonline.Count > 0)
             {
@@ -386,7 +460,6 @@ namespace ToolDeployment
                 }
             }
         }
-
         private void copytosystemdrive()//Unused function - Copies all tools from application folder to C drive
         {
             updatelog("Copying to all files to system drive");
@@ -437,7 +510,7 @@ namespace ToolDeployment
                 if (!File.Exists(savetoo + "\\" + x) && reporteddone.Contains(x))
                 {
                     reporteddone.Remove(x);
-                    changebutton(x, null, null, null, "false", "true", "false", null, "false", "false");
+                    changebutton(x, null, null, BTNDefaultForeColor, BTNDefaultBackColor, "false", "true", "false", null, null, CHKBXDefaultForeColor, "false", "false");
                 }
                 if (File.Exists(savetoo + "\\" + x) && reporteddone.Contains(x))
                 {
@@ -487,7 +560,7 @@ namespace ToolDeployment
                 foreach (string p in toolnames)
                 {
                     //For each item in toolnames list:
-                    if (changebutton(p, "true", null, null, null, null, null, null, null, null)) //Check if the checkbox is checked
+                    if (changebutton(p, "true", null, BTNDefaultForeColor,BTNDefaultBackColor , null, null, null, null, null, CHKBXDefaultForeColor, null, null)) //Check if the checkbox is checked
                     {
                         //If it is then add to a list
                         ischecked.Add(p);
@@ -505,6 +578,7 @@ namespace ToolDeployment
             }
             catch (Exception crash)
             {
+                eventlog("Method runafterdownload(); crashed with following message:\n" + crash.Message);
                 //TODO: figure out how to update the below while in a thread
                 //updatelog(crash.Message);
                 //MessageBox.Show("Chrashed");
@@ -534,6 +608,7 @@ namespace ToolDeployment
             {
                 //Someting above crashed, tell user and then reset stage.
                 updatelog("Crashed while deleting files:\n-" + crash.Message);
+                eventlog("Method deletethisshit() crashed with following message:\n" + crash.Message);
                 hidealllaunchbuttons();
                 scanandreportdone();
                 checkforsaveddata();
@@ -583,18 +658,19 @@ namespace ToolDeployment
             }
             catch (Exception crash)
             {
+                eventlog("Unable to enable MSI installer. Error:\n" + crash.Message);
                 updatelog("Error: " + crash.Message);
             }
         }
         private void opentools(string run)//Opens the file name in string run
         {
             string x = run.Replace(savetoo + "\\", "").Trim();
-            changebutton(x, null, null, null, null, null, "false", null, null, null);
+            changebutton(x, null, null, Color.Green, BTNDefaultBackColor, null, null, "false", null, null, CHKBXDefaultForeColor, null, null);
             if (filesavablibleonline.Contains(x))
             {
                 //This checks if the file is in the list of files avalible from server
                 //and if it is, then it re-marks the controls and then starts the download for this. 
-                changebutton(x, null, "Avalible Online!", "Red", null, null, "true", null, null, null);
+                changebutton(x, null, "Avalible Online!", Color.Salmon, BTNDefaultBackColor, null, null, "true", null, null, CHKBXDefaultForeColor, null, null);
                 filesavablibleonline.Remove(x);
                 deploy();
                 return;
@@ -632,15 +708,16 @@ namespace ToolDeployment
                 }
                 catch (Exception crash)
                 {
+                    eventlog("Method opentools() crashed with following message:\n" + crash.Message);
                     updatelog(crash.Message);
                 }
                 return;
             }
         }
-        public void checkforsaveddata()//if config file exists, loads and processes it
+        private void checkforsaveddata()//if config file exists, loads and processes it
         {
             //Sets file path to config file. I should change it to an INI.
-            string x = savetoo + "\\tdconfig.txt";
+            string x = savetoo + "\\" + configfile;
 
             if (File.Exists(x))
             {
@@ -648,7 +725,7 @@ namespace ToolDeployment
                 updatelog("Saved congifuration detected. Loading settings...");
 
                 //then read all the lines in to a list
-                string[] lines = File.ReadAllLines(savetoo + "\\tdconfig.txt");
+                string[] lines = File.ReadAllLines(savetoo + "\\" + configfile);
 
                 //Go through that list and add it to another list
                 foreach (string l in lines)
@@ -663,7 +740,7 @@ namespace ToolDeployment
                 processsaveddata();
             }
         }
-        public void processsaveddata()//Changes buttons colors, and loads CF6 notes
+        private void processsaveddata()//Changes buttons colors, and loads CF6 notess
         {
             string y = "";
 
@@ -680,7 +757,7 @@ namespace ToolDeployment
                 {
                     //Changes button so user knows which files they already opened. Or tried to anyways.
                     updatelog("Updating " + x + "'s button");
-                    changebutton(x, null, "Launch", "Green", null, null, null, null, null, null);
+                    changebutton(x, null, "Launch",Color.ForestGreen, BTNDefaultBackColor, null, null, null, null, null, CHKBXDefaultForeColor, null, null);
                 }
             }
 
@@ -688,7 +765,7 @@ namespace ToolDeployment
             updatelog("Loading CF6 notes");
             CF6Notes.Text = y.Replace("CF6NOTES==", "");
         }
-        public void writesaveddata()//Writes which files were opened, and CF6 notes. TODO: Add appliction location on screen
+        private void writesaveddata()//Writes which files were opened, and CF6 notes. TODO: Add appliction location on screen
         {
             string u = "";
 
@@ -714,16 +791,16 @@ namespace ToolDeployment
                 //If the working folder doesn't exist, then create it
                 System.IO.Directory.CreateDirectory(savetoo);
             }
-            else if (File.Exists(savetoo + "\\tdconfig.txt"))
+            else if (File.Exists(savetoo + "\\" + configfile))
             {
                 //If there already is a config file, lets assume its already loaded so we can delete this one
-                File.Delete(savetoo + "\\tdconfig.txt");
+                File.Delete(savetoo + "\\" + configfile);
             }
-            if (!File.Exists(savetoo + "\\tdconfig.txt"))
+            if (!File.Exists(savetoo + "\\" + configfile))
             {
                 //Creates new config file, if old one is missing
                 updatelog("Saving congifuration file");
-                System.IO.File.WriteAllLines(@savetoo + "\\tdconfig.txt", waslaunched.Cast<string>().ToArray());
+                System.IO.File.WriteAllLines(@savetoo + "\\" + configfile, waslaunched.Cast<string>().ToArray());
             }
         }
         private void deleteit()//Deletes all files still in the list 'filesavalibleonline'
@@ -757,7 +834,7 @@ namespace ToolDeployment
                 filesavablibleonline.Remove(p);
             }
         }
-        public void checkforupdates() //Unused method. I am still trying to figure out how to make this work
+        private void checkforupdates() //Unused method. I am still trying to figure out how to make this work
         {
             System.Net.ServicePointManager.DefaultConnectionLimit = 99; //sets a high connection limite. Lets take all the bandwidths! 
             int checkcount = 20;
@@ -916,6 +993,11 @@ namespace ToolDeployment
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)//Runs a little bit of code when the form closes
         {
             //Change title to let user know we are closeing
+            notifyIcon1.BalloonTipText = "Closing, please wait...";
+            notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
+            notifyIcon1.BalloonTipTitle = "Please Wait";
+            notifyIcon1.ShowBalloonTip(50);
+
             this.Text = "Closing, please wait...";
             updatelog("Closing. Please wait...");
 
@@ -940,6 +1022,7 @@ namespace ToolDeployment
             automationlist.Add(hitmanx64var + "/scan /noinstall");
             automationlist.Add(autorunsvar + "-e");
             automationlist.Add(hjtvar + "/autolog");
+            automationlist.Add(mbamvar + "/SILENT /SUPRESSMSGBOXES /NORESTART");
             automationlist.Add(mbaevar + "/silent");
             automationlist.Add(uncheckvar + "-install");
             //automationlist.Add(AVG2014var + "/UILevel=silent /InstallToolbar=0 /ChangeBrowserSearchProvider=0 /SelectedLanguage=1033 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded");
@@ -1029,8 +1112,7 @@ namespace ToolDeployment
             //updatelog("");
 
             //Hey look! I did a thing!
-            updatelog("Written by Ukilliheal on 9/11/2014. \nhttps://code.google.com/p/tooldeployment/");
-
+            updatelog("System uptime " + (Environment.TickCount / 1000) / 60 / 60 + " hours");
             updatelog("Application loaded and ready for use");
 
         }
@@ -1052,19 +1134,19 @@ namespace ToolDeployment
             Extras.Visible = true;
             logwindow.Visible = true;
             groupBox5.Visible = false;
-            //this.BackColor = Color.LightGray;
-            /*
-            while (this.Height != 662)
-            {
-                this.Height = this.Height + 2;
-                Application.DoEvents();
-                //System.Threading.Thread.Sleep(1);
-            }
-            this.Height = 662;
-            */
+            richTextBox1.Visible = false;
             loadeverything();
         }
+        private void eventlog(string EventMessage)
+        {
+            if (!EventLog.SourceExists("ToolDeployment"))
+            {
+                EventLog.CreateEventSource("ToolDeployment", "Application");
+            }
 
+            EventLog.WriteEntry("ToolDeployment", EventMessage, EventLogEntryType.Warning);
+
+        }
         private void Form1_Shown(object sender, EventArgs e) //Edit this if you want to add new files to be downloaded
         {
             if (bypasslogin)
@@ -1083,7 +1165,7 @@ namespace ToolDeployment
                 }
                 catch (Exception crash)
                 {
-                    updatelog("Unable to kill process: " + crash.Message);
+                    eventlog("Attempted to kill process " + y + ". Error:\n" + crash.Message);
                 }
             }
             else
@@ -1091,12 +1173,12 @@ namespace ToolDeployment
                 if (activedownloads.Contains(y))
                 {
                     wascancled.Add(y);
-                    changebutton(y, null, null, null, null, null, "false", null, "false", "false");
+                    changebutton(y, null, null, BTNDefaultForeColor, BTNDefaultBackColor, null, null, "false", null, null, CHKBXDefaultForeColor, "false", "false");
                 }
                 else
                 {
                     //Change button back to default
-                    changebutton(y, null, null, null, "false", null, "false", null, "false", "false");
+                    changebutton(y, null, null, BTNDefaultForeColor, BTNDefaultBackColor, "false", null, "false", null, null, CHKBXDefaultForeColor, "false", "false");
                     //Makes a loop that only breaks when the file is missing
                     while (File.Exists(@savetoo + "\\" + y))
                     {
@@ -1125,7 +1207,6 @@ namespace ToolDeployment
                 }
             }
         }
-
         public void reportdone(string y, Boolean notifyuser)//When a file is done, or already on HDD, then this function is called, and passed the file name 
         {
             //Gets info about the file
@@ -1135,7 +1216,7 @@ namespace ToolDeployment
             if (size < 1)
             {
                 //Tells user the download failed
-                updatelog("Failed: " + y + "finished but only 0bytes. Deleting.");
+                updatelog("Failed: " + y + " finished but only 0 bytes. Deleting.");
                 //If the file is 0 bytes, then lets delete it. Most likely failed download. 
                 wascancled.Add(y);
                 activedownloads.Remove(y);
@@ -1145,7 +1226,6 @@ namespace ToolDeployment
 
             try
             {
-                string o = "Launch";
                 List<string> tempremovefromactivedownloads = new List<string> { }; //Yay a list!
 
                 //For each file that is being downloaded, add it to the temp list above
@@ -1174,8 +1254,7 @@ namespace ToolDeployment
                     notifyIcon1.ShowBalloonTip(100);
                 }
                 //Change the contols around to match a file being ready for launch
-                changebutton(y, null, o, "Black", "true", "true", null, null, "true", "false");
-
+                changebutton(y, null, "Launch", BTNDefaultForeColor, BTNDefaultBackColor, "true", "true", null, null, null, CHKBXDefaultForeColor, "true", "false");
                 //If the file that we just finished downloading was KillEmAll.exe, then lets make a whitelist for it
                 if (y == killemallvar)
                 {
@@ -1211,6 +1290,7 @@ namespace ToolDeployment
                     catch (Exception crash)
                     {
                         //Chrashed, try again
+                        eventlog("Unable to modify " + killemallconfigdir + "//KEA_Whitelist.txt. Error:\n" + crash.Message);
                         updatelog(crash.Message);
                     }
                 }
@@ -1223,22 +1303,33 @@ namespace ToolDeployment
                     uncheckall();
                     if (isdownloadingstuff)
                     {
+
                         isdownloadingstuff = false;
                         notifyIcon1.BalloonTipText = "All downloads completed!";
                         notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
                         notifyIcon1.BalloonTipTitle = "Alert!";
                         notifyIcon1.ShowBalloonTip(50);
+                        checkforsaveddata();
+
                     }
 
                     if (runAllAfterDownloadToolStripMenuItem.Checked == true)
                     {
                         //if user selected the option to run after download, then this runs the files. all that were checked
-                        new Thread(new ThreadStart(runafterdownload)).Start();
+                        try
+                        {
+                            new Thread(new ThreadStart(runafterdownload)).Start();
+                        }
+                        catch (Exception x)
+                        {
+                            updatelog("Unable to run after download. Error: " + x.Message);
+                        }
                     }
                 }
             }
             catch (Exception crash)
             {
+                eventlog("Method reporteddone(); crased with following message:\n" + crash.Message);
                 updatelog("reporteddone(); crashed:\n-" + crash.Message);
             }
         }
@@ -1247,7 +1338,7 @@ namespace ToolDeployment
             updatelog("Checking all standard tools");
             foreach (string g in standardtools)
             {
-                changebutton(g, null, null, null, null, null, "true", null, null, null);
+                changebutton(g, null, null, BTNDefaultForeColor, BTNDefaultBackColor, null, null, "true", null, null, CHKBXDefaultForeColor, null, null);
             }
         }
         private void checkalladvanced()//Checks every tool in the advancedtools list
@@ -1255,7 +1346,7 @@ namespace ToolDeployment
             updatelog("Checking all advanced tools");
             foreach (string g in advancedtools)
             {
-                changebutton(g, null, null, null, null, null, "true", null, null, null);
+                changebutton(g, null, null, BTNDefaultForeColor, BTNDefaultBackColor, null, null, "true", null, null, CHKBXDefaultForeColor, null, null);
             }
         }
         private void uncheckall() //Unchecks all tools in "toolname" list
@@ -1263,7 +1354,7 @@ namespace ToolDeployment
             updatelog("Unchecking all tools");
             foreach (string s in toolnames)
             {
-                changebutton(s, null, null, null, null, null, "false", null, null, null);
+                changebutton(s, null, null,BTNDefaultForeColor,BTNDefaultBackColor, null, null, "false", null, null, CHKBXDefaultForeColor, null, null);
             }
         }
         private void hidealllaunchbuttons() //resets stage, as if nothing happened
@@ -1272,7 +1363,7 @@ namespace ToolDeployment
 
             foreach (string x in toolnames)
             {
-                changebutton(x, null, "Launch", "Black", "false", null, null, null, "false", "false");
+                changebutton(x, null, "Launch", BTNDefaultForeColor, BTNDefaultBackColor, "false", null, null, null, null, CHKBXDefaultForeColor, "false", "false");
             }
             //Clears a list
             reporteddone.Clear();
@@ -1346,6 +1437,7 @@ namespace ToolDeployment
                     }
                     catch (Exception crash)
                     {
+                        eventlog("Was unable to parse Clipboard data. Error:\n" + crash.Message);
                         updatelog("Unable to parse Clipboard data: " + crash.Message);
                     }
                     total = total + tempx;
@@ -1602,6 +1694,96 @@ namespace ToolDeployment
                 libreprgsbr.Visible = true;
             }
         }
+        private void checkpassword()
+        {
+            if (textBox1.Text == password)
+            {
+                unlockstuff();
+            }
+            else if (textBox1.Text.Contains("cake") && textBox1.Text.Contains("is") && textBox1.Text.Contains("lie"))
+            {
+                darktheme();
+            } else if (textBox1.Text.Contains("Rainbow") && textBox1.Text.Contains("Dash")) 
+            {
+                unlockstuff();
+                thememaker(ColorTranslator.FromHtml("#9EDBF9"), Color.Purple, ColorTranslator.FromHtml("#77B0E0"), Color.DarkGreen);
+                hidealllaunchbuttons();
+                scanandreportdone();
+                checkforsaveddata();
+            }
+            else
+            {
+                eventlog("Wrong password entered, user entered: " + textBox1.Text);
+                notifyIcon1.BalloonTipText = "Wrong Password!";
+                notifyIcon1.BalloonTipIcon = ToolTipIcon.Error;
+                notifyIcon1.BalloonTipTitle = "Alert!";
+                notifyIcon1.ShowBalloonTip(50);
+
+            }
+        }
+        private void darktheme()
+        {
+            unlockstuff();
+            thememaker(Color.Black, Color.White, Color.DarkGray, Color.WhiteSmoke);
+            hidealllaunchbuttons();
+            scanandreportdone();
+            checkforsaveddata();
+
+        }
+        private void lighttheme()
+        {
+
+        }
+        private void thememaker(Color FormBackColor, Color BTNForColor, Color BTNBackColor, Color CHKBXForeColor)
+        {
+            BTNDefaultForeColor = BTNForColor;
+            BTNDefaultBackColor = BTNBackColor;
+            CHKBXDefaultForeColor = CHKBXForeColor;
+
+            //richTextBox1.Clear();
+            //richTextBox1.Visible = true;
+            //richTextBox1.BackColor = Color.Orange;
+
+            this.BackColor = FormBackColor;
+
+            DeployBTN.ForeColor = BTNForColor;
+            DeployBTN.BackColor = BTNBackColor;
+            DeployAllBTN.ForeColor = BTNForColor;
+            DeployAllBTN.BackColor = BTNBackColor;
+            toolsToolStripMenuItem.ForeColor = BTNForColor;
+            helpToolStripMenuItem.ForeColor = BTNForColor;
+            groupBox4.ForeColor = BTNForColor;
+            groupBox1.ForeColor = BTNForColor;
+            groupBox2.ForeColor = BTNForColor;
+            Extras.ForeColor = BTNForColor;
+            groupBox3.ForeColor = BTNForColor;
+
+            //groupBox4.BackColor = FormBackColor;
+            //groupBox1.BackColor = FormBackColor;
+            //groupBox2.BackColor = FormBackColor;
+            //Extras.BackColor = FormBackColor;
+            //groupBox3.BackColor = FormBackColor;
+
+            cancleallbtn.ForeColor = BTNForColor;
+            cancleallbtn.BackColor = BTNBackColor;
+            nuke.ForeColor = BTNForColor;
+            nuke.BackColor = BTNBackColor;
+            button1.ForeColor = BTNForColor;
+            button1.BackColor = BTNBackColor;
+            button2.ForeColor = BTNForColor;
+            button2.BackColor = BTNBackColor;
+            msiinstallerbtn.ForeColor = BTNForColor;
+            msiinstallerbtn.BackColor = BTNBackColor;
+            logwindow.ForeColor = BTNForColor;
+            logwindow.BackColor = BTNBackColor;
+            
+            foreach (string x in toolnames)
+            {
+                changebutton(x, null, null,BTNDefaultForeColor, BTNDefaultBackColor, null, null, null, null, null, CHKBXDefaultForeColor, null, null);
+            }
+            processsaveddata();
+             
+        }
         public Boolean updateprgsbr(int x, string y) //Edit this if you want to add new files to be downloaded
         {
             //This takes the string, and finds the correct progress bar for it
@@ -1751,11 +1933,14 @@ namespace ToolDeployment
             string fileexename,
             string returnischecked,
             string BTNtext,
-            string BTNcolor,
+            Color BTNForeColor,
+            Color BTNBackColor,
             string BTNEnabled,
             string BTNVisible,
             string CHKBXChecked,
             string CHKBXEnabled,
+            string CHKBXText,
+            Color CHKBXForeColor,
             string CancelBTNVisable,
             string prgsbrVisable)///Edit this if you want to add new files to be downloaded
         {
@@ -1765,21 +1950,14 @@ namespace ToolDeployment
             Boolean btnisvisible = true;
             Boolean CHKBXEnabledDisabled = true;
             Boolean prgsbrVisableHidden = true;
-            Color btncolor = Color.Black;
+            Color btnforecolor = Color.Black;
+            Color btnbackcolor = Color.Black;
 
             #region I needed some way to pass either a 'true' 'false' or a 'null' to leave unchanged. Thats where this came in.
-            if (BTNcolor == "Black")
-            {
-                btncolor = Color.Black;
-            }
-            else if (BTNcolor == "Green")
-            {
-                btncolor = Color.Green;
-            }
-            else if (BTNcolor == "Red")
-            {
-                btncolor = Color.IndianRed;
-            }
+            btnforecolor = BTNForeColor;
+
+            //TODO NEED to add more colors, or something, idk
+            btnbackcolor = BTNBackColor;
 
             if (BTNEnabled == "true")
             {
@@ -1846,12 +2024,15 @@ namespace ToolDeployment
 
             if (fileexename == ccleanervar)
             {
-                if (BTNcolor != null) { ccbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { ccbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { ccbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { ccbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { ccbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { ccbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { ccbtn.Text = CHKBXText; }
                 if (CHKBXChecked != null) { CcleanerChkBX.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { CcleanerChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { CcleanerChkBX.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (CcleanerChkBX.Checked) { return true; } }
                 if (CancelBTNVisable != null) { cclcanclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { CCprgsbr.Visible = prgsbrVisableHidden; }
@@ -1859,12 +2040,15 @@ namespace ToolDeployment
             }
             if (fileexename == jrtvar)
             {
-                if (BTNcolor != null) { JRTbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { JRTbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { JRTbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { JRTbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { JRTbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { JRTbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { JRTChkBX.Text = CHKBXText; }
                 if (CHKBXChecked != null) { JRTChkBX.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { JRTChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { JRTChkBX.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (JRTChkBX.Checked) { return true; } }
                 if (CancelBTNVisable != null) { JRTcanclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { JRTprgsbr.Visible = prgsbrVisableHidden; }
@@ -1873,12 +2057,15 @@ namespace ToolDeployment
             if (fileexename == adwvar)
             {
 
-                if (BTNcolor != null) { ADWbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { ADWbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { ADWbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { ADWbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { ADWbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { ADWbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { ADWChkBX.Text = CHKBXText; }
                 if (CHKBXChecked != null) { ADWChkBX.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { ADWChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { ADWChkBX.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (ADWChkBX.Checked) { return true; } }
                 if (CancelBTNVisable != null) { ADWcanclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { ADWprgsbr.Visible = prgsbrVisableHidden; }
@@ -1886,12 +2073,15 @@ namespace ToolDeployment
             }
             if (fileexename == mbamvar)
             {
-                if (BTNcolor != null) { MBAMbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { MBAMbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { MBAMbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { MBAMbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { MBAMbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { MBAMbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { MbamChkBx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { MbamChkBx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { MbamChkBx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { MbamChkBx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (MbamChkBx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { MBAMcnaclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { MBAMprgsbr.Visible = prgsbrVisableHidden; }
@@ -1899,12 +2089,15 @@ namespace ToolDeployment
             }
             if (fileexename == hitmanx32var || fileexename == hitmanx64var)
             {
-                if (BTNcolor != null) { Hitmanbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { Hitmanbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { Hitmanbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { Hitmanbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { Hitmanbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { Hitmanbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { HitmanChkBX.Text = CHKBXText; }
                 if (CHKBXChecked != null) { HitmanChkBX.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { HitmanChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { HitmanChkBX.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (HitmanChkBX.Checked) { return true; } }
                 if (CancelBTNVisable != null) { Hitmancanclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { Hitmanprgsbr.Visible = prgsbrVisableHidden; }
@@ -1912,12 +2105,15 @@ namespace ToolDeployment
             }
             if (fileexename == nintievar)
             {
-                if (BTNcolor != null) { ninitebtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { ninitebtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { ninitebtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { ninitebtn.Text = BTNtext; }
                 if (BTNEnabled != null) { ninitebtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { ninitebtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { NiniteChkBX.Text = CHKBXText; }
                 if (CHKBXChecked != null) { NiniteChkBX.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { NiniteChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { NiniteChkBX.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (NiniteChkBX.Checked) { return true; } }
                 if (CancelBTNVisable != null) { ninitecanclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { niniteprgsbr.Visible = prgsbrVisableHidden; }
@@ -1925,12 +2121,15 @@ namespace ToolDeployment
             }
             if (fileexename == mbaevar)
             {
-                if (BTNcolor != null) { MBAEbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { MBAEbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { MBAEbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { MBAEbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { MBAEbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { MBAEbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { MBAEChkBx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { MBAEChkBx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { MBAEChkBx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { MBAEChkBx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (MBAEChkBx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { MBAEcancelbutton.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { MBAEprgsbr.Visible = prgsbrVisableHidden; }
@@ -1938,12 +2137,15 @@ namespace ToolDeployment
             }
             if (fileexename == uncheckvar)
             {
-                if (BTNcolor != null) { Unchkbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { Unchkbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { Unchkbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { Unchkbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { Unchkbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { Unchkbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { UncheckyChkBX.Text = CHKBXText; }
                 if (CHKBXChecked != null) { UncheckyChkBX.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { UncheckyChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { UncheckyChkBX.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (UncheckyChkBX.Checked) { return true; } }
                 if (CancelBTNVisable != null) { Uncheckycanclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { unchkprgsbr.Visible = prgsbrVisableHidden; }
@@ -1951,12 +2153,15 @@ namespace ToolDeployment
             }
             if (fileexename == abpievar)
             {
-                if (BTNcolor != null) { ABPbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { ABPbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { ABPbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { ABPbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { ABPbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { ABPbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { ABPIEChkBX.Text = CHKBXText; }
                 if (CHKBXChecked != null) { ABPIEChkBX.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { ABPIEChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { ABPIEChkBX.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (ABPIEChkBX.Checked) { return true; } }
                 if (CancelBTNVisable != null) { ABPcanclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { APBprgsbr.Visible = prgsbrVisableHidden; }
@@ -1964,12 +2169,15 @@ namespace ToolDeployment
             }
             if (fileexename == AVG2014var)
             {
-                if (BTNcolor != null) { AVGbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { AVGbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { AVGbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { AVGbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { AVGbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { AVGbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { AVG2014ChkBX.Text = CHKBXText; }
                 if (CHKBXChecked != null) { AVG2014ChkBX.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { AVG2014ChkBX.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { AVG2014ChkBX.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (AVG2014ChkBX.Checked) { return true; } }
                 if (CancelBTNVisable != null) { AVGcanclebtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { AVGprgsbr.Visible = prgsbrVisableHidden; }
@@ -1977,12 +2185,15 @@ namespace ToolDeployment
             }
             if (fileexename == callingcardvar)
             {
-                if (BTNcolor != null) { callingcardbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { callingcardbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { callingcardbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { callingcardbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { callingcardbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { callingcardbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { callingcardchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { callingcardchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { callingcardchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { callingcardchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (callingcardchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { callingcardcancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { callingcardprgsbr.Visible = prgsbrVisableHidden; }
@@ -1990,12 +2201,15 @@ namespace ToolDeployment
             }
             if (fileexename == killemallvar)
             {
-                if (BTNcolor != null) { killemallbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { killemallbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { killemallbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { killemallbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { killemallbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { killemallbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { killemallchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { killemallchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { killemallchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { killemallchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (killemallchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { killemallcancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { killemallprgsbr.Visible = prgsbrVisableHidden; }
@@ -2003,12 +2217,15 @@ namespace ToolDeployment
             }
             if (fileexename == rkillvar)
             {
-                if (BTNcolor != null) { rkillbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { rkillbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { rkillbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { rkillbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { rkillbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { rkillbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { rkillchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { rkillchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { rkillchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { rkillchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (rkillchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { rkillcancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { rkillprgsbr.Visible = prgsbrVisableHidden; }
@@ -2016,12 +2233,15 @@ namespace ToolDeployment
             }
             if (fileexename == autorunsvar)
             {
-                if (BTNcolor != null) { autorunsbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { autorunsbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { autorunsbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { autorunsbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { autorunsbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { autorunsbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { autorunschkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { autorunschkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { autorunschkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { autorunschkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (autorunschkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { autorunscancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { autorunsprgsbr.Visible = prgsbrVisableHidden; }
@@ -2029,12 +2249,15 @@ namespace ToolDeployment
             }
             if (fileexename == tdssvar)
             {
-                if (BTNcolor != null) { tdssbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { tdssbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { tdssbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { tdssbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { tdssbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { tdssbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { tdsschkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { tdsschkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { tdsschkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { tdsschkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (tdsschkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { tdsscancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { tdssprgsbr.Visible = prgsbrVisableHidden; }
@@ -2042,12 +2265,15 @@ namespace ToolDeployment
             }
             if (fileexename == superaintivar)
             {
-                if (BTNcolor != null) { superantibtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { superantibtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { superantibtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { superantibtn.Text = BTNtext; }
                 if (BTNEnabled != null) { superantibtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { superantibtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { superantichkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { superantichkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { superantichkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { superantichkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (superantichkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { superanticancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { superantiprgsbr.Visible = prgsbrVisableHidden; }
@@ -2055,12 +2281,15 @@ namespace ToolDeployment
             }
             if (fileexename == tweakingtoolsvar)
             {
-                if (BTNcolor != null) { tweakingtoolsbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { tweakingtoolsbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { tweakingtoolsbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { tweakingtoolsbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { tweakingtoolsbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { tweakingtoolsbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { tweakikngtookschkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { tweakikngtookschkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { tweakikngtookschkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { tweakikngtookschkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (tweakikngtookschkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { tweakingtoolscancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { tweakingtoolsprgsbr.Visible = prgsbrVisableHidden; }
@@ -2068,12 +2297,15 @@ namespace ToolDeployment
             }
             if (fileexename == avgremovalvar)
             {
-                if (BTNcolor != null) { avgremovalbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { avgremovalbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { avgremovalbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { avgremovalbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { avgremovalbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { avgremovalbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { avgremovalchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { avgremovalchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { avgremovalchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { avgremovalchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (avgremovalchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { avgremovalcancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { avgremovalprgsbr.Visible = prgsbrVisableHidden; }
@@ -2081,12 +2313,15 @@ namespace ToolDeployment
             }
             if (fileexename == sfcvar)
             {
-                if (BTNcolor != null) { sfcbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { sfcbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { sfcbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { sfcbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { sfcbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { sfcbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { sfcchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { sfcchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { sfcchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { sfcchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (sfcchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { sfccancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { sfcprgsbr.Visible = prgsbrVisableHidden; }
@@ -2094,12 +2329,15 @@ namespace ToolDeployment
             }
             if (fileexename == revelationsvar)
             {
-                if (BTNcolor != null) { revelationbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { revelationbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { revelationbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { revelationbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { revelationbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { revelationbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { revelationchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { revelationchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { revelationchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { revelationchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (revelationchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { revelationscancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { revelationprgsbr.Visible = prgsbrVisableHidden; }
@@ -2107,12 +2345,15 @@ namespace ToolDeployment
             }
             if (fileexename == nortonremovalvar)
             {
-                if (BTNcolor != null) { nortonremovalbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { nortonremovalbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { nortonremovalbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { nortonremovalbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { nortonremovalbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { nortonremovalbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { nortonremovalchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { nortonremovalchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { nortonremovalchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { nortonremovalchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (nortonremovalchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { nortonremovalcancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { nortonremovalprgsbr.Visible = prgsbrVisableHidden; }
@@ -2120,12 +2361,15 @@ namespace ToolDeployment
             }
             if (fileexename == mcafferemovalvar)
             {
-                if (BTNcolor != null) { mcafeeremovalbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { mcafeeremovalbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { mcafeeremovalbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { mcafeeremovalbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { mcafeeremovalbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { mcafeeremovalbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { mcafferemovalchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { mcafferemovalchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { mcafferemovalchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { mcafferemovalchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (mcafferemovalchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { mcafferemovalcancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { mcafferemovalprgsbr.Visible = prgsbrVisableHidden; }
@@ -2133,12 +2377,15 @@ namespace ToolDeployment
             }
             if (fileexename == roguekiller32var || fileexename == roguekiller64var)
             {
-                if (BTNcolor != null) { roguekillerbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { roguekillerbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { roguekillerbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { roguekillerbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { roguekillerbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { roguekillerbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { roguekillerchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { roguekillerchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { roguekillerchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { roguekillerchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (roguekillerchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { roguekillercancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { roguekillerprgsbr.Visible = prgsbrVisableHidden; }
@@ -2146,12 +2393,15 @@ namespace ToolDeployment
             }
             if (fileexename == Esetvar)
             {
-                if (BTNcolor != null) { esetbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { esetbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { esetbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { esetbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { esetbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { esetbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { esetchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { esetchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { esetchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { esetchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (esetchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { esetcancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { esetprgsbr.Visible = prgsbrVisableHidden; }
@@ -2159,12 +2409,15 @@ namespace ToolDeployment
             }
             if (fileexename == produkeyvar)
             {
-                if (BTNcolor != null) { produkeybtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { produkeybtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { produkeybtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { produkeybtn.Text = BTNtext; }
                 if (BTNEnabled != null) { produkeybtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { produkeybtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { produkeychkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { produkeychkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { produkeychkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { produkeychkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (produkeychkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { produkeycancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { produkeyprgsbr.Visible = prgsbrVisableHidden; }
@@ -2172,12 +2425,15 @@ namespace ToolDeployment
             }
             if (fileexename == hjtvar)
             {
-                if (BTNcolor != null) { hjtbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { hjtbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { hjtbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { hjtbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { hjtbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { hjtbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { hjtchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { hjtchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { hjtchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { hjtchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (hjtchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { hjtcancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { hjtprgsbr.Visible = prgsbrVisableHidden; }
@@ -2185,12 +2441,15 @@ namespace ToolDeployment
             }
             if (fileexename == pcdecrapvar)
             {
-                if (BTNcolor != null) { pcdecrapbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { pcdecrapbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { pcdecrapbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { pcdecrapbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { pcdecrapbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { pcdecrapbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { pcdecrapchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { pcdecrapchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { pcdecrapchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { pcdecrapchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (pcdecrapchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { pcdecrapcancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { pcdecrapprgsbr.Visible = prgsbrVisableHidden; }
@@ -2199,13 +2458,15 @@ namespace ToolDeployment
             if (fileexename == revovar)
             {
 
-                if (BTNcolor != null) { revobtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { revobtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { revobtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { revobtn.Text = BTNtext; }
                 if (BTNEnabled != null) { revobtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { revobtn.Visible = btnisvisible; }
-
+                if (CHKBXText != null) { revochkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { revochkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { revochkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { revochkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (revochkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { revocancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { revoprgsbr.Visible = prgsbrVisableHidden; }
@@ -2213,12 +2474,15 @@ namespace ToolDeployment
             if (fileexename == chromevar)
             {
 
-                if (BTNcolor != null) { chromebtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { chromebtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { chromebtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { chromebtn.Text = BTNtext; }
                 if (BTNEnabled != null) { chromebtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { chromebtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { chromechkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { chromechkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { chromechkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { chromechkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (chromechkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { chromecancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { chromeprgsbr.Visible = prgsbrVisableHidden; }
@@ -2226,12 +2490,15 @@ namespace ToolDeployment
             if (fileexename == classicsrtvar)
             {
 
-                if (BTNcolor != null) { classicbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { classicbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { classicbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { classicbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { classicbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { classicbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { classicchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { classicchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { classicchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { classicchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (classicchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { classiccancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { classicprgsbr.Visible = prgsbrVisableHidden; }
@@ -2239,12 +2506,15 @@ namespace ToolDeployment
             if (fileexename == teamvar)
             {
 
-                if (BTNcolor != null) { teambtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { teambtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { teambtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { teambtn.Text = BTNtext; }
                 if (BTNEnabled != null) { teambtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { teambtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { teamchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { teamchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { teamchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { teamchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (teamchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { teamcancelbr.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { teamprgsbr.Visible = prgsbrVisableHidden; }
@@ -2252,12 +2522,15 @@ namespace ToolDeployment
             if (fileexename == readervar)
             {
 
-                if (BTNcolor != null) { readerbtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { readerbtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { readerbtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { readerbtn.Text = BTNtext; }
                 if (BTNEnabled != null) { readerbtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { readerbtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { readerchkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { readerchkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { readerchkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { readerchkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (readerchkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { readercancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { readerprgsbr.Visible = prgsbrVisableHidden; }
@@ -2265,18 +2538,20 @@ namespace ToolDeployment
             if (fileexename == libraofficevar)
             {
 
-                if (BTNcolor != null) { librebtn.ForeColor = btncolor; }
+                if (BTNForeColor != null) { librebtn.ForeColor = btnforecolor; }
+                if (BTNBackColor != null) { librebtn.BackColor = btnbackcolor; }
                 if (BTNtext != null) { librebtn.Text = BTNtext; }
                 if (BTNEnabled != null) { librebtn.Enabled = enablebutton; }
                 if (BTNVisible != null) { librebtn.Visible = btnisvisible; }
+                if (CHKBXText != null) { librachkbx.Text = CHKBXText; }
                 if (CHKBXChecked != null) { librachkbx.Checked = checkedvar; }
                 if (CHKBXEnabled != null) { librachkbx.Enabled = CHKBXEnabledDisabled; }
+                if (CHKBXForeColor != null) { librachkbx.ForeColor = CHKBXForeColor; }
                 if (returnischecked != null) { if (librachkbx.Checked) { return true; } }
                 if (CancelBTNVisable != null) { librecancelbtn.Visible = showcancelBTN; }
                 if (prgsbrVisable != null) { libreprgsbr.Visible = prgsbrVisableHidden; }
             }
             return false;
-
         }
         #region Cancel buttons
         /*
@@ -2293,10 +2568,7 @@ namespace ToolDeployment
          * */
         private void button1_Click_1(object sender, EventArgs e)
         {
-            wascancled.Add(callingcardvar);
-            ((Control)sender).Visible = false;
-            callingcardprgsbr.Visible = false;
-            callingcardchkbx.Checked = false;
+            deletefileorcancle(callingcardvar);
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -2760,7 +3032,14 @@ namespace ToolDeployment
         }
         private void cancleallbtn_Click(object sender, EventArgs e)
         {
-            stopdownloadingshit();
+            try
+            {
+                stopdownloadingshit();
+            }
+            catch (Exception x)
+            {
+                MessageBox.Show("Cancle all button crashed: " + x.Message);
+            }
         }
         #endregion
         #region Tool Strip menu item events
@@ -2772,6 +3051,9 @@ namespace ToolDeployment
 
             if (e.KeyChar == (char)13)
             {
+                //cmdPath = CF6Notes.Text;
+                //new Thread(new ThreadStart(cmd)).Start();
+
                 this.ActiveControl = logwindow;
                 writesaveddata();
             }
@@ -2781,19 +3063,12 @@ namespace ToolDeployment
 
             if (e.KeyChar == (char)13)
             {
-                if (textBox1.Text == password)
-                {
-                    unlockstuff();
-                }
-                else
-                {
-                    notifyIcon1.BalloonTipText = "Wrong Password!";
-                    notifyIcon1.BalloonTipIcon = ToolTipIcon.Error;
-                    notifyIcon1.BalloonTipTitle = "Alert!";
-                    notifyIcon1.ShowBalloonTip(50);
-
-                }
+                checkpassword();
             }
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            checkpassword();
         }
         private void resetStageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2856,7 +3131,7 @@ namespace ToolDeployment
 
         private void deleteConfigurationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string x = savetoo + "\\tdconfig.txt";
+            string x = savetoo + "\\" + configfile;
 
             if (File.Exists(x))
             {
@@ -2868,6 +3143,7 @@ namespace ToolDeployment
                 }
                 catch (Exception crash)
                 {
+                    eventlog("Unable to delete config file. Error:\n" + crash.Message);
                     updatelog(crash.Message);
                 }
             }
@@ -2907,6 +3183,7 @@ namespace ToolDeployment
             }
             catch (Exception crash)
             {
+                eventlog("Reset Hitman:\n" + crash.Message);
                 updatelog(crash.Message + "\nPlease try again");
             }
         }
@@ -3013,13 +3290,7 @@ namespace ToolDeployment
 
         #endregion
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (textBox1.Text == password)
-            {
-                unlockstuff();
-            }
-        }
+
 
         private void label2_Click(object sender, EventArgs e)
         {
@@ -3048,8 +3319,17 @@ namespace ToolDeployment
         }
         private void notifyIcon1_DoubleClick(object sender, System.EventArgs e)
         {
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
+            if (FormWindowState.Minimized == WindowState)
+            {
+                this.Show();
+                this.WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.Hide();
+            }
+
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -3063,51 +3343,129 @@ namespace ToolDeployment
             baseurl = "http://" + CF6Notes.Text.Trim().Replace(" ", "%20");
             updatelog("baseURL is now: " + baseurl);
         }
-        #region So much fail
-        /* // This is just my attempt at using Windows API... still trying to figure that one out.
-        private void testautomation()
-        {
-            int hwnd = 0;
-            IntPtr hwndChild = IntPtr.Zero;
 
-            //Get a handle for the Calculator Application main window
-            hwnd = FindWindow(null, "Calculator").ToInt32();
-            if (hwnd == 0)
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void minimizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+            this.Hide();
+        }
+
+        private void downloadAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkregulartools();
+            checkalladvanced();
+            deploy();
+        }
+
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (Control.ModifierKeys == Keys.Shift)
             {
-                if (MessageBox.Show("Couldn't find the calculator" +
-                                   " application. Do you want to start it?",
-                                   "TestWinAPI",
-                                   MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    System.Diagnostics.Process.Start("Calc");
-                }
+                cmdwindow f2 = new cmdwindow();
+                f2.Show();
+
             }
             else
             {
+                if (!myBGWorker.IsBusy)
+                {
+                    backgroundworkeriscancled = false;
+                    updatelog("MD5 Calculator will start " + idlethreashhold + " munites after computer goes idle.");
+                    watcher();
+                }
+                else
+                {
+                    updatelog("MD5 Calculator canceled.");
+                    backgroundworkeriscancled = true;
+                    myBGWorker.CancelAsync();
 
-                //Get a handle for the "1" button
-                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "1");
+                }
 
-                //send BN_CLICKED message
-                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
-                //Get a handle for the "+" button
-                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "+");
-
-                //send BN_CLICKED message
-                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
-                //Get a handle for the "2" button
-                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "2");
-
-                //send BN_CLICKED message
-                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
-                //Get a handle for the "=" button
-                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "=");
-
-                //send BN_CLICKED message
-                SendMessage(hwndChild, WM_COMMAND, (BN_CLICKED << 16) | IDOK, hwndChild);
             }
         }
-        */
-        #endregion
+        private void watcher()
+        {
+            myBGWorker.DoWork += new DoWorkEventHandler(myBGWorker_DoWork);
+            myBGWorker.ProgressChanged += new ProgressChangedEventHandler(myBGWorker_ProgressChanged);
+            myBGWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(myBGWorker_RunWorkerCompleted);
+            myBGWorker.WorkerSupportsCancellation = true;
+            myBGWorker.WorkerReportsProgress = true;
+            myBGWorker.RunWorkerAsync();
+        }
+        private void myBGWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            double seconds = 0.0;
+            while (!myBGWorker.CancellationPending)
+            {
+
+                // Get the system uptime
+                int systemUptime = Environment.TickCount;
+                // The tick at which the last input was recorded
+                int LastInputTicks = 0;
+                // The number of ticks that passed since last input
+                int IdleTicks = 0;
+
+                // Set the struct
+                LASTINPUTINFO LastInputInfo = new LASTINPUTINFO();
+                LastInputInfo.cbSize = (uint)Marshal.SizeOf(LastInputInfo);
+                LastInputInfo.dwTime = 0;
+
+                // If we have a value from the function
+                if (GetLastInputInfo(ref LastInputInfo))
+                {
+                    // Get the number of ticks at the point when the last activity was seen
+                    LastInputTicks = (int)LastInputInfo.dwTime;
+
+                    // Number of idle ticks = system uptime ticks - number of ticks at last input
+                    IdleTicks = systemUptime - LastInputTicks;
+                }
+
+                // Set the labels; divide by 1000 to transform the milliseconds to seconds
+                seconds = IdleTicks / 1000;
+                System.Threading.Thread.Sleep(1000);
+
+                int percentagethingy = (int)((seconds / (idlethreashhold * 60)) * 100);
+
+                if (seconds != 0)
+                {
+                    double u = (seconds / (idlethreashhold * 60)) * 100;
+                    myBGWorker.ReportProgress(Convert.ToInt32(u));
+                }
+                else
+                {
+                    myBGWorker.ReportProgress(0);
+                }
+                if (seconds == idlethreashhold * 60)
+                {
+                    progressBar1.Value = 0;
+                    idlethreashhold += idlethreashhold;
+                }
+            }
+        }
+        private void myBGWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+        private void myBGWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            progressBar1.Value = 0;
+            if (!backgroundworkeriscancled)
+            {
+                cmdwindow f2 = new cmdwindow();
+                f2.Show();
+            }
+            //watcher();
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
     }
 }
